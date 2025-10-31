@@ -13,6 +13,7 @@ import '../providers/auth_providers.dart';
 import 'signup_page.dart';
 import '../../../subscription/presentation/pages/subscription_plan_page.dart';
 import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../profile/presentation/pages/profile_list_page.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../core/network/interceptors/auth_interceptor.dart';
 
@@ -118,12 +119,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             );
           }
         } else {
-          // Has active subscription, fetch full details and navigate to home
+          // Has active subscription, fetch full details and navigate to profile list
           await ref.read(subscriptionNotifierProvider.notifier).fetchMySubscription();
-          // Navigate to home (TODO: implement home page)
-          // For now, just pop back
+          // Navigate to profile list page
           if (mounted) {
-            Navigator.of(context).pop();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileListPage(),
+              ),
+            );
           }
         }
       } else if (next.error != null && next.error!.isNotEmpty) {

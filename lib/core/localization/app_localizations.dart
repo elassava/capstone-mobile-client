@@ -83,6 +83,28 @@ class AppLocalizations {
   String get paymentSuccess => _getLocalizedValue('paymentSuccess');
   String get paymentFailed => _getLocalizedValue('paymentFailed');
 
+  // Profile Strings
+  String get manageProfiles => _getLocalizedValue('manageProfiles');
+  String get manageProfilesSubtitle => _getLocalizedValue('manageProfilesSubtitle');
+  String get addProfile => _getLocalizedValue('addProfile');
+  String get noProfiles => _getLocalizedValue('noProfiles');
+  String get noProfilesSubtitle => _getLocalizedValue('noProfilesSubtitle');
+  String get profileName => _getLocalizedValue('profileName');
+  String get profileNamePlaceholder => _getLocalizedValue('profileNamePlaceholder');
+  String get profileNameRequired => _getLocalizedValue('profileNameRequired');
+  String get createProfile => _getLocalizedValue('createProfile');
+  String get createProfileSubtitle => _getLocalizedValue('createProfileSubtitle');
+  String get selectingAvatar => _getLocalizedValue('selectingAvatar');
+  String get selectingLanguage => _getLocalizedValue('selectingLanguage');
+  String get selectingMaturityLevel => _getLocalizedValue('selectingMaturityLevel');
+  String get profileCreated => _getLocalizedValue('profileCreated');
+  String get profileCreateFailed => _getLocalizedValue('profileCreateFailed');
+  String get maxProfilesReached => _getLocalizedValue('maxProfilesReached');
+  String get maxProfilesReachedSubtitle => _getLocalizedValue('maxProfilesReachedSubtitle');
+  String get profileLimit => _getLocalizedValue('profileLimit');
+  String get profilesUsed => _getLocalizedValue('profilesUsed');
+  String get whosWatching => _getLocalizedValue('whosWatching');
+
   String _getLocalizedValue(String key) {
     switch (locale.languageCode) {
       case 'tr':
@@ -158,6 +180,26 @@ class AppLocalizations {
     'cardholderNameRequired': 'Kart sahibi adı gereklidir',
     'paymentSuccess': 'Ödeme başarılı!',
     'paymentFailed': 'Ödeme başarısız oldu',
+    'manageProfiles': 'Profilleri Yönet',
+    'manageProfilesSubtitle': 'Profilinizi oluşturun veya düzenleyin',
+    'addProfile': 'Profil Ekle',
+    'noProfiles': 'Henüz profil yok',
+    'noProfilesSubtitle': 'İlk profilinizi oluşturarak başlayın',
+    'profileName': 'Profil Adı',
+    'profileNamePlaceholder': 'Profil adınızı girin',
+    'profileNameRequired': 'Profil adı gereklidir',
+    'createProfile': 'Profil Oluştur',
+    'createProfileSubtitle': 'Yeni bir profil oluşturun',
+    'selectingAvatar': 'Avatar Seçimi',
+    'selectingLanguage': 'Dil Seçimi',
+    'selectingMaturityLevel': 'Olgunluk Seviyesi',
+    'profileCreated': 'Profil başarıyla oluşturuldu!',
+    'profileCreateFailed': 'Profil oluşturulamadı',
+    'maxProfilesReached': 'Maksimum Profil Sayısına Ulaşıldı',
+    'maxProfilesReachedSubtitle': 'Daha fazla profil eklemek için planınızı yükseltin',
+    'profileLimit': 'Profil Limiti',
+    'profilesUsed': 'Profiller Kullanılıyor',
+    'whosWatching': 'Kim İzliyor?',
   };
 
   static const Map<String, String> _englishStrings = {
@@ -224,6 +266,26 @@ class AppLocalizations {
     'cardholderNameRequired': 'Cardholder name is required',
     'paymentSuccess': 'Payment successful!',
     'paymentFailed': 'Payment failed',
+    'manageProfiles': 'Manage Profiles',
+    'manageProfilesSubtitle': 'Create or edit your profile',
+    'addProfile': 'Add Profile',
+    'noProfiles': 'No profiles yet',
+    'noProfilesSubtitle': 'Start by creating your first profile',
+    'profileName': 'Profile Name',
+    'profileNamePlaceholder': 'Enter your profile name',
+    'profileNameRequired': 'Profile name is required',
+    'createProfile': 'Create Profile',
+    'createProfileSubtitle': 'Create a new profile',
+    'selectingAvatar': 'Avatar Selection',
+    'selectingLanguage': 'Language Selection',
+    'selectingMaturityLevel': 'Maturity Level',
+    'profileCreated': 'Profile created successfully!',
+    'profileCreateFailed': 'Failed to create profile',
+    'maxProfilesReached': 'Maximum Profiles Reached',
+    'maxProfilesReachedSubtitle': 'Upgrade your plan to add more profiles',
+    'profileLimit': 'Profile Limit',
+    'profilesUsed': 'Profiles Used',
+    'whosWatching': 'Who\'s Watching?',
   };
 }
 

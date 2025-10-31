@@ -15,6 +15,7 @@ import '../providers/subscription_providers.dart';
 import '../../../payment/data/datasources/payment_remote_datasource.dart';
 import '../../../payment/data/models/add_payment_method_request_model.dart';
 import '../../../payment/utils/card_utils.dart';
+import '../../../profile/presentation/pages/profile_list_page.dart';
 
 class PaymentPage extends ConsumerStatefulWidget {
   final SubscriptionPlan selectedPlan;
@@ -238,9 +239,15 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
         context.showSuccessSnackBar(
           _localizations?.paymentSuccess ?? AppLocalizations.of(context)!.paymentSuccess,
         );
-        // Navigate back or to home
-        Navigator.of(context).popUntil((route) => route.isFirst || 
-            route.settings.name == '/subscription-plans');
+        // Navigate to ProfileListPage and clear navigation stack
+        if (mounted) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const ProfileListPage(),
+            ),
+            (route) => false, // Clear all previous routes
+          );
+        }
       } else if (next.error != null && 
                  next.error!.isNotEmpty && 
                  !next.isSubscribing &&
