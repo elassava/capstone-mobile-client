@@ -92,16 +92,16 @@ class OnboardingPage extends StatelessWidget {
                         // Welcome Ticket Image - Centered
                         Container(
                           constraints: BoxConstraints(
-                            maxWidth: screenWidth * 0.7,
-                            maxHeight: screenHeight * 0.4,
+                            maxWidth: screenWidth * 0.9,
+                            maxHeight: screenHeight * 0.5,
                           ),
                           child: Image.asset(
                             'assets/images/onboarding_welcome.png',
                             fit: BoxFit.contain,
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
-                                width: 200,
-                                height: 200,
+                                width: 400,
+                                height: 400,
                                 color: AppColors.netflixDarkGray,
                               );
                             },

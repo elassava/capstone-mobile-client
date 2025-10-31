@@ -11,6 +11,10 @@ import '../../../../core/widgets/custom_text_field.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_providers.dart';
 import 'signup_page.dart';
+import '../../../subscription/presentation/pages/subscription_plan_page.dart';
+import '../../../subscription/presentation/providers/subscription_providers.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../../../core/network/interceptors/auth_interceptor.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -89,12 +93,39 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final authState = ref.watch(authNotifierProvider);
 
     // Handle success and error states
-    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
+    ref.listen<AuthState>(authNotifierProvider, (previous, next) async {
       if (next.isSuccess && next.authResponse != null) {
+        // Set token to auth interceptor for subsequent requests
+        final authInterceptor = serviceLocator.get<AuthInterceptor>();
+        authInterceptor.setToken(next.authResponse!.token);
+        
         context.showSuccessSnackBar(
           _localizations?.loginSuccess ?? AppLocalizations.of(context)!.loginSuccess,
         );
-        // TODO: Navigate to home or next screen
+        // Check subscription and navigate accordingly
+        // First, try to check if user has active subscription (lightweight check)
+        // If not found, user has no subscription and should select a plan
+        final hasSubscriptionResult = await ref.read(subscriptionNotifierProvider.notifier).checkHasActiveSubscription();
+        
+        if (!hasSubscriptionResult) {
+          // No active subscription, navigate to plan selection
+          if (mounted) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SubscriptionPlanPage(),
+              ),
+            );
+          }
+        } else {
+          // Has active subscription, fetch full details and navigate to home
+          await ref.read(subscriptionNotifierProvider.notifier).fetchMySubscription();
+          // Navigate to home (TODO: implement home page)
+          // For now, just pop back
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        }
       } else if (next.error != null && next.error!.isNotEmpty) {
         context.showErrorSnackBar(next.error!);
       }

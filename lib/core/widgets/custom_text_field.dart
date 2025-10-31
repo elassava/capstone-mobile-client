@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -13,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final EdgeInsets? contentPadding;
   final Widget? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField({
     super.key,
@@ -27,6 +29,7 @@ class CustomTextField extends StatelessWidget {
     this.focusNode,
     this.contentPadding,
     this.suffixIcon,
+    this.inputFormatters,
   });
 
   @override
@@ -40,6 +43,7 @@ class CustomTextField extends StatelessWidget {
       onChanged: onChanged,
       onFieldSubmitted: onSubmitted,
       focusNode: focusNode,
+      inputFormatters: inputFormatters,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: AppColors.netflixWhite,
           ),

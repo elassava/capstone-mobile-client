@@ -11,6 +11,9 @@ import '../../../../core/widgets/custom_text_field.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_providers.dart';
 import 'login_page.dart';
+import '../../../subscription/presentation/pages/subscription_plan_page.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../../../core/network/interceptors/auth_interceptor.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -109,10 +112,20 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     // Handle success and error states
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       if (next.isSuccess && next.authResponse != null) {
+        // Set token to auth interceptor for subsequent requests
+        final authInterceptor = serviceLocator.get<AuthInterceptor>();
+        authInterceptor.setToken(next.authResponse!.token);
+        
         context.showSuccessSnackBar(
           _localizations?.signupSuccess ?? AppLocalizations.of(context)!.signupSuccess,
         );
-        // TODO: Navigate to home or next screen
+        // Navigate to subscription plan page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SubscriptionPlanPage(),
+          ),
+        );
       } else if (next.error != null && next.error!.isNotEmpty) {
         context.showErrorSnackBar(next.error!);
       }
