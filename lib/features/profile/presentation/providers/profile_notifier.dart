@@ -2,12 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/profile.dart';
 import '../../domain/usecases/get_profiles_usecase.dart';
 import '../../domain/usecases/create_profile_usecase.dart';
+import '../../domain/usecases/delete_profile_usecase.dart';
 
 /// Profile State
 class ProfileState {
   final bool isLoading;
   final List<Profile> profiles;
   final bool isCreating;
+  final bool isDeleting;
   final String? error;
   final bool isSuccess;
   final int? maxProfiles;
@@ -16,6 +18,7 @@ class ProfileState {
     this.isLoading = false,
     this.profiles = const [],
     this.isCreating = false,
+    this.isDeleting = false,
     this.error,
     this.isSuccess = false,
     this.maxProfiles,
@@ -25,6 +28,7 @@ class ProfileState {
     bool? isLoading,
     List<Profile>? profiles,
     bool? isCreating,
+    bool? isDeleting,
     String? error,
     bool? isSuccess,
     int? maxProfiles,
@@ -33,6 +37,7 @@ class ProfileState {
       isLoading: isLoading ?? this.isLoading,
       profiles: profiles ?? this.profiles,
       isCreating: isCreating ?? this.isCreating,
+      isDeleting: isDeleting ?? this.isDeleting,
       error: error ?? this.error,
       isSuccess: isSuccess ?? this.isSuccess,
       maxProfiles: maxProfiles ?? this.maxProfiles,
@@ -54,10 +59,12 @@ class ProfileState {
 class ProfileNotifier extends StateNotifier<ProfileState> {
   final GetProfilesUseCase _getProfilesUseCase;
   final CreateProfileUseCase _createProfileUseCase;
+  final DeleteProfileUseCase _deleteProfileUseCase;
 
   ProfileNotifier(
     this._getProfilesUseCase,
     this._createProfileUseCase,
+    this._deleteProfileUseCase,
   ) : super(const ProfileState());
 
   /// Fetch profiles for an account
@@ -123,6 +130,37 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
     } catch (e) {
       state = state.copyWith(
         isCreating: false,
+        error: e.toString().replaceAll('Exception: ', ''),
+        isSuccess: false,
+      );
+    }
+  }
+
+  /// Delete a profile
+  Future<void> deleteProfile({
+    required int profileId,
+    required int accountId,
+  }) async {
+    state = state.copyWith(isDeleting: true, error: null, isSuccess: false);
+
+    try {
+      await _deleteProfileUseCase.execute(
+        profileId: profileId,
+        accountId: accountId,
+      );
+      
+      // Remove deleted profile from list
+      final updatedProfiles = state.profiles.where((p) => p.id != profileId).toList();
+      
+      state = state.copyWith(
+        isDeleting: false,
+        profiles: updatedProfiles,
+        isSuccess: true,
+        error: null,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isDeleting: false,
         error: e.toString().replaceAll('Exception: ', ''),
         isSuccess: false,
       );

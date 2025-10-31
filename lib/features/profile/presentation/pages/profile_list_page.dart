@@ -5,6 +5,7 @@ import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/responsive_helper.dart';
 import '../../../../core/widgets/netflix_logo.dart';
+import '../../../../core/widgets/confirmation_dialog.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../subscription/data/datasources/subscription_remote_datasource.dart';
 import '../../../subscription/data/models/subscription_plan_model.dart';
@@ -26,6 +27,7 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
   AppLocalizations? _localizations;
   int? _accountId;
   int? _maxProfiles;
+  bool _isEditMode = false;
 
   // Color palette for profile cards fallback (when icon not found)
   final List<Color> _profileColors = [
@@ -125,6 +127,46 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
     }
   }
 
+  Future<void> _handleDeleteProfile(int profileId, String profileName) async {
+    if (_accountId == null) {
+      context.showErrorSnackBar('User not found');
+      return;
+    }
+
+    final profileState = ref.read(profileNotifierProvider);
+    
+    // Check if this is the last profile
+    if (profileState.profiles.length <= 1) {
+      context.showErrorSnackBar(
+        _localizations?.cannotDeleteLastProfile ?? 
+        AppLocalizations.of(context)!.cannotDeleteLastProfile,
+      );
+      return;
+    }
+
+    // Show confirmation dialog
+    final confirmed = await ConfirmationDialog.show(
+      context,
+      title: _localizations?.confirmDeleteProfile ?? 
+          AppLocalizations.of(context)!.confirmDeleteProfile,
+      message: '${_localizations?.confirmDeleteProfileMessage ?? AppLocalizations.of(context)!.confirmDeleteProfileMessage}\n\n$profileName',
+      confirmText: _localizations?.delete ?? AppLocalizations.of(context)!.delete,
+      cancelText: _localizations?.cancel ?? AppLocalizations.of(context)!.cancel,
+      confirmColor: AppColors.netflixRed,
+      icon: Icons.delete_outline,
+    );
+
+    if (confirmed == true && _accountId != null) {
+      await ref.read(profileNotifierProvider.notifier).deleteProfile(
+            profileId: profileId,
+            accountId: _accountId!,
+          );
+      
+      // Refresh profiles after deletion
+      await ref.read(profileNotifierProvider.notifier).fetchProfiles(_accountId!);
+    }
+  }
+
   String _getAvatarPath(int index) {
     // Cycle through available icons: 1.png through 5.png
     final iconNumber = (index % 5) + 1;
@@ -141,14 +183,39 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
     _spacing ??= ResponsiveHelper.getResponsiveSpacing(context);
     _localizations ??= AppLocalizations.of(context)!;
 
-    // Handle profile creation success
+    // Handle profile creation and deletion success
     ref.listen<ProfileState>(profileNotifierProvider, (previous, next) {
       if (next.isSuccess && previous?.isSuccess != true) {
-        context.showSuccessSnackBar(
-          _localizations?.profileCreated ?? AppLocalizations.of(context)!.profileCreated,
-        );
+        // Check if it was a deletion (profile count decreased)
+        if (previous?.profiles.length != null && 
+            next.profiles.length < previous!.profiles.length) {
+          // Profile was deleted
+          context.showSuccessSnackBar(
+            _localizations?.profileDeleted ?? AppLocalizations.of(context)!.profileDeleted,
+          );
+          // Exit edit mode after deletion
+          if (_isEditMode) {
+            setState(() {
+              _isEditMode = false;
+            });
+          }
+        } else {
+          // Profile was created
+          context.showSuccessSnackBar(
+            _localizations?.profileCreated ?? AppLocalizations.of(context)!.profileCreated,
+          );
+        }
       } else if (next.error != null && next.error!.isNotEmpty) {
-        context.showErrorSnackBar(next.error!);
+        final errorMessage = next.error!;
+        if (errorMessage.toLowerCase().contains('last profile') || 
+            errorMessage.toLowerCase().contains('cannot delete')) {
+          context.showErrorSnackBar(
+            _localizations?.cannotDeleteLastProfile ?? 
+            AppLocalizations.of(context)!.cannotDeleteLastProfile,
+          );
+        } else {
+          context.showErrorSnackBar(errorMessage);
+        }
       }
     });
 
@@ -190,13 +257,15 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: IconButton(
-                          icon: const Icon(
-                            Icons.edit_outlined,
+                          icon: Icon(
+                            _isEditMode ? Icons.close : Icons.edit_outlined,
                             color: Colors.white,
                             size: 24,
                           ),
                           onPressed: () {
-                            // TODO: Navigate to manage profiles page
+                            setState(() {
+                              _isEditMode = !_isEditMode;
+                            });
                           },
                         ),
                       ),
@@ -308,8 +377,14 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
                       profile,
                       cardSize,
                       profiles.indexOf(profile),
+                      isEditMode: _isEditMode,
                       onTap: () {
-                        // TODO: Navigate to profile detail or select profile
+                        if (!_isEditMode) {
+                          // TODO: Navigate to profile detail or select profile
+                        }
+                      },
+                      onDelete: () {
+                        _handleDeleteProfile(profile.id, profile.profileName);
                       },
                     )),
               ],
@@ -331,57 +406,114 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
     profile,
     double cardSize,
     int index, {
+    bool isEditMode = false,
     VoidCallback? onTap,
+    VoidCallback? onDelete,
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
+      child: Stack(
         children: [
-          // Square card with rounded corners (Netflix style)
-          Container(
-            width: cardSize,
-            height: cardSize,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 8,
-                  spreadRadius: 1,
+          Column(
+            children: [
+              // Square card with rounded corners (Netflix style)
+              Container(
+                width: cardSize,
+                height: cardSize,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      spreadRadius: 1,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: profile.avatarUrl != null && profile.avatarUrl!.isNotEmpty
-                  ? Image.network(
-                      profile.avatarUrl!,
-                      width: cardSize,
-                      height: cardSize,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return _buildAvatarIcon(cardSize, index);
-                      },
-                    )
-                  : _buildAvatarIcon(cardSize, index),
-            ),
-          ),
-          SizedBox(height: 12),
-          // Profile Name
-          SizedBox(
-            width: cardSize,
-            child: Text(
-              profile.profileName,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: profile.avatarUrl != null && profile.avatarUrl!.isNotEmpty
+                      ? Image.network(
+                          profile.avatarUrl!,
+                          width: cardSize,
+                          height: cardSize,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return _buildAvatarIcon(cardSize, index);
+                          },
+                        )
+                      : _buildAvatarIcon(cardSize, index),
+                ),
               ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+              SizedBox(height: 12),
+              // Profile Name
+              SizedBox(
+                width: cardSize,
+                child: Text(
+                  profile.profileName,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
+          // Delete button (shown in edit mode)
+          if (isEditMode && onDelete != null)
+            Positioned(
+              top: 4,
+              right: 4,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onDelete,
+                  borderRadius: BorderRadius.circular(18),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppColors.netflixRed,
+                          AppColors.netflixRed.withValues(alpha: 0.85),
+                        ],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.netflixRed.withValues(alpha: 0.5),
+                          blurRadius: 12,
+                          spreadRadius: 0,
+                          offset: const Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.4),
+                          blurRadius: 8,
+                          spreadRadius: -2,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.25),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

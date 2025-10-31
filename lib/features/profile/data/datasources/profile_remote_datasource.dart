@@ -9,6 +9,7 @@ import '../models/create_profile_request_model.dart';
 abstract class ProfileRemoteDataSource {
   Future<List<ProfileModel>> getProfilesByAccountId(int accountId);
   Future<ProfileModel> createProfile(CreateProfileRequestModel request);
+  Future<void> deleteProfile(int profileId, int accountId);
 }
 
 /// Implementation of Profile Remote Data Source
@@ -76,6 +77,36 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
         final errorMessage = errorData is Map<String, dynamic>
             ? errorData['message'] ?? errorData['error'] ?? 'Failed to create profile'
             : 'Failed to create profile';
+        throw Exception(errorMessage);
+      } else {
+        throw Exception('Network error: ${e.message}');
+      }
+    } catch (e) {
+      if (e is Exception) {
+        rethrow;
+      }
+      throw Exception('Unexpected error: $e');
+    }
+  }
+
+  @override
+  Future<void> deleteProfile(int profileId, int accountId) async {
+    try {
+      final response = await _dio.delete(
+        '${ApiConstants.profileBasePath}/api/profiles/$profileId/account/$accountId',
+      );
+
+      if (response.statusCode == 204 || response.statusCode == 200) {
+        return;
+      } else {
+        throw Exception('Failed to delete profile: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final errorData = e.response?.data;
+        final errorMessage = errorData is Map<String, dynamic>
+            ? errorData['message'] ?? errorData['error'] ?? 'Failed to delete profile'
+            : 'Failed to delete profile';
         throw Exception(errorMessage);
       } else {
         throw Exception('Network error: ${e.message}');

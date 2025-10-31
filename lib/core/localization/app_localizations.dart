@@ -104,6 +104,13 @@ class AppLocalizations {
   String get profileLimit => _getLocalizedValue('profileLimit');
   String get profilesUsed => _getLocalizedValue('profilesUsed');
   String get whosWatching => _getLocalizedValue('whosWatching');
+  String get deleteProfile => _getLocalizedValue('deleteProfile');
+  String get confirmDeleteProfile => _getLocalizedValue('confirmDeleteProfile');
+  String get confirmDeleteProfileMessage => _getLocalizedValue('confirmDeleteProfileMessage');
+  String get profileDeleted => _getLocalizedValue('profileDeleted');
+  String get cannotDeleteLastProfile => _getLocalizedValue('cannotDeleteLastProfile');
+  String get cancel => _getLocalizedValue('cancel');
+  String get delete => _getLocalizedValue('delete');
 
   String _getLocalizedValue(String key) {
     switch (locale.languageCode) {
@@ -200,6 +207,13 @@ class AppLocalizations {
     'profileLimit': 'Profil Limiti',
     'profilesUsed': 'Profiller Kullanılıyor',
     'whosWatching': 'Kim İzliyor?',
+    'deleteProfile': 'Profili Sil',
+    'confirmDeleteProfile': 'Profili Sil',
+    'confirmDeleteProfileMessage': 'Bu profili silmek istediğinizden emin misiniz?',
+    'profileDeleted': 'Profil başarıyla silindi',
+    'cannotDeleteLastProfile': 'Son profil silinemez. En az bir profil kalmalıdır.',
+    'cancel': 'İptal',
+    'delete': 'Sil',
   };
 
   static const Map<String, String> _englishStrings = {
@@ -286,6 +300,13 @@ class AppLocalizations {
     'profileLimit': 'Profile Limit',
     'profilesUsed': 'Profiles Used',
     'whosWatching': 'Who\'s Watching?',
+    'deleteProfile': 'Delete Profile',
+    'confirmDeleteProfile': 'Delete Profile',
+    'confirmDeleteProfileMessage': 'Are you sure you want to delete this profile?',
+    'profileDeleted': 'Profile deleted successfully',
+    'cannotDeleteLastProfile': 'Cannot delete the last profile. At least one profile must remain.',
+    'cancel': 'Cancel',
+    'delete': 'Delete',
   };
 }
 

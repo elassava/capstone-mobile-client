@@ -4,6 +4,7 @@ import '../../data/repositories/profile_repository.dart';
 import '../../domain/repositories/profile_repository_interface.dart';
 import '../../domain/usecases/get_profiles_usecase.dart';
 import '../../domain/usecases/create_profile_usecase.dart';
+import '../../domain/usecases/delete_profile_usecase.dart';
 import 'profile_notifier.dart';
 
 /// Profile Remote Data Source Provider
@@ -32,12 +33,20 @@ final createProfileUseCaseProvider = Provider<CreateProfileUseCase>(
   ),
 );
 
+/// Delete Profile Use Case Provider
+final deleteProfileUseCaseProvider = Provider<DeleteProfileUseCase>(
+  (ref) => DeleteProfileUseCase(
+    ref.watch(profileRepositoryProvider),
+  ),
+);
+
 /// Profile Notifier Provider - State management for profiles
 final profileNotifierProvider =
     StateNotifierProvider<ProfileNotifier, ProfileState>(
   (ref) => ProfileNotifier(
     ref.watch(getProfilesUseCaseProvider),
     ref.watch(createProfileUseCaseProvider),
+    ref.watch(deleteProfileUseCaseProvider),
   ),
 );
 

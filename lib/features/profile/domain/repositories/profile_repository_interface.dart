@@ -14,5 +14,9 @@ abstract class ProfileRepositoryInterface {
     String? pin,
     bool isDefault = false,
   });
+  Future<void> deleteProfile({
+    required int profileId,
+    required int accountId,
+  });
 }
 

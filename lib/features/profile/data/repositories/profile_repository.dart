@@ -41,5 +41,13 @@ class ProfileRepository implements ProfileRepositoryInterface {
     final model = await _remoteDataSource.createProfile(request);
     return model;
   }
+
+  @override
+  Future<void> deleteProfile({
+    required int profileId,
+    required int accountId,
+  }) async {
+    await _remoteDataSource.deleteProfile(profileId, accountId);
+  }
 }
 
