@@ -8,6 +8,7 @@ import '../../../../core/utils/responsive_helper.dart';
 import '../../../../core/widgets/netflix_logo.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_text_field.dart';
+import '../../../../core/utils/page_transitions.dart';
 import '../providers/auth_notifier.dart';
 import '../providers/auth_providers.dart';
 import 'login_page.dart';
@@ -69,7 +70,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
   void _handleSignIn() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPage()),
+      SlidePageRoute(child: const LoginPage(), slideFromRight: false),
     );
   }
 
@@ -122,9 +123,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
         // Navigate to subscription plan page
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => const SubscriptionPlanPage(),
-          ),
+          SlideFadePageRoute(child: const SubscriptionPlanPage()),
         );
       } else if (next.error != null && next.error!.isNotEmpty) {
         context.showErrorSnackBar(next.error!);

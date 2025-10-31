@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/netflix_logo.dart';
+import '../../../../core/utils/page_transitions.dart';
 import '../../../onboarding/presentation/pages/onboarding_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -38,7 +39,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     _timer = Timer(const Duration(milliseconds: 1700), () {
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const OnboardingPage()),
+        SlideFadePageRoute(child: const OnboardingPage()),
       );
     });
   }

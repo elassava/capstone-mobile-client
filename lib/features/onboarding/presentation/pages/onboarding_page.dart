@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/responsive_helper.dart';
+import '../../../../core/utils/page_transitions.dart';
 import '../../../../core/widgets/netflix_logo.dart';
 import '../../../../core/widgets/custom_button.dart';
 import '../widgets/pagination_indicator.dart';
@@ -51,7 +52,7 @@ class OnboardingPage extends StatelessWidget {
                 ),
                 // Dark Overlay
                 Container(
-                  color: AppColors.netflixBlack.withValues(alpha: 0.6),
+                  color: AppColors.netflixBlack.withValues(alpha: 0.8),
                 ),
               ],
             ),
@@ -149,7 +150,7 @@ class OnboardingPage extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginPage()),
+                            SlidePageRoute(child: const LoginPage(), slideFromRight: true),
                           );
                         },
                       ),
@@ -162,7 +163,7 @@ class OnboardingPage extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const SignupPage()),
+                            SlidePageRoute(child: const SignupPage(), slideFromRight: true),
                           );
                         },
                       ),
