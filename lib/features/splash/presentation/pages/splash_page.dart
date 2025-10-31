@@ -64,18 +64,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
               position: _slideAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.06),
-                      width: 0.8,
-                    ),
-                  ),
-                  child: const NetflixLogo(),
-                ),
+                child: const NetflixLogo(),
               ),
             ),
           ),

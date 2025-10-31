@@ -145,7 +145,7 @@ class OnboardingPage extends StatelessWidget {
                       CustomButton(
                         text: localizations.signIn,
                         style: CustomButtonStyle.outlined,
-                        borderColor: AppColors.netflixWhite,
+                        borderColor: AppColors.netflixRed,
                         onPressed: () {
                           Navigator.push(
                             context,

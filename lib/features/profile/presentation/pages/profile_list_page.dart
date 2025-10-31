@@ -257,10 +257,38 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: IconButton(
-                          icon: Icon(
-                            _isEditMode ? Icons.close : Icons.edit_outlined,
-                            color: Colors.white,
-                            size: 24,
+                          icon: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            transitionBuilder: (Widget child, Animation<double> animation) {
+                              return RotationTransition(
+                                turns: Tween<double>(
+                                  begin: 0.0,
+                                  end: 0.5,
+                                ).animate(CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.easeInOut,
+                                )),
+                                child: ScaleTransition(
+                                  scale: Tween<double>(
+                                    begin: 0.8,
+                                    end: 1.0,
+                                  ).animate(CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.easeOutBack,
+                                  )),
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Icon(
+                              _isEditMode ? Icons.close : Icons.edit_outlined,
+                              key: ValueKey<bool>(_isEditMode),
+                              color: Colors.white,
+                              size: 24,
+                            ),
                           ),
                           onPressed: () {
                             setState(() {
@@ -300,23 +328,6 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
                           ? _buildEmptyState(screenHeight)
                           : _buildProfilesList(profileState, screenWidth, isSmallScreen, screenHeight),
                 ),
-
-                // Profile Limit Indicator (bottom, subtle)
-                if (_maxProfiles != null && profileState.profiles.isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.only(bottom: _spacing!),
-                    child: Center(
-                      child: Text(
-                        '${profileState.profiles.length} / $_maxProfiles ${_localizations!.profiles.toLowerCase()}',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.white.withValues(alpha: 0.4),
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                SizedBox(height: _spacing!),
               ],
             ),
           ],
@@ -463,52 +474,63 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
               ),
             ],
           ),
-          // Delete button (shown in edit mode)
-          if (isEditMode && onDelete != null)
-            Positioned(
-              top: 4,
-              right: 4,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: onDelete,
-                  borderRadius: BorderRadius.circular(18),
-                  child: Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          AppColors.netflixRed,
-                          AppColors.netflixRed.withValues(alpha: 0.85),
-                        ],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.netflixRed.withValues(alpha: 0.5),
-                          blurRadius: 12,
-                          spreadRadius: 0,
-                          offset: const Offset(0, 4),
+          // Delete button (shown in edit mode with animation)
+          if (onDelete != null)
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              top: isEditMode ? 4 : -40,
+              right: isEditMode ? 4 : -40,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 250),
+                opacity: isEditMode ? 1.0 : 0.0,
+                child: AnimatedScale(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutBack,
+                  scale: isEditMode ? 1.0 : 0.5,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: onDelete,
+                      borderRadius: BorderRadius.circular(18),
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.netflixRed,
+                              AppColors.netflixRed.withValues(alpha: 0.85),
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.netflixRed.withValues(alpha: 0.5),
+                              blurRadius: 12,
+                              spreadRadius: 0,
+                              offset: const Offset(0, 4),
+                            ),
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.4),
+                              blurRadius: 8,
+                              spreadRadius: -2,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.25),
+                            width: 1.5,
+                          ),
                         ),
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.4),
-                          blurRadius: 8,
-                          spreadRadius: -2,
-                          offset: const Offset(0, 2),
+                        child: const Icon(
+                          Icons.close_rounded,
+                          color: Colors.white,
+                          size: 20,
                         ),
-                      ],
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.25),
-                        width: 1.5,
                       ),
-                    ),
-                    child: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.white,
-                      size: 20,
                     ),
                   ),
                 ),

@@ -6,7 +6,7 @@ class AppColors {
   AppColors._();
 
   // Netflix Brand Colors
-  static const Color netflixRed = Color(0xFFE50914);
+  static const Color netflixRed = Color.fromARGB(255, 226, 9, 19);
   static const Color netflixBlack = Color(0xFF000000);
   static const Color netflixDarkGray = Color(0xFF141414);
   static const Color netflixGray = Color(0xFF2F2F2F);
