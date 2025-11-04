@@ -102,58 +102,60 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
     final spacing = _spacing!;
     final localizations = _localizations!;
 
-    return Scaffold(
-      backgroundColor: AppColors.netflixBlack,
-      body: Stack(
-        children: [
-          // Background with gradient
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: AppColors.onboardingBackgroundGradient,
-              ),
-              child: Stack(
-                children: [
-                  // Blur Overlay
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                    child: Container(
-                      color: AppColors.netflixBlack.withValues(alpha: 0.05),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        // Prevent back navigation - user must complete subscription
+        if (didPop) {
+          // This should not happen, but if it does, we'll handle it
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.netflixBlack,
+        body: Stack(
+          children: [
+            // Background with gradient
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: AppColors.onboardingBackgroundGradient,
+                ),
+                child: Stack(
+                  children: [
+                    // Blur Overlay
+                    BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                      child: Container(
+                        color: AppColors.netflixBlack.withValues(alpha: 0.05),
+                      ),
                     ),
-                  ),
-                  // Dark Overlay
-                  Container(
-                    color: AppColors.netflixBlack.withValues(alpha: 0.85),
-                  ),
-                ],
+                    // Dark Overlay
+                    Container(
+                      color: AppColors.netflixBlack.withValues(alpha: 0.85),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          // Content
-          SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                // Header
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: horizontalPadding,
-                    vertical: spacing,
+            // Content
+            SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  // Header
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horizontalPadding,
+                      vertical: spacing,
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 48), // Space for alignment
+                        const Expanded(child: Center(child: NetflixLogo())),
+                        const SizedBox(width: 48), // Space for alignment
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new,
-                          color: AppColors.netflixWhite,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      const SizedBox(width: 8),
-                      const NetflixLogo(),
-                    ],
-                  ),
-                ),
                 // Content
                 Expanded(
                   child: SingleChildScrollView(
@@ -376,6 +378,7 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
             ),
           ),
         ],
+      ),
       ),
     );
   }
