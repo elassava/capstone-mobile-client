@@ -112,6 +112,26 @@ class AppLocalizations {
   String get cancel => _getLocalizedValue('cancel');
   String get delete => _getLocalizedValue('delete');
 
+  // Home Page Strings
+  String get home => _getLocalizedValue('home');
+  String get search => _getLocalizedValue('search');
+  String get downloads => _getLocalizedValue('downloads');
+  String get profile => _getLocalizedValue('profile');
+  String get featuredContent => _getLocalizedValue('featuredContent');
+  String get trendingNow => _getLocalizedValue('trendingNow');
+  String get popularMovies => _getLocalizedValue('popularMovies');
+  String get tvSeries => _getLocalizedValue('tvSeries');
+  String get newReleases => _getLocalizedValue('newReleases');
+  String get play => _getLocalizedValue('play');
+  String get myList => _getLocalizedValue('myList');
+  String forProfile(String profileName) => _getLocalizedValue('forProfile').replaceAll('{profileName}', profileName);
+  String continueWatching(String profileName) => _getLocalizedValue('continueWatching').replaceAll('{profileName}', profileName);
+  String get series => _getLocalizedValue('series');
+  String get movies => _getLocalizedValue('movies');
+  String get categories => _getLocalizedValue('categories');
+  String get newAndPopular => _getLocalizedValue('newAndPopular');
+  String get myNetflix => _getLocalizedValue('myNetflix');
+
   String _getLocalizedValue(String key) {
     switch (locale.languageCode) {
       case 'tr':
@@ -214,6 +234,24 @@ class AppLocalizations {
     'cannotDeleteLastProfile': 'Son profil silinemez. En az bir profil kalmalıdır.',
     'cancel': 'İptal',
     'delete': 'Sil',
+    'home': 'Ana Sayfa',
+    'search': 'Ara',
+    'downloads': 'İndirilenler',
+    'profile': 'Profil',
+    'featuredContent': 'Öne Çıkanlar',
+    'trendingNow': 'Popüler Şimdi',
+    'popularMovies': 'Popüler Filmler',
+    'tvSeries': 'Diziler',
+    'newReleases': 'Yeni Çıkanlar',
+    'play': 'Oynat',
+    'myList': 'Listem',
+    'forProfile': '{profileName} için',
+    'continueWatching': '{profileName}, İzlemeye Devam Et',
+    'series': 'Diziler',
+    'movies': 'Filmler',
+    'categories': 'Kategoriler',
+    'newAndPopular': 'Yeni ve Popüler',
+    'myNetflix': 'Benim Netflix\'im',
   };
 
   static const Map<String, String> _englishStrings = {
@@ -307,6 +345,24 @@ class AppLocalizations {
     'cannotDeleteLastProfile': 'Cannot delete the last profile. At least one profile must remain.',
     'cancel': 'Cancel',
     'delete': 'Delete',
+    'home': 'Home',
+    'search': 'Search',
+    'downloads': 'Downloads',
+    'profile': 'Profile',
+    'featuredContent': 'Featured',
+    'trendingNow': 'Trending Now',
+    'popularMovies': 'Popular Movies',
+    'tvSeries': 'TV Series',
+    'newReleases': 'New Releases',
+    'play': 'Play',
+    'myList': 'My List',
+    'forProfile': 'For {profileName}',
+    'continueWatching': '{profileName}, Continue Watching',
+    'series': 'Series',
+    'movies': 'Movies',
+    'categories': 'Categories',
+    'newAndPopular': 'New & Popular',
+    'myNetflix': 'My Netflix',
   };
 }
 

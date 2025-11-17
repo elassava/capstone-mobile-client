@@ -4,11 +4,13 @@ import '../../../../core/extensions/snackbar_extension.dart';
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/responsive_helper.dart';
+import '../../../../core/utils/page_transitions.dart';
 import '../../../../core/widgets/netflix_logo.dart';
 import '../../../../core/widgets/confirmation_dialog.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../subscription/data/datasources/subscription_remote_datasource.dart';
 import '../../../subscription/data/models/subscription_plan_model.dart';
+import '../../../content/presentation/pages/home_page.dart';
 import '../providers/profile_providers.dart';
 import '../providers/profile_notifier.dart';
 import 'add_profile_page.dart';
@@ -391,7 +393,13 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
                       isEditMode: _isEditMode,
                       onTap: () {
                         if (!_isEditMode) {
-                          // TODO: Navigate to profile detail or select profile
+                          // Navigate to home page with selected profile
+                          Navigator.pushReplacement(
+                            context,
+                            SlideFadePageRoute(
+                              child: const HomePage(),
+                            ),
+                          );
                         }
                       },
                       onDelete: () {
