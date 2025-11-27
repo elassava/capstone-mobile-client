@@ -1,5 +1,5 @@
-import '../entities/subscription_plan.dart';
-import '../repositories/subscription_repository_interface.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
+import 'package:mobile/features/subscription/domain/repositories/subscription_repository_interface.dart';
 
 /// Get All Plans Use Case
 class GetAllPlansUseCase {

@@ -1,5 +1,5 @@
-import '../entities/subscription_plan.dart';
-import '../entities/subscription.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription.dart';
 
 /// Subscription Repository Interface
 abstract class SubscriptionRepositoryInterface {

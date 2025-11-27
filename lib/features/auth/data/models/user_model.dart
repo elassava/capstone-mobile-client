@@ -1,4 +1,4 @@
-import '../../domain/entities/user.dart';
+import 'package:mobile/features/auth/domain/entities/user.dart';
 
 /// User Model (DTO) - Extends User entity
 class UserModel extends User {

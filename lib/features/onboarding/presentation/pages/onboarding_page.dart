@@ -1,14 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../../../../core/localization/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/responsive_helper.dart';
-import '../../../../core/utils/page_transitions.dart';
-import '../../../../core/widgets/netflix_logo.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../widgets/pagination_indicator.dart';
-import '../../../../features/auth/presentation/pages/login_page.dart';
-import '../../../../features/auth/presentation/pages/signup_page.dart';
+import 'package:mobile/core/localization/app_localizations.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/responsive_helper.dart';
+import 'package:mobile/core/utils/page_transitions.dart';
+import 'package:mobile/core/widgets/netflix_logo.dart';
+import 'package:mobile/core/widgets/custom_button.dart';
+import 'package:mobile/features/onboarding/presentation/widgets/pagination_indicator.dart';
+import 'package:mobile/features/auth/presentation/pages/mobile/login_page.dart';
+import 'package:mobile/features/auth/presentation/pages/mobile/signup_page.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});

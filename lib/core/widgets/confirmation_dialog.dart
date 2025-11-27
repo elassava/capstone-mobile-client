@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../utils/responsive_helper.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/responsive_helper.dart';
 
 /// Confirmation Dialog Widget
 /// Modern, Netflix-themed confirmation dialog

@@ -1,5 +1,5 @@
-import '../entities/profile.dart';
-import '../repositories/profile_repository_interface.dart';
+import 'package:mobile/features/profile/domain/entities/profile.dart';
+import 'package:mobile/features/profile/domain/repositories/profile_repository_interface.dart';
 
 /// Create Profile Use Case
 class CreateProfileUseCase {

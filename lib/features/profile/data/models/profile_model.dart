@@ -1,4 +1,4 @@
-import '../../domain/entities/profile.dart';
+import 'package:mobile/features/profile/domain/entities/profile.dart';
 
 /// Profile Model (DTO) - Extends Profile entity
 class ProfileModel extends Profile {

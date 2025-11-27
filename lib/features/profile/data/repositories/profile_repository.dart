@@ -1,7 +1,7 @@
-import '../../domain/entities/profile.dart';
-import '../../domain/repositories/profile_repository_interface.dart';
-import '../datasources/profile_remote_datasource.dart';
-import '../models/create_profile_request_model.dart';
+import 'package:mobile/features/profile/domain/entities/profile.dart';
+import 'package:mobile/features/profile/domain/repositories/profile_repository_interface.dart';
+import 'package:mobile/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:mobile/features/profile/data/models/create_profile_request_model.dart';
 
 /// Profile Repository Implementation
 class ProfileRepository implements ProfileRepositoryInterface {

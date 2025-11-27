@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import '../../../../core/constants/api_constants.dart';
-import '../../../../core/di/service_locator.dart';
-import '../../../../core/network/dio_client.dart';
-import '../models/subscription_plan_model.dart';
-import '../models/subscription_response_model.dart';
-import '../models/subscribe_request_model.dart';
+import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/network/dio_client.dart';
+import 'package:mobile/features/subscription/data/models/subscription_plan_model.dart';
+import 'package:mobile/features/subscription/data/models/subscription_response_model.dart';
+import 'package:mobile/features/subscription/data/models/subscribe_request_model.dart';
 
 /// Abstract interface for Subscription Remote Data Source
 abstract class SubscriptionRemoteDataSource {

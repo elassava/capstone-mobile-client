@@ -1,4 +1,4 @@
-import '../../domain/entities/content.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
 
 class ContentModel extends Content {
   const ContentModel({

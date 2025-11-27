@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 
 /// SnackBar Extension for consistent snackbar display across the app
 extension SnackBarExtension on BuildContext {

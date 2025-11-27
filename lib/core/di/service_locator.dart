@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import '../network/dio_client.dart';
-import '../network/interceptors/auth_interceptor.dart';
+import 'package:mobile/core/network/dio_client.dart';
+import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
 
 /// Service Locator - Dependency Injection Container
 /// GetIt instance singleton

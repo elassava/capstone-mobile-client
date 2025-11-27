@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 
-enum CustomButtonStyle {
-  flat,
-  outlined,
-}
+enum CustomButtonStyle { flat, outlined }
 
 class CustomButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -15,7 +12,9 @@ class CustomButton extends StatelessWidget {
   final Color? borderColor;
   final double? borderWidth;
   final double? borderRadius;
+
   final EdgeInsets? padding;
+  final double? fontSize;
 
   const CustomButton({
     super.key,
@@ -28,28 +27,30 @@ class CustomButton extends StatelessWidget {
     this.borderWidth,
     this.borderRadius,
     this.padding,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: _buildButton(context),
-    );
+    return SizedBox(width: double.infinity, child: _buildButton(context));
   }
 
   Widget _buildButton(BuildContext context) {
-    final defaultPadding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12);
+    final defaultPadding = const EdgeInsets.symmetric(
+      horizontal: 24,
+      vertical: 12,
+    );
     final defaultBorderRadius = 4.0; // Köşeleri çok az yuvarla
-    final defaultfontSize = 16.0;
+
+    final defaultfontSize = fontSize ?? 16.0;
 
     switch (style) {
       case CustomButtonStyle.flat:
         return ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: backgroundColor ??
-                AppColors.netflixGray.withValues(alpha: 0.5),
+            backgroundColor:
+                backgroundColor ?? AppColors.netflixGray.withValues(alpha: 0.5),
             foregroundColor: foregroundColor ?? AppColors.netflixWhite,
             elevation: 0,
             padding: padding ?? defaultPadding,
@@ -63,8 +64,8 @@ class CustomButton extends StatelessWidget {
             text,
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontSize: defaultfontSize,
-                  fontWeight: FontWeight.w600,
-                ),
+              fontWeight: FontWeight.w600,
+            ),
           ),
         );
       case CustomButtonStyle.outlined:
@@ -98,12 +99,11 @@ class CustomButton extends StatelessWidget {
               text,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontSize: defaultfontSize,
-                    fontWeight: FontWeight.w600,
-                  ),
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         );
     }
   }
 }
-

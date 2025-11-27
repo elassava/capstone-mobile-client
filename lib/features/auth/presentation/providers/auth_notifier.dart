@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/auth_response.dart';
-import '../../domain/usecases/login_usecase.dart';
-import '../../domain/usecases/register_usecase.dart';
+import 'package:mobile/features/auth/domain/entities/auth_response.dart';
+import 'package:mobile/features/auth/domain/usecases/login_usecase.dart';
+import 'package:mobile/features/auth/domain/usecases/register_usecase.dart';
 
 /// Auth State
 class AuthState {

@@ -1,4 +1,4 @@
-import '../entities/profile.dart';
+import 'package:mobile/features/profile/domain/entities/profile.dart';
 
 /// Profile Repository Interface
 abstract class ProfileRepositoryInterface {

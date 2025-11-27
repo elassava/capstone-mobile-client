@@ -1,16 +1,16 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/extensions/snackbar_extension.dart';
-import '../../../../core/localization/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/responsive_helper.dart';
-import '../../../../core/widgets/netflix_logo.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../../domain/entities/subscription_plan.dart';
-import '../providers/subscription_notifier.dart';
-import '../providers/subscription_providers.dart';
-import 'payment_page.dart';
+import 'package:mobile/core/extensions/snackbar_extension.dart';
+import 'package:mobile/core/localization/app_localizations.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/responsive_helper.dart';
+import 'package:mobile/core/widgets/netflix_logo.dart';
+import 'package:mobile/core/widgets/custom_button.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
+import 'package:mobile/features/subscription/presentation/providers/subscription_notifier.dart';
+import 'package:mobile/features/subscription/presentation/providers/subscription_providers.dart';
+import 'package:mobile/features/subscription/presentation/pages/payment_page.dart';
 
 class SubscriptionPlanPage extends ConsumerStatefulWidget {
   const SubscriptionPlanPage({super.key});

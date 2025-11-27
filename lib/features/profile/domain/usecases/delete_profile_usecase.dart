@@ -1,4 +1,4 @@
-import '../repositories/profile_repository_interface.dart';
+import 'package:mobile/features/profile/domain/repositories/profile_repository_interface.dart';
 
 /// Delete Profile Use Case
 class DeleteProfileUseCase {

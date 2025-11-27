@@ -1,5 +1,5 @@
-import '../entities/auth_response.dart';
-import '../repositories/auth_repository_interface.dart';
+import 'package:mobile/features/auth/domain/entities/auth_response.dart';
+import 'package:mobile/features/auth/domain/repositories/auth_repository_interface.dart';
 
 /// Login Use Case
 /// Business logic for user authentication

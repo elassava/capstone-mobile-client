@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/subscription_plan.dart';
-import '../../domain/entities/subscription.dart';
-import '../../domain/usecases/get_all_plans_usecase.dart';
-import '../../domain/usecases/get_my_subscription_usecase.dart';
-import '../../domain/usecases/subscribe_usecase.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription.dart';
+import 'package:mobile/features/subscription/domain/usecases/get_all_plans_usecase.dart';
+import 'package:mobile/features/subscription/domain/usecases/get_my_subscription_usecase.dart';
+import 'package:mobile/features/subscription/domain/usecases/subscribe_usecase.dart';
 
 /// Subscription State
 class SubscriptionState {

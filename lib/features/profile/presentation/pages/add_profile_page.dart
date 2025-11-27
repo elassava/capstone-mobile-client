@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/extensions/snackbar_extension.dart';
-import '../../../../core/localization/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/responsive_helper.dart';
-import '../../../../core/widgets/netflix_logo.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../../../../core/widgets/custom_text_field.dart';
-import '../providers/profile_providers.dart';
-import '../providers/profile_notifier.dart';
+import 'package:mobile/core/extensions/snackbar_extension.dart';
+import 'package:mobile/core/localization/app_localizations.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/responsive_helper.dart';
+import 'package:mobile/core/widgets/netflix_logo.dart';
+import 'package:mobile/core/widgets/custom_button.dart';
+import 'package:mobile/core/widgets/custom_text_field.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_providers.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_notifier.dart';
 
 class AddProfilePage extends ConsumerStatefulWidget {
   final int accountId;

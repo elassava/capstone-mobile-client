@@ -1,7 +1,7 @@
-import '../../../../core/constants/api_constants.dart';
-import '../../../../core/di/service_locator.dart';
-import '../../../../core/network/dio_client.dart';
-import '../models/content_model.dart';
+import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/network/dio_client.dart';
+import 'package:mobile/features/content/data/models/content_model.dart';
 
 abstract class ContentRemoteDataSource {
   Future<List<ContentModel>> getAllContents();

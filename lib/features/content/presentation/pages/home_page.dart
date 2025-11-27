@@ -1,18 +1,18 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/extensions/snackbar_extension.dart';
-import '../../../../core/localization/app_localizations.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/responsive_helper.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
-import '../../../profile/domain/entities/profile.dart';
-import '../../../profile/presentation/providers/profile_providers.dart';
-import '../../domain/entities/content.dart';
-import '../providers/content_notifier.dart';
-import '../providers/content_providers.dart';
-import '../widgets/content_horizontal_list.dart';
-import 'content_detail_page.dart';
+import 'package:mobile/core/extensions/snackbar_extension.dart';
+import 'package:mobile/core/localization/app_localizations.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/responsive_helper.dart';
+import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
+import 'package:mobile/features/profile/domain/entities/profile.dart';
+import 'package:mobile/features/profile/presentation/providers/profile_providers.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
+import 'package:mobile/features/content/presentation/providers/content_notifier.dart';
+import 'package:mobile/features/content/presentation/providers/content_providers.dart';
+import 'package:mobile/features/content/presentation/widgets/content_horizontal_list.dart';
+import 'package:mobile/features/content/presentation/pages/content_detail_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});

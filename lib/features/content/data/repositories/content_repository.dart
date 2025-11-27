@@ -1,6 +1,6 @@
-import '../../domain/entities/content.dart';
-import '../../domain/repositories/content_repository_interface.dart';
-import '../datasources/content_remote_datasource.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
+import 'package:mobile/features/content/domain/repositories/content_repository_interface.dart';
+import 'package:mobile/features/content/data/datasources/content_remote_datasource.dart';
 
 class ContentRepository implements ContentRepositoryInterface {
   final ContentRemoteDataSource _remoteDataSource;

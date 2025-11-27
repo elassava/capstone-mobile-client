@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/content.dart';
-import '../../domain/usecases/get_all_contents_usecase.dart';
-import '../../domain/usecases/get_featured_contents_usecase.dart';
-import '../../domain/usecases/get_contents_by_type_usecase.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
+import 'package:mobile/features/content/domain/usecases/get_all_contents_usecase.dart';
+import 'package:mobile/features/content/domain/usecases/get_featured_contents_usecase.dart';
+import 'package:mobile/features/content/domain/usecases/get_contents_by_type_usecase.dart';
 
 /// Content State
 class ContentState {

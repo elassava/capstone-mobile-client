@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../theme/app_colors.dart';
+import 'package:mobile/core/theme/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
   final String? hintText;
@@ -14,7 +14,12 @@ class CustomTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final EdgeInsets? contentPadding;
   final Widget? suffixIcon;
+
   final List<TextInputFormatter>? inputFormatters;
+  final Color? fillColor;
+  final TextStyle? hintStyle;
+  final TextStyle? style;
+  final Color? borderColor;
 
   const CustomTextField({
     super.key,
@@ -30,6 +35,10 @@ class CustomTextField extends StatefulWidget {
     this.contentPadding,
     this.suffixIcon,
     this.inputFormatters,
+    this.fillColor,
+    this.hintStyle,
+    this.style,
+    this.borderColor,
   });
 
   @override
@@ -47,7 +56,7 @@ class _CustomTextFieldState extends State<CustomTextField>
   @override
   void initState() {
     super.initState();
-    
+
     // Use external focus node if provided, otherwise create internal one
     _internalFocusNode = widget.focusNode ?? FocusNode();
     _isUsingExternalFocusNode = widget.focusNode != null;
@@ -58,17 +67,11 @@ class _CustomTextFieldState extends State<CustomTextField>
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.01).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOutCubic,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic),
     );
 
     _glowAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOutCubic,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic),
     );
 
     // Listen to focus changes
@@ -125,29 +128,38 @@ class _CustomTextFieldState extends State<CustomTextField>
               onFieldSubmitted: widget.onSubmitted,
               focusNode: _internalFocusNode,
               inputFormatters: widget.inputFormatters,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              style:
+                  widget.style ??
+                  Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: AppColors.netflixWhite,
                   ),
               decoration: InputDecoration(
                 hintText: widget.hintText,
-                hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                hintStyle:
+                    widget.hintStyle ??
+                    Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: AppColors.netflixLightGray.withValues(alpha: 0.7),
                     ),
                 filled: true,
-                fillColor: AppColors.netflixDarkGray,
-                contentPadding: widget.contentPadding ??
+                fillColor: widget.fillColor ?? AppColors.netflixDarkGray,
+                contentPadding:
+                    widget.contentPadding ??
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(
-                    color: AppColors.netflixLightGray.withValues(alpha: 0.3),
+                    color:
+                        widget.borderColor ??
+                        AppColors.netflixLightGray.withValues(alpha: 0.3),
                     width: 0.5,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
                   borderSide: BorderSide(
-                    color: AppColors.netflixLightGray.withValues(alpha: 0.3),
+                    color:
+                        widget.borderColor ??
+                        AppColors.netflixLightGray.withValues(alpha: 0.3),
                     width: 0.5,
                   ),
                 ),
@@ -160,10 +172,7 @@ class _CustomTextFieldState extends State<CustomTextField>
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(
-                    color: AppColors.netflixRed,
-                    width: 1,
-                  ),
+                  borderSide: BorderSide(color: AppColors.netflixRed, width: 1),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4),
@@ -172,9 +181,9 @@ class _CustomTextFieldState extends State<CustomTextField>
                     width: 1.5,
                   ),
                 ),
-                errorStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.netflixRed,
-                    ),
+                errorStyle: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: AppColors.netflixRed),
                 suffixIcon: widget.suffixIcon,
               ),
             ),
@@ -184,4 +193,3 @@ class _CustomTextFieldState extends State<CustomTextField>
     );
   }
 }
-

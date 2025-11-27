@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import '../../../../core/constants/api_constants.dart';
-import '../../../../core/di/service_locator.dart';
-import '../../../../core/network/dio_client.dart';
-import '../models/add_payment_method_request_model.dart';
-import '../models/payment_method_response_model.dart';
+import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/network/dio_client.dart';
+import 'package:mobile/features/payment/data/models/add_payment_method_request_model.dart';
+import 'package:mobile/features/payment/data/models/payment_method_response_model.dart';
 
 /// Abstract interface for Payment Remote Data Source
 abstract class PaymentRemoteDataSource {

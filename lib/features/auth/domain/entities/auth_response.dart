@@ -1,4 +1,4 @@
-import 'user.dart';
+import 'package:mobile/features/auth/domain/entities/user.dart';
 
 /// Auth Response entity - Domain layer
 class AuthResponse {

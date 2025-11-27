@@ -1,5 +1,5 @@
-import '../entities/subscription.dart';
-import '../repositories/subscription_repository_interface.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription.dart';
+import 'package:mobile/features/subscription/domain/repositories/subscription_repository_interface.dart';
 
 /// Get My Subscription Use Case
 class GetMySubscriptionUseCase {

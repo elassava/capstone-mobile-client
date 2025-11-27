@@ -1,8 +1,8 @@
-import '../../domain/entities/subscription_plan.dart';
-import '../../domain/entities/subscription.dart';
-import '../../domain/repositories/subscription_repository_interface.dart';
-import '../datasources/subscription_remote_datasource.dart';
-import '../models/subscribe_request_model.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription.dart';
+import 'package:mobile/features/subscription/domain/repositories/subscription_repository_interface.dart';
+import 'package:mobile/features/subscription/data/datasources/subscription_remote_datasource.dart';
+import 'package:mobile/features/subscription/data/models/subscribe_request_model.dart';
 
 /// Subscription Repository Implementation
 class SubscriptionRepository implements SubscriptionRepositoryInterface {

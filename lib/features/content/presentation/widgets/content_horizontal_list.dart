@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_theme.dart';
-import '../../../../core/utils/responsive_helper.dart';
-import '../../domain/entities/content.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/theme/app_theme.dart';
+import 'package:mobile/core/utils/responsive_helper.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
 
 class ContentHorizontalList extends StatelessWidget {
   final String title;

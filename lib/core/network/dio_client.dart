@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import '../constants/api_constants.dart';
-import 'interceptors/auth_interceptor.dart';
-import 'interceptors/logging_interceptor.dart';
+import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
+import 'package:mobile/core/network/interceptors/logging_interceptor.dart';
 
 /// Dio HTTP Client setup with interceptors
 class DioClient {

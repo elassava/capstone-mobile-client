@@ -1,4 +1,4 @@
-import '../entities/content.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
 
 abstract class ContentRepositoryInterface {
   Future<List<Content>> getAllContents();

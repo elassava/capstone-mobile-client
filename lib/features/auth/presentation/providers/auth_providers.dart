@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/datasources/auth_remote_datasource.dart';
-import '../../data/repositories/auth_repository.dart';
-import '../../domain/repositories/auth_repository_interface.dart';
-import '../../domain/usecases/login_usecase.dart';
-import '../../domain/usecases/register_usecase.dart';
-import 'auth_notifier.dart';
+import 'package:mobile/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:mobile/features/auth/data/repositories/auth_repository.dart';
+import 'package:mobile/features/auth/domain/repositories/auth_repository_interface.dart';
+import 'package:mobile/features/auth/domain/usecases/login_usecase.dart';
+import 'package:mobile/features/auth/domain/usecases/register_usecase.dart';
+import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 
 /// Auth Remote Data Source Provider
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>(

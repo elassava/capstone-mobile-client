@@ -20,7 +20,8 @@ class AppLocalizations {
   // Login/Signup Strings
   String get loginTitle => _getLocalizedValue('loginTitle');
   String get loginSubtitle => _getLocalizedValue('loginSubtitle');
-  String get emailOrPhonePlaceholder => _getLocalizedValue('emailOrPhonePlaceholder');
+  String get emailOrPhonePlaceholder =>
+      _getLocalizedValue('emailOrPhonePlaceholder');
   String get continueButton => _getLocalizedValue('continueButton');
   String get helpText => _getLocalizedValue('helpText');
   String get recaptchaInfo => _getLocalizedValue('recaptchaInfo');
@@ -58,20 +59,25 @@ class AppLocalizations {
   String get subscribeSuccess => _getLocalizedValue('subscribeSuccess');
   String get subscriptionFailed => _getLocalizedValue('subscriptionFailed');
   String get fetchingPlans => _getLocalizedValue('fetchingPlans');
-  String get subscriptionRequiredInfo => _getLocalizedValue('subscriptionRequiredInfo');
-  String get subscriptionRequiredDetail => _getLocalizedValue('subscriptionRequiredDetail');
-  
+  String get subscriptionRequiredInfo =>
+      _getLocalizedValue('subscriptionRequiredInfo');
+  String get subscriptionRequiredDetail =>
+      _getLocalizedValue('subscriptionRequiredDetail');
+
   // Payment Strings
   String get paymentInfo => _getLocalizedValue('paymentInfo');
   String get paymentInfoSubtitle => _getLocalizedValue('paymentInfoSubtitle');
   String get cardNumber => _getLocalizedValue('cardNumber');
-  String get cardNumberPlaceholder => _getLocalizedValue('cardNumberPlaceholder');
+  String get cardNumberPlaceholder =>
+      _getLocalizedValue('cardNumberPlaceholder');
   String get expiryDate => _getLocalizedValue('expiryDate');
-  String get expiryDatePlaceholder => _getLocalizedValue('expiryDatePlaceholder');
+  String get expiryDatePlaceholder =>
+      _getLocalizedValue('expiryDatePlaceholder');
   String get cvv => _getLocalizedValue('cvv');
   String get cvvPlaceholder => _getLocalizedValue('cvvPlaceholder');
   String get cardholderName => _getLocalizedValue('cardholderName');
-  String get cardholderNamePlaceholder => _getLocalizedValue('cardholderNamePlaceholder');
+  String get cardholderNamePlaceholder =>
+      _getLocalizedValue('cardholderNamePlaceholder');
   String get payNow => _getLocalizedValue('payNow');
   String get cardNumberRequired => _getLocalizedValue('cardNumberRequired');
   String get cardNumberInvalid => _getLocalizedValue('cardNumberInvalid');
@@ -79,36 +85,44 @@ class AppLocalizations {
   String get expiryDateInvalid => _getLocalizedValue('expiryDateInvalid');
   String get cvvRequired => _getLocalizedValue('cvvRequired');
   String get cvvInvalid => _getLocalizedValue('cvvInvalid');
-  String get cardholderNameRequired => _getLocalizedValue('cardholderNameRequired');
+  String get cardholderNameRequired =>
+      _getLocalizedValue('cardholderNameRequired');
   String get paymentSuccess => _getLocalizedValue('paymentSuccess');
   String get paymentFailed => _getLocalizedValue('paymentFailed');
 
   // Profile Strings
   String get manageProfiles => _getLocalizedValue('manageProfiles');
-  String get manageProfilesSubtitle => _getLocalizedValue('manageProfilesSubtitle');
+  String get manageProfilesSubtitle =>
+      _getLocalizedValue('manageProfilesSubtitle');
   String get addProfile => _getLocalizedValue('addProfile');
   String get noProfiles => _getLocalizedValue('noProfiles');
   String get noProfilesSubtitle => _getLocalizedValue('noProfilesSubtitle');
   String get profileName => _getLocalizedValue('profileName');
-  String get profileNamePlaceholder => _getLocalizedValue('profileNamePlaceholder');
+  String get profileNamePlaceholder =>
+      _getLocalizedValue('profileNamePlaceholder');
   String get profileNameRequired => _getLocalizedValue('profileNameRequired');
   String get createProfile => _getLocalizedValue('createProfile');
-  String get createProfileSubtitle => _getLocalizedValue('createProfileSubtitle');
+  String get createProfileSubtitle =>
+      _getLocalizedValue('createProfileSubtitle');
   String get selectingAvatar => _getLocalizedValue('selectingAvatar');
   String get selectingLanguage => _getLocalizedValue('selectingLanguage');
-  String get selectingMaturityLevel => _getLocalizedValue('selectingMaturityLevel');
+  String get selectingMaturityLevel =>
+      _getLocalizedValue('selectingMaturityLevel');
   String get profileCreated => _getLocalizedValue('profileCreated');
   String get profileCreateFailed => _getLocalizedValue('profileCreateFailed');
   String get maxProfilesReached => _getLocalizedValue('maxProfilesReached');
-  String get maxProfilesReachedSubtitle => _getLocalizedValue('maxProfilesReachedSubtitle');
+  String get maxProfilesReachedSubtitle =>
+      _getLocalizedValue('maxProfilesReachedSubtitle');
   String get profileLimit => _getLocalizedValue('profileLimit');
   String get profilesUsed => _getLocalizedValue('profilesUsed');
   String get whosWatching => _getLocalizedValue('whosWatching');
   String get deleteProfile => _getLocalizedValue('deleteProfile');
   String get confirmDeleteProfile => _getLocalizedValue('confirmDeleteProfile');
-  String get confirmDeleteProfileMessage => _getLocalizedValue('confirmDeleteProfileMessage');
+  String get confirmDeleteProfileMessage =>
+      _getLocalizedValue('confirmDeleteProfileMessage');
   String get profileDeleted => _getLocalizedValue('profileDeleted');
-  String get cannotDeleteLastProfile => _getLocalizedValue('cannotDeleteLastProfile');
+  String get cannotDeleteLastProfile =>
+      _getLocalizedValue('cannotDeleteLastProfile');
   String get cancel => _getLocalizedValue('cancel');
   String get delete => _getLocalizedValue('delete');
 
@@ -124,13 +138,25 @@ class AppLocalizations {
   String get newReleases => _getLocalizedValue('newReleases');
   String get play => _getLocalizedValue('play');
   String get myList => _getLocalizedValue('myList');
-  String forProfile(String profileName) => _getLocalizedValue('forProfile').replaceAll('{profileName}', profileName);
-  String continueWatching(String profileName) => _getLocalizedValue('continueWatching').replaceAll('{profileName}', profileName);
+  String forProfile(String profileName) =>
+      _getLocalizedValue('forProfile').replaceAll('{profileName}', profileName);
+  String continueWatching(String profileName) => _getLocalizedValue(
+    'continueWatching',
+  ).replaceAll('{profileName}', profileName);
   String get series => _getLocalizedValue('series');
   String get movies => _getLocalizedValue('movies');
   String get categories => _getLocalizedValue('categories');
   String get newAndPopular => _getLocalizedValue('newAndPopular');
   String get myNetflix => _getLocalizedValue('myNetflix');
+  String get rememberMe => _getLocalizedValue('rememberMe');
+  String get needHelp => _getLocalizedValue('needHelp');
+  String get createPasswordTitle => _getLocalizedValue('createPasswordTitle');
+  String get createPasswordSubtitle =>
+      _getLocalizedValue('createPasswordSubtitle');
+  String get emailPlaceholder => _getLocalizedValue('emailPlaceholder');
+  String get addPasswordPlaceholder =>
+      _getLocalizedValue('addPasswordPlaceholder');
+  String get nextButton => _getLocalizedValue('nextButton');
 
   String _getLocalizedValue(String key) {
     switch (locale.languageCode) {
@@ -152,7 +178,8 @@ class AppLocalizations {
     'emailOrPhonePlaceholder': 'E-posta veya cep telefonu numarası',
     'continueButton': 'Devam Et',
     'helpText': 'Yardım Al',
-    'recaptchaInfo': 'Bu sayfa robot olmadığınızı kanıtlamak için Google reCAPTCHA tarafından korunuyor.',
+    'recaptchaInfo':
+        'Bu sayfa robot olmadığınızı kanıtlamak için Google reCAPTCHA tarafından korunuyor.',
     'learnMore': 'Daha fazla bilgi',
     'signupTitle': 'Yeni hesap oluşturmak için bilgilerinizi girin',
     'signupSubtitle': 'Zaten bir hesabınız var mı?',
@@ -186,9 +213,11 @@ class AppLocalizations {
     'subscriptionFailed': 'Abonelik oluşturulamadı',
     'fetchingPlans': 'Planlar yükleniyor...',
     'subscriptionRequiredInfo': 'Abonelik Gerekli',
-    'subscriptionRequiredDetail': 'Profil oluşturmak ve içeriklere erişmek için bir abonelik planı seçmeniz gerekmektedir.',
+    'subscriptionRequiredDetail':
+        'Profil oluşturmak ve içeriklere erişmek için bir abonelik planı seçmeniz gerekmektedir.',
     'paymentInfo': 'Ödeme Bilgileri',
-    'paymentInfoSubtitle': 'Aboneliğinizi tamamlamak için kart bilgilerinizi girin',
+    'paymentInfoSubtitle':
+        'Aboneliğinizi tamamlamak için kart bilgilerinizi girin',
     'cardNumber': 'Kart Numarası',
     'cardNumberPlaceholder': '1234 5678 9012 3456',
     'expiryDate': 'Son Kullanma Tarihi',
@@ -223,15 +252,18 @@ class AppLocalizations {
     'profileCreated': 'Profil başarıyla oluşturuldu!',
     'profileCreateFailed': 'Profil oluşturulamadı',
     'maxProfilesReached': 'Maksimum Profil Sayısına Ulaşıldı',
-    'maxProfilesReachedSubtitle': 'Daha fazla profil eklemek için planınızı yükseltin',
+    'maxProfilesReachedSubtitle':
+        'Daha fazla profil eklemek için planınızı yükseltin',
     'profileLimit': 'Profil Limiti',
     'profilesUsed': 'Profiller Kullanılıyor',
     'whosWatching': 'Kim İzliyor?',
     'deleteProfile': 'Profili Sil',
     'confirmDeleteProfile': 'Profili Sil',
-    'confirmDeleteProfileMessage': 'Bu profili silmek istediğinizden emin misiniz?',
+    'confirmDeleteProfileMessage':
+        'Bu profili silmek istediğinizden emin misiniz?',
     'profileDeleted': 'Profil başarıyla silindi',
-    'cannotDeleteLastProfile': 'Son profil silinemez. En az bir profil kalmalıdır.',
+    'cannotDeleteLastProfile':
+        'Son profil silinemez. En az bir profil kalmalıdır.',
     'cancel': 'İptal',
     'delete': 'Sil',
     'home': 'Ana Sayfa',
@@ -252,6 +284,14 @@ class AppLocalizations {
     'categories': 'Kategoriler',
     'newAndPopular': 'Yeni ve Popüler',
     'myNetflix': 'Benim Netflix\'im',
+    'rememberMe': 'Beni hatırla',
+    'needHelp': 'Yardım ister misiniz?',
+    'createPasswordTitle': 'Üyeliğinizi başlatmak için parolanızı oluşturun',
+    'createPasswordSubtitle':
+        'Sadece birkaç adım daha kaldı.\nBiz de bürokrasiden hoşlanmayız.',
+    'emailPlaceholder': 'E-posta',
+    'addPasswordPlaceholder': 'Parola ekle',
+    'nextButton': 'İleri',
   };
 
   static const Map<String, String> _englishStrings = {
@@ -263,7 +303,8 @@ class AppLocalizations {
     'emailOrPhonePlaceholder': 'Email or phone number',
     'continueButton': 'Continue',
     'helpText': 'Get Help',
-    'recaptchaInfo': 'This page is protected by Google reCAPTCHA to ensure you are not a robot.',
+    'recaptchaInfo':
+        'This page is protected by Google reCAPTCHA to ensure you are not a robot.',
     'learnMore': 'Learn more',
     'signupTitle': 'Enter your information to create a new account',
     'signupSubtitle': 'Already have an account?',
@@ -297,9 +338,11 @@ class AppLocalizations {
     'subscriptionFailed': 'Failed to create subscription',
     'fetchingPlans': 'Loading plans...',
     'subscriptionRequiredInfo': 'Subscription Required',
-    'subscriptionRequiredDetail': 'You need to select a subscription plan to create profiles and access content.',
+    'subscriptionRequiredDetail':
+        'You need to select a subscription plan to create profiles and access content.',
     'paymentInfo': 'Payment Information',
-    'paymentInfoSubtitle': 'Enter your card details to complete your subscription',
+    'paymentInfoSubtitle':
+        'Enter your card details to complete your subscription',
     'cardNumber': 'Card Number',
     'cardNumberPlaceholder': '1234 5678 9012 3456',
     'expiryDate': 'Expiry Date',
@@ -340,9 +383,11 @@ class AppLocalizations {
     'whosWatching': 'Who\'s Watching?',
     'deleteProfile': 'Delete Profile',
     'confirmDeleteProfile': 'Delete Profile',
-    'confirmDeleteProfileMessage': 'Are you sure you want to delete this profile?',
+    'confirmDeleteProfileMessage':
+        'Are you sure you want to delete this profile?',
     'profileDeleted': 'Profile deleted successfully',
-    'cannotDeleteLastProfile': 'Cannot delete the last profile. At least one profile must remain.',
+    'cannotDeleteLastProfile':
+        'Cannot delete the last profile. At least one profile must remain.',
     'cancel': 'Cancel',
     'delete': 'Delete',
     'home': 'Home',
@@ -363,6 +408,14 @@ class AppLocalizations {
     'categories': 'Categories',
     'newAndPopular': 'New & Popular',
     'myNetflix': 'My Netflix',
+    'rememberMe': 'Remember me',
+    'needHelp': 'Need help?',
+    'createPasswordTitle': 'Create your password to start your membership',
+    'createPasswordSubtitle':
+        'Just a few more steps.\nWe hate bureaucracy too.',
+    'emailPlaceholder': 'Email',
+    'addPasswordPlaceholder': 'Add password',
+    'nextButton': 'Next',
   };
 }
 
@@ -383,4 +436,3 @@ class _AppLocalizationsDelegate
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
-

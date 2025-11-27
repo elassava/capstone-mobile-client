@@ -1,4 +1,4 @@
-import '../entities/auth_response.dart';
+import 'package:mobile/features/auth/domain/entities/auth_response.dart';
 
 /// Auth Repository Interface - Domain layer
 /// Defines contract for authentication operations

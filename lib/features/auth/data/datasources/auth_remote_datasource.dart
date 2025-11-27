@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import '../../../../core/constants/api_constants.dart';
-import '../../../../core/di/service_locator.dart';
-import '../../../../core/network/dio_client.dart';
-import '../models/auth_response_model.dart';
-import '../models/login_request_model.dart';
-import '../models/register_request_model.dart';
+import 'package:mobile/core/constants/api_constants.dart';
+import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/network/dio_client.dart';
+import 'package:mobile/features/auth/data/models/auth_response_model.dart';
+import 'package:mobile/features/auth/data/models/login_request_model.dart';
+import 'package:mobile/features/auth/data/models/register_request_model.dart';
 
 /// Abstract interface for Auth Remote Data Source
 abstract class AuthRemoteDataSource {

@@ -1,4 +1,4 @@
-import '../../domain/entities/subscription.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription.dart';
 
 /// Subscription Response Model (DTO) - Extends Subscription entity
 class SubscriptionResponseModel extends Subscription {

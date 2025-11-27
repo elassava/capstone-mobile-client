@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/datasources/content_remote_datasource.dart';
-import '../../data/repositories/content_repository.dart';
-import '../../domain/usecases/get_all_contents_usecase.dart';
-import '../../domain/usecases/get_featured_contents_usecase.dart';
-import '../../domain/usecases/get_contents_by_type_usecase.dart';
-import 'content_notifier.dart';
+import 'package:mobile/features/content/data/datasources/content_remote_datasource.dart';
+import 'package:mobile/features/content/data/repositories/content_repository.dart';
+import 'package:mobile/features/content/domain/usecases/get_all_contents_usecase.dart';
+import 'package:mobile/features/content/domain/usecases/get_featured_contents_usecase.dart';
+import 'package:mobile/features/content/domain/usecases/get_contents_by_type_usecase.dart';
+import 'package:mobile/features/content/presentation/providers/content_notifier.dart';
 
 // Data Source Provider
 final contentRemoteDataSourceProvider = Provider<ContentRemoteDataSource>((ref) {

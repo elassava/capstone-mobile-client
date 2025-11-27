@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/profile.dart';
-import '../../domain/usecases/get_profiles_usecase.dart';
-import '../../domain/usecases/create_profile_usecase.dart';
-import '../../domain/usecases/delete_profile_usecase.dart';
+import 'package:mobile/features/profile/domain/entities/profile.dart';
+import 'package:mobile/features/profile/domain/usecases/get_profiles_usecase.dart';
+import 'package:mobile/features/profile/domain/usecases/create_profile_usecase.dart';
+import 'package:mobile/features/profile/domain/usecases/delete_profile_usecase.dart';
 
 /// Profile State
 class ProfileState {

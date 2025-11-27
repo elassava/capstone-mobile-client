@@ -1,4 +1,4 @@
-import '../../domain/entities/subscription_plan.dart';
+import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
 
 /// Subscription Plan Model (DTO) - Extends SubscriptionPlan entity
 class SubscriptionPlanModel extends SubscriptionPlan {

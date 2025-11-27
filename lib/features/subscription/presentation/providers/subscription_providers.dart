@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/datasources/subscription_remote_datasource.dart';
-import '../../data/repositories/subscription_repository.dart';
-import '../../domain/repositories/subscription_repository_interface.dart';
-import '../../domain/usecases/get_all_plans_usecase.dart';
-import '../../domain/usecases/get_my_subscription_usecase.dart';
-import '../../domain/usecases/subscribe_usecase.dart';
-import 'subscription_notifier.dart';
+import 'package:mobile/features/subscription/data/datasources/subscription_remote_datasource.dart';
+import 'package:mobile/features/subscription/data/repositories/subscription_repository.dart';
+import 'package:mobile/features/subscription/domain/repositories/subscription_repository_interface.dart';
+import 'package:mobile/features/subscription/domain/usecases/get_all_plans_usecase.dart';
+import 'package:mobile/features/subscription/domain/usecases/get_my_subscription_usecase.dart';
+import 'package:mobile/features/subscription/domain/usecases/subscribe_usecase.dart';
+import 'package:mobile/features/subscription/presentation/providers/subscription_notifier.dart';
 
 /// Subscription Remote Data Source Provider
 final subscriptionRemoteDataSourceProvider = Provider<SubscriptionRemoteDataSource>(

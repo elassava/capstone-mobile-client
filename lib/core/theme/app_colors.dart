@@ -14,6 +14,13 @@ class AppColors {
   static const Color netflixWhite = Color(0xFFFFFFFF);
   static const Color netflixTransparent = Color.fromARGB(73, 255, 255, 255);
 
+  // Text & Input Colors
+  static const Color textPrimary = Color(0xFF333333);
+  static const Color inputBorder = Color(0xFF8C8C8C);
+  static const Color inputFill = Color(0xFF333333);
+  static const Color textGray = Color(0xFF737373);
+  static const Color textLightGray = Color(0xFFB3B3B3);
+
   // Gradient Colors for Onboarding
   static const Color onboardingGradientTop = Color(0xFF0F0D12);
   static const Color onboardingGradientTopMid = Color(0xFF0F0D0F);
@@ -46,4 +53,3 @@ class AppColors {
     );
   }
 }
-

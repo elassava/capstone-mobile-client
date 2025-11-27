@@ -1,6 +1,6 @@
-import '../../domain/entities/auth_response.dart';
-import '../../domain/repositories/auth_repository_interface.dart';
-import '../datasources/auth_remote_datasource.dart';
+import 'package:mobile/features/auth/domain/entities/auth_response.dart';
+import 'package:mobile/features/auth/domain/repositories/auth_repository_interface.dart';
+import 'package:mobile/features/auth/data/datasources/auth_remote_datasource.dart';
 
 /// Auth Repository Implementation
 class AuthRepository implements AuthRepositoryInterface {

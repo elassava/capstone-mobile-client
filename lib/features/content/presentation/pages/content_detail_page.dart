@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../domain/entities/content.dart';
+import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/content/domain/entities/content.dart';
 
 class ContentDetailPage extends StatelessWidget {
   final Content content;

@@ -1,5 +1,5 @@
-import '../../domain/entities/auth_response.dart';
-import 'user_model.dart';
+import 'package:mobile/features/auth/domain/entities/auth_response.dart';
+import 'package:mobile/features/auth/data/models/user_model.dart';
 
 /// Auth Response Model (DTO) - Extends AuthResponse entity
 class AuthResponseModel extends AuthResponse {
