@@ -63,6 +63,12 @@ class AppLocalizations {
       _getLocalizedValue('subscriptionRequiredInfo');
   String get subscriptionRequiredDetail =>
       _getLocalizedValue('subscriptionRequiredDetail');
+  String get signOut => _getLocalizedValue('signOut');
+  String get watchOnDevices => _getLocalizedValue('watchOnDevices');
+  String get leavePageTitle => _getLocalizedValue('leavePageTitle');
+  String get leavePageMessage => _getLocalizedValue('leavePageMessage');
+  String get stay => _getLocalizedValue('stay');
+  String get leave => _getLocalizedValue('leave');
 
   // Payment Strings
   String get paymentInfo => _getLocalizedValue('paymentInfo');
@@ -125,6 +131,7 @@ class AppLocalizations {
       _getLocalizedValue('cannotDeleteLastProfile');
   String get cancel => _getLocalizedValue('cancel');
   String get delete => _getLocalizedValue('delete');
+  String get done => _getLocalizedValue('done');
 
   // Home Page Strings
   String get home => _getLocalizedValue('home');
@@ -215,6 +222,13 @@ class AppLocalizations {
     'subscriptionRequiredInfo': 'Abonelik Gerekli',
     'subscriptionRequiredDetail':
         'Profil oluşturmak ve içeriklere erişmek için bir abonelik planı seçmeniz gerekmektedir.',
+    'signOut': 'Oturumu Kapat',
+    'watchOnDevices': 'TV, bilgisayar, cep telefonu ve tabletinizde izleyin',
+    'leavePageTitle': 'Ayrılmak istediğinize emin misiniz?',
+    'leavePageMessage':
+        'Abonelik işlemini tamamlamadan ayrılırsanız ilerlemeniz kaybolabilir.',
+    'stay': 'Kal',
+    'leave': 'Ayrıl',
     'paymentInfo': 'Ödeme Bilgileri',
     'paymentInfoSubtitle':
         'Aboneliğinizi tamamlamak için kart bilgilerinizi girin',
@@ -266,6 +280,7 @@ class AppLocalizations {
         'Son profil silinemez. En az bir profil kalmalıdır.',
     'cancel': 'İptal',
     'delete': 'Sil',
+    'done': 'Tamamlandı',
     'home': 'Ana Sayfa',
     'search': 'Ara',
     'downloads': 'İndirilenler',
@@ -340,6 +355,13 @@ class AppLocalizations {
     'subscriptionRequiredInfo': 'Subscription Required',
     'subscriptionRequiredDetail':
         'You need to select a subscription plan to create profiles and access content.',
+    'signOut': 'Sign Out',
+    'watchOnDevices': 'Watch on your TV, computer, mobile phone and tablet',
+    'leavePageTitle': 'Are you sure you want to leave?',
+    'leavePageMessage':
+        'If you leave without completing your subscription, your progress may be lost.',
+    'stay': 'Stay',
+    'leave': 'Leave',
     'paymentInfo': 'Payment Information',
     'paymentInfoSubtitle':
         'Enter your card details to complete your subscription',
@@ -390,6 +412,7 @@ class AppLocalizations {
         'Cannot delete the last profile. At least one profile must remain.',
     'cancel': 'Cancel',
     'delete': 'Delete',
+    'done': 'Done',
     'home': 'Home',
     'search': 'Search',
     'downloads': 'Downloads',

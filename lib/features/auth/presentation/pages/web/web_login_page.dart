@@ -9,10 +9,8 @@ import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
 import 'package:mobile/features/auth/presentation/pages/web/web_register_page.dart';
-import 'package:mobile/core/utils/page_transitions.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
-import 'package:mobile/features/profile/presentation/pages/profile_list_page.dart';
 import 'package:mobile/features/subscription/presentation/pages/subscription_plan_page.dart';
 import 'package:mobile/features/subscription/presentation/providers/subscription_providers.dart';
 
@@ -67,19 +65,13 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
         if (!mounted) return;
 
         if (!hasSubscriptionResult) {
-          Navigator.pushReplacement(
-            context,
-            FadePageRoute(child: const SubscriptionPlanPage()),
-          );
+          Navigator.pushReplacementNamed(context, '/plans');
         } else {
           await ref
               .read(subscriptionNotifierProvider.notifier)
               .fetchMySubscription();
           if (!mounted) return;
-          Navigator.pushReplacement(
-            context,
-            FadePageRoute(child: const ProfileListPage()),
-          );
+          Navigator.pushReplacementNamed(context, '/profiles');
         }
       } else if (next.error != null && next.error!.isNotEmpty) {
         ScaffoldMessenger.of(
@@ -320,12 +312,9 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                Navigator.pushReplacement(
+                                                Navigator.pushNamed(
                                                   context,
-                                                  FadePageRoute(
-                                                    child:
-                                                        const WebRegisterPage(),
-                                                  ),
+                                                  '/register',
                                                 );
                                               },
                                               child: Text(

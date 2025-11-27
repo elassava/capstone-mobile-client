@@ -7,11 +7,9 @@ import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
-import 'package:mobile/features/auth/presentation/pages/web/web_login_page.dart';
 import 'package:mobile/core/utils/page_transitions.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
-import 'package:mobile/features/subscription/presentation/pages/subscription_plan_page.dart';
 
 class WebRegisterPage extends ConsumerStatefulWidget {
   const WebRegisterPage({super.key});
@@ -68,10 +66,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
           context,
         ).showSnackBar(SnackBar(content: Text(localizations.signupSuccess)));
 
-        Navigator.pushReplacement(
-          context,
-          FadePageRoute(child: const SubscriptionPlanPage()),
-        );
+        Navigator.pushReplacementNamed(context, '/plans');
       } else if (next.error != null && next.error!.isNotEmpty) {
         ScaffoldMessenger.of(
           context,
@@ -107,10 +102,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             const Spacer(),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  FadePageRoute(child: const WebLoginPage()),
-                                );
+                                Navigator.pushNamed(context, '/login');
                               },
                               child: Text(
                                 localizations.signIn,
@@ -198,6 +190,18 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             fontSize: 24,
                           ),
                         ),
+                        const SizedBox(height: 16),
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/plans');
+                            },
+                            child: const Text(
+                              "Bypass Backend (Test Mode)",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -212,12 +216,34 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
             child: Container(
               color: AppColors.netflixWhite, // Matches page background
               padding: const EdgeInsets.all(24), // Added padding
-              child: Image.asset(
-                'assets/images/onboarding_welcome.png',
-                fit: BoxFit
-                    .contain, // Changed to contain to respect padding better if needed, or keep cover but with padding it acts like a frame
-                height: double.infinity,
-                width: double.infinity,
+              child: TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 1000),
+                curve: Curves.easeOutQuart,
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: Transform.translate(
+                      offset: Offset(
+                        40 * (1 - value),
+                        0,
+                      ), // Slide in from right
+                      child: Transform.scale(
+                        scale:
+                            1.05 -
+                            (0.05 *
+                                value), // Subtle zoom out effect (1.05 -> 1.0)
+                        child: child,
+                      ),
+                    ),
+                  );
+                },
+                child: Image.asset(
+                  'assets/images/onboarding_welcome.png',
+                  fit: BoxFit.contain,
+                  height: double.infinity,
+                  width: double.infinity,
+                ),
               ),
             ),
           ),

@@ -11,12 +11,15 @@ import 'package:mobile/features/subscription/domain/entities/subscription_plan.d
 import 'package:mobile/features/subscription/presentation/providers/subscription_notifier.dart';
 import 'package:mobile/features/subscription/presentation/providers/subscription_providers.dart';
 import 'package:mobile/features/subscription/presentation/pages/payment_page.dart';
+import 'package:flutter/foundation.dart';
+import 'package:mobile/features/subscription/presentation/pages/web/web_subscription_plan_page.dart';
 
 class SubscriptionPlanPage extends ConsumerStatefulWidget {
   const SubscriptionPlanPage({super.key});
 
   @override
-  ConsumerState<SubscriptionPlanPage> createState() => _SubscriptionPlanPageState();
+  ConsumerState<SubscriptionPlanPage> createState() =>
+      _SubscriptionPlanPageState();
 }
 
 class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
@@ -39,7 +42,8 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
   void _handleSubscribe() {
     if (_selectedPlan == null) {
       context.showErrorSnackBar(
-        _localizations?.subscriptionFailed ?? AppLocalizations.of(context)!.subscriptionFailed,
+        _localizations?.subscriptionFailed ??
+            AppLocalizations.of(context)!.subscriptionFailed,
       );
       return;
     }
@@ -57,10 +61,7 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
   }
 
   String _formatPrice(double price) {
-    return '₺${price.toStringAsFixed(2).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    )}';
+    return '₺${price.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}';
   }
 
   Color _getPlanColor(SubscriptionPlan plan) {
@@ -78,13 +79,21 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) {
+      return const WebSubscriptionPlanPage();
+    }
+
     final subscriptionState = ref.watch(subscriptionNotifierProvider);
 
     // Handle subscription success
-    ref.listen<SubscriptionState>(subscriptionNotifierProvider, (previous, next) {
+    ref.listen<SubscriptionState>(subscriptionNotifierProvider, (
+      previous,
+      next,
+    ) {
       if (next.isSuccess) {
         context.showSuccessSnackBar(
-          _localizations?.subscribeSuccess ?? AppLocalizations.of(context)!.subscribeSuccess,
+          _localizations?.subscribeSuccess ??
+              AppLocalizations.of(context)!.subscribeSuccess,
         );
         // Navigate back or to home
         Navigator.of(context).pop();
@@ -94,7 +103,9 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
     });
 
     // Cache values on first build only
-    _horizontalPadding ??= ResponsiveHelper.getResponsiveHorizontalPadding(context);
+    _horizontalPadding ??= ResponsiveHelper.getResponsiveHorizontalPadding(
+      context,
+    );
     _spacing ??= ResponsiveHelper.getResponsiveSpacing(context);
     _localizations ??= AppLocalizations.of(context)!;
 
@@ -156,229 +167,282 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
                       ],
                     ),
                   ),
-                // Content
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: spacing * 2),
-                        // Title
-                        Text(
-                          localizations.choosePlan,
-                          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: ResponsiveHelper.getResponsiveFontSize(context, 28),
+                  // Content
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: horizontalPadding,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: spacing * 2),
+                          // Title
+                          Text(
+                            localizations.choosePlan,
+                            style: Theme.of(context).textTheme.displaySmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      ResponsiveHelper.getResponsiveFontSize(
+                                        context,
+                                        28,
+                                      ),
+                                ),
+                          ),
+                          SizedBox(height: spacing * 0.5),
+                          // Subtitle
+                          Text(
+                            localizations.choosePlanSubtitle,
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(
+                                  color: AppColors.netflixLightGray,
+                                  fontSize:
+                                      ResponsiveHelper.getResponsiveFontSize(
+                                        context,
+                                        16,
+                                      ),
+                                ),
+                          ),
+                          SizedBox(height: spacing * 2),
+                          // Subscription Required Info Card
+                          Container(
+                            padding: EdgeInsets.all(spacing * 1.5),
+                            decoration: BoxDecoration(
+                              color: AppColors.netflixRed.withValues(
+                                alpha: 0.15,
                               ),
-                        ),
-                        SizedBox(height: spacing * 0.5),
-                        // Subtitle
-                        Text(
-                          localizations.choosePlanSubtitle,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                color: AppColors.netflixLightGray,
-                                fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.netflixRed.withValues(
+                                  alpha: 0.5,
+                                ),
+                                width: 1,
                               ),
-                        ),
-                        SizedBox(height: spacing * 2),
-                        // Subscription Required Info Card
-                        Container(
-                          padding: EdgeInsets.all(spacing * 1.5),
-                          decoration: BoxDecoration(
-                            color: AppColors.netflixRed.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: AppColors.netflixRed.withValues(alpha: 0.5),
-                              width: 1,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  color: AppColors.netflixRed,
+                                  size: 24,
+                                ),
+                                SizedBox(width: spacing),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        localizations.subscriptionRequiredInfo,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                              color: AppColors.netflixWhite,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize:
+                                                  ResponsiveHelper.getResponsiveFontSize(
+                                                    context,
+                                                    16,
+                                                  ),
+                                            ),
+                                      ),
+                                      SizedBox(height: spacing * 0.5),
+                                      Text(
+                                        localizations
+                                            .subscriptionRequiredDetail,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: AppColors.netflixLightGray,
+                                              fontSize:
+                                                  ResponsiveHelper.getResponsiveFontSize(
+                                                    context,
+                                                    14,
+                                                  ),
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                                color: AppColors.netflixRed,
-                                size: 24,
+                          SizedBox(height: spacing * 2),
+                          // Billing Cycle Toggle
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.netflixDarkGray.withValues(
+                                alpha: 0.5,
                               ),
-                              SizedBox(width: spacing),
-                              Expanded(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: AppColors.netflixGray,
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: _BillingCycleButton(
+                                    label: localizations.monthly,
+                                    isSelected:
+                                        _selectedBillingCycle == 'MONTHLY',
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedBillingCycle = 'MONTHLY';
+                                        _selectedPlan = null;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: _BillingCycleButton(
+                                    label: localizations.yearly,
+                                    isSelected:
+                                        _selectedBillingCycle == 'YEARLY',
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedBillingCycle = 'YEARLY';
+                                        _selectedPlan = null;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: spacing * 3),
+                          // Plans List
+                          if (subscriptionState.isLoading)
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(spacing * 4),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      localizations.subscriptionRequiredInfo,
-                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                            color: AppColors.netflixWhite,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: ResponsiveHelper.getResponsiveFontSize(context, 16),
-                                          ),
+                                    const CircularProgressIndicator(
+                                      color: AppColors.netflixRed,
                                     ),
-                                    SizedBox(height: spacing * 0.5),
+                                    SizedBox(height: spacing),
                                     Text(
-                                      localizations.subscriptionRequiredDetail,
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      localizations.fetchingPlans,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
                                             color: AppColors.netflixLightGray,
-                                            fontSize: ResponsiveHelper.getResponsiveFontSize(context, 14),
                                           ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: spacing * 2),
-                        // Billing Cycle Toggle
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.netflixDarkGray.withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.netflixGray,
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: _BillingCycleButton(
-                                  label: localizations.monthly,
-                                  isSelected: _selectedBillingCycle == 'MONTHLY',
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedBillingCycle = 'MONTHLY';
-                                      _selectedPlan = null;
-                                    });
-                                  },
+                            )
+                          else if (subscriptionState.error != null)
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(spacing * 4),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline,
+                                      color: AppColors.netflixRed,
+                                      size: 48,
+                                    ),
+                                    SizedBox(height: spacing),
+                                    Text(
+                                      subscriptionState.error!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: AppColors.netflixRed,
+                                          ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: spacing),
+                                    CustomButton(
+                                      text: localizations.continueButton,
+                                      style: CustomButtonStyle.flat,
+                                      backgroundColor: AppColors.netflixRed,
+                                      foregroundColor: AppColors.netflixWhite,
+                                      onPressed: () {
+                                        ref
+                                            .read(
+                                              subscriptionNotifierProvider
+                                                  .notifier,
+                                            )
+                                            .fetchPlans();
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: _BillingCycleButton(
-                                  label: localizations.yearly,
-                                  isSelected: _selectedBillingCycle == 'YEARLY',
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedBillingCycle = 'YEARLY';
-                                      _selectedPlan = null;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: spacing * 3),
-                        // Plans List
-                        if (subscriptionState.isLoading)
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(spacing * 4),
-                              child: Column(
-                                children: [
-                                  const CircularProgressIndicator(
-                                    color: AppColors.netflixRed,
-                                  ),
-                                  SizedBox(height: spacing),
-                                  Text(
-                                    localizations.fetchingPlans,
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          color: AppColors.netflixLightGray,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        else if (subscriptionState.error != null)
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(spacing * 4),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.error_outline,
-                                    color: AppColors.netflixRed,
-                                    size: 48,
-                                  ),
-                                  SizedBox(height: spacing),
-                                  Text(
-                                    subscriptionState.error!,
-                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          color: AppColors.netflixRed,
-                                        ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: spacing),
-                                  CustomButton(
-                                    text: localizations.continueButton,
-                                    style: CustomButtonStyle.flat,
-                                    backgroundColor: AppColors.netflixRed,
-                                    foregroundColor: AppColors.netflixWhite,
-                                    onPressed: () {
-                                      ref.read(subscriptionNotifierProvider.notifier).fetchPlans();
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        else
-                          ...subscriptionState.plans.where((plan) => plan.isActive).map(
-                                (plan) => Padding(
-                                  padding: EdgeInsets.only(bottom: spacing),
-                                  child: _PlanCard(
-                                    plan: plan,
-                                    billingCycle: _selectedBillingCycle,
-                                    isSelected: _selectedPlan?.id == plan.id,
-                                    onTap: () {
-                                      setState(() {
-                                        _selectedPlan = plan;
-                                      });
-                                    },
-                                    formatPrice: _formatPrice,
-                                    getPlanColor: _getPlanColor,
-                                    localizations: localizations,
+                            )
+                          else
+                            ...subscriptionState.plans
+                                .where((plan) => plan.isActive)
+                                .map(
+                                  (plan) => Padding(
+                                    padding: EdgeInsets.only(bottom: spacing),
+                                    child: _PlanCard(
+                                      plan: plan,
+                                      billingCycle: _selectedBillingCycle,
+                                      isSelected: _selectedPlan?.id == plan.id,
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedPlan = plan;
+                                        });
+                                      },
+                                      formatPrice: _formatPrice,
+                                      getPlanColor: _getPlanColor,
+                                      localizations: localizations,
+                                    ),
                                   ),
                                 ),
-                              ),
-                        SizedBox(height: spacing * 2),
-                      ],
+                          SizedBox(height: spacing * 2),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                // Footer with Subscribe Button
-                if (!subscriptionState.isLoading && subscriptionState.error == null)
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      horizontalPadding,
-                      spacing,
-                      horizontalPadding,
-                      MediaQuery.of(context).padding.bottom + horizontalPadding,
+                  // Footer with Subscribe Button
+                  if (!subscriptionState.isLoading &&
+                      subscriptionState.error == null)
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        horizontalPadding,
+                        spacing,
+                        horizontalPadding,
+                        MediaQuery.of(context).padding.bottom +
+                            horizontalPadding,
+                      ),
+                      child: Column(
+                        children: [
+                          CustomButton(
+                            text: subscriptionState.isSubscribing
+                                ? localizations.loading
+                                : localizations.subscribe,
+                            style: CustomButtonStyle.flat,
+                            backgroundColor: _selectedPlan != null
+                                ? AppColors.netflixRed
+                                : AppColors.netflixGray.withValues(alpha: 0.5),
+                            foregroundColor: AppColors.netflixWhite,
+                            onPressed:
+                                (_selectedPlan != null &&
+                                    !subscriptionState.isSubscribing)
+                                ? _handleSubscribe
+                                : null,
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      children: [
-                        CustomButton(
-                          text: subscriptionState.isSubscribing
-                              ? localizations.loading
-                              : localizations.subscribe,
-                          style: CustomButtonStyle.flat,
-                          backgroundColor: _selectedPlan != null
-                              ? AppColors.netflixRed
-                              : AppColors.netflixGray.withValues(alpha: 0.5),
-                          foregroundColor: AppColors.netflixWhite,
-                          onPressed: (_selectedPlan != null && !subscriptionState.isSubscribing)
-                              ? _handleSubscribe
-                              : null,
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
@@ -403,18 +467,16 @@ class _BillingCycleButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.netflixRed
-              : Colors.transparent,
+          color: isSelected ? AppColors.netflixRed : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Center(
           child: Text(
             label,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.netflixWhite,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                ),
+              color: AppColors.netflixWhite,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
         ),
       ),
@@ -443,7 +505,9 @@ class _PlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final price = billingCycle == 'MONTHLY' ? plan.monthlyPrice : plan.yearlyPrice;
+    final price = billingCycle == 'MONTHLY'
+        ? plan.monthlyPrice
+        : plan.yearlyPrice;
     final pricePeriod = billingCycle == 'MONTHLY' ? '/ay' : '/yıl';
     final spacing = ResponsiveHelper.getResponsiveSpacing(context);
 
@@ -473,9 +537,13 @@ class _PlanCard extends StatelessWidget {
                     children: [
                       Text(
                         plan.displayName,
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(
                               fontWeight: FontWeight.bold,
-                              fontSize: ResponsiveHelper.getResponsiveFontSize(context, 20),
+                              fontSize: ResponsiveHelper.getResponsiveFontSize(
+                                context,
+                                20,
+                              ),
                             ),
                       ),
                       SizedBox(height: spacing * 0.25),
@@ -483,17 +551,27 @@ class _PlanCard extends StatelessWidget {
                         children: [
                           Text(
                             formatPrice(price),
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
                                   color: getPlanColor(plan),
                                   fontWeight: FontWeight.bold,
-                                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 18),
+                                  fontSize:
+                                      ResponsiveHelper.getResponsiveFontSize(
+                                        context,
+                                        18,
+                                      ),
                                 ),
                           ),
                           Text(
                             pricePeriod,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(
                                   color: AppColors.netflixLightGray,
-                                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 14),
+                                  fontSize:
+                                      ResponsiveHelper.getResponsiveFontSize(
+                                        context,
+                                        14,
+                                      ),
                                 ),
                           ),
                         ],
@@ -521,9 +599,9 @@ class _PlanCard extends StatelessWidget {
               Text(
                 plan.description,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.netflixLightGray,
-                      fontSize: ResponsiveHelper.getResponsiveFontSize(context, 14),
-                    ),
+                  color: AppColors.netflixLightGray,
+                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 14),
+                ),
               ),
             ],
             SizedBox(height: spacing * 1.5),
@@ -592,15 +670,14 @@ class _FeatureItem extends StatelessWidget {
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: isAvailable
-                      ? AppColors.netflixWhite
-                      : AppColors.netflixLightGray.withValues(alpha: 0.5),
-                  fontSize: ResponsiveHelper.getResponsiveFontSize(context, 13),
-                ),
+              color: isAvailable
+                  ? AppColors.netflixWhite
+                  : AppColors.netflixLightGray.withValues(alpha: 0.5),
+              fontSize: ResponsiveHelper.getResponsiveFontSize(context, 13),
+            ),
           ),
         ),
       ],
     );
   }
 }
-
