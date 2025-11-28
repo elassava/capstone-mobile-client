@@ -24,12 +24,10 @@ class ApiConstants {
   static const String subscriptionBasePath = '/subscription';
 
   // Subscription Endpoints
-  static const String subscriptionPlansEndpoint =
-      '$subscriptionBasePath/api/subscription/plans';
+  static const String subscriptionPlansEndpoint = '/api/subscription/plans';
   static const String mySubscriptionEndpoint =
-      '$subscriptionBasePath/api/subscription/my-subscription';
-  static const String subscribeEndpoint =
-      '$subscriptionBasePath/api/subscription/subscribe';
+      '/api/subscription/my-subscription';
+  static const String subscribeEndpoint = '/api/subscription/subscribe';
 
   // Payment Endpoints
   static const String paymentBasePath = '/subscription';
