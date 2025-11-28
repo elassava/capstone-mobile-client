@@ -140,9 +140,7 @@ class AppTheme {
           foregroundColor: AppColors.netflixBlack,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           textStyle: const TextStyle(
             fontFamily: fontFamily,
             fontSize: 16,
@@ -155,15 +153,23 @@ class AppTheme {
           foregroundColor: AppColors.netflixWhite,
           side: const BorderSide(color: AppColors.netflixWhite, width: 1),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           textStyle: const TextStyle(
             fontFamily: fontFamily,
             fontSize: 16,
             fontWeight: medium,
           ),
         ),
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.fuchsia: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+        },
       ),
     );
   }

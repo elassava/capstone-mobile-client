@@ -10,7 +10,7 @@ class ApiConstants {
   // Base URL - Backend API Gateway
   static String get baseUrl {
     if (kIsWeb) {
-      return 'http://172.16.8.179';
+      return 'http://172.16.8.179'; // 172.16.8.179 - http://localhost:8765
     } else if (defaultTargetPlatform == TargetPlatform.android) {
       return 'http://10.0.2.2:8765';
     } else {
