@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import 'custom_page_transitions.dart';
 
 /// App theme configuration
 class AppTheme {
@@ -163,12 +164,12 @@ class AppTheme {
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.android: CustomFadePageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.fuchsia: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.fuchsia: CustomFadePageTransitionsBuilder(),
+          TargetPlatform.windows: CustomFadePageTransitionsBuilder(),
+          TargetPlatform.macOS: CustomFadePageTransitionsBuilder(),
+          TargetPlatform.linux: CustomFadePageTransitionsBuilder(),
         },
       ),
     );
