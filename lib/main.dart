@@ -14,6 +14,7 @@ import 'package:mobile/features/subscription/presentation/pages/web/web_payment_
 import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
 import 'package:mobile/features/profile/presentation/pages/web/web_profile_selection_page.dart';
 import 'package:mobile/features/profile/presentation/pages/profile_list_page.dart';
+import 'package:mobile/core/widgets/auth_guard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,13 +50,18 @@ class MyApp extends StatelessWidget {
         '/': (context) => kIsWeb ? const WebLoginPage() : const SplashPage(),
         '/login': (context) => const WebLoginPage(),
         '/register': (context) => const WebRegisterPage(),
-        '/plans': (context) => const SubscriptionPlanPage(),
+        '/plans': (context) => const AuthGuard(child: SubscriptionPlanPage()),
         '/payment': (context) {
           final plan = ModalRoute.of(context)!.settings.arguments;
-          return WebPaymentPage(selectedPlan: plan as SubscriptionPlan);
+          return AuthGuard(
+            child: WebPaymentPage(selectedPlan: plan as SubscriptionPlan),
+          );
         },
-        '/profiles': (context) =>
-            kIsWeb ? const WebProfileSelectionPage() : const ProfileListPage(),
+        '/profiles': (context) => AuthGuard(
+          child: kIsWeb
+              ? const WebProfileSelectionPage()
+              : const ProfileListPage(),
+        ),
       },
     );
   }

@@ -191,17 +191,6 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Center(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/plans');
-                            },
-                            child: const Text(
-                              "Bypass Backend (Test Mode)",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),

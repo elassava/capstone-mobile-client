@@ -11,7 +11,7 @@ import 'package:mobile/features/subscription/data/models/subscription_plan_model
 import 'package:mobile/features/content/presentation/pages/home_page.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_providers.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_notifier.dart';
-import 'package:mobile/features/profile/presentation/pages/add_profile_page.dart';
+import 'package:mobile/features/profile/presentation/pages/web/web_add_profile_page.dart';
 
 class WebProfileSelectionPage extends ConsumerStatefulWidget {
   const WebProfileSelectionPage({super.key});
@@ -109,7 +109,7 @@ class _WebProfileSelectionPageState
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddProfilePage(accountId: _accountId!),
+        builder: (context) => WebAddProfilePage(accountId: _accountId!),
       ),
     );
 
