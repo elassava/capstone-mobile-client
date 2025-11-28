@@ -164,6 +164,7 @@ class AppLocalizations {
   String get addPasswordPlaceholder =>
       _getLocalizedValue('addPasswordPlaceholder');
   String get nextButton => _getLocalizedValue('nextButton');
+  String get moreInfo => _getLocalizedValue('moreInfo');
 
   String _getLocalizedValue(String key) {
     switch (locale.languageCode) {
@@ -307,6 +308,7 @@ class AppLocalizations {
     'emailPlaceholder': 'E-posta',
     'addPasswordPlaceholder': 'Parola ekle',
     'nextButton': 'İleri',
+    'moreInfo': 'Daha Fazla Bilgi',
   };
 
   static const Map<String, String> _englishStrings = {
@@ -439,6 +441,7 @@ class AppLocalizations {
     'emailPlaceholder': 'Email',
     'addPasswordPlaceholder': 'Add password',
     'nextButton': 'Next',
+    'moreInfo': 'More Info',
   };
 }
 

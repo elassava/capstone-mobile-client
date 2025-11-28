@@ -8,10 +8,10 @@ import 'package:mobile/core/widgets/confirmation_dialog.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
 import 'package:mobile/features/subscription/data/datasources/subscription_remote_datasource.dart';
 import 'package:mobile/features/subscription/data/models/subscription_plan_model.dart';
-import 'package:mobile/features/content/presentation/pages/home_page.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_providers.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_notifier.dart';
 import 'package:mobile/features/profile/presentation/pages/web/web_add_profile_page.dart';
+import 'package:mobile/features/content/presentation/pages/web/web_home_page.dart';
 
 class WebProfileSelectionPage extends ConsumerStatefulWidget {
   const WebProfileSelectionPage({super.key});
@@ -247,7 +247,7 @@ class _WebProfileSelectionPageState
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (_) => const HomePage(),
+                                            builder: (_) => const WebHomePage(),
                                           ),
                                         );
                                       }

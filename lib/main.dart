@@ -14,6 +14,7 @@ import 'package:mobile/features/subscription/presentation/pages/web/web_payment_
 import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
 import 'package:mobile/features/profile/presentation/pages/web/web_profile_selection_page.dart';
 import 'package:mobile/features/profile/presentation/pages/profile_list_page.dart';
+import 'package:mobile/features/content/presentation/pages/web/web_home_page.dart';
 import 'package:mobile/core/widgets/auth_guard.dart';
 
 void main() async {
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
               ? const WebProfileSelectionPage()
               : const ProfileListPage(),
         ),
+        '/home': (context) => const AuthGuard(child: WebHomePage()),
       },
     );
   }
