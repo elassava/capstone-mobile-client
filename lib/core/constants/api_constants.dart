@@ -31,14 +31,12 @@ class ApiConstants {
 
   // Payment Endpoints
   static const String paymentBasePath = '/subscription';
-  static const String addPaymentMethodEndpoint =
-      '$paymentBasePath/api/payment/methods';
+  static const String addPaymentMethodEndpoint = '/api/payment/methods';
 
   // Profile Endpoints
   static const String profileBasePath = '/profile-service';
-  static const String getProfilesByAccountEndpoint =
-      '$profileBasePath/api/profiles/account';
-  static const String createProfileEndpoint = '$profileBasePath/api/profiles';
+  static const String getProfilesByAccountEndpoint = '/api/profiles/account';
+  static const String createProfileEndpoint = '/api/profiles';
 
   // Authentication Endpoints
   static const String registerEndpoint = '/api/auth/register';
