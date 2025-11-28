@@ -70,6 +70,63 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
     }
   }
 
+  void _showAvatarSelectionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF141414),
+        title: Text(
+          AppLocalizations.of(context)!.selectingAvatar,
+          style: const TextStyle(color: Colors.white),
+        ),
+        content: SizedBox(
+          width: 400,
+          height: 300,
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+            ),
+            itemCount: _avatars.length,
+            itemBuilder: (context, index) {
+              final avatar = _avatars[index];
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedAvatar = avatar;
+                  });
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: _selectedAvatar == avatar
+                        ? Border.all(color: Colors.white, width: 3)
+                        : null,
+                    borderRadius: BorderRadius.circular(4),
+                    image: DecorationImage(
+                      image: AssetImage(avatar),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              AppLocalizations.of(context)!.cancel,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -154,30 +211,24 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                               // Avatar Selection
                               Column(
                                 children: [
-                                  Container(
-                                    width: 120,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      image: DecorationImage(
-                                        image: AssetImage(_selectedAvatar!),
-                                        fit: BoxFit.cover,
+                                  GestureDetector(
+                                    onTap: _showAvatarSelectionDialog,
+                                    child: Container(
+                                      width: 120,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        image: DecorationImage(
+                                          image: AssetImage(_selectedAvatar!),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   const SizedBox(height: 16),
                                   // Simple avatar cycler for now
                                   TextButton(
-                                    onPressed: () {
-                                      final currentIndex = _avatars.indexOf(
-                                        _selectedAvatar!,
-                                      );
-                                      final nextIndex =
-                                          (currentIndex + 1) % _avatars.length;
-                                      setState(() {
-                                        _selectedAvatar = _avatars[nextIndex];
-                                      });
-                                    },
+                                    onPressed: _showAvatarSelectionDialog,
                                     child: const Text(
                                       'Change', // TODO: Localize
                                       style: TextStyle(color: Colors.grey),
@@ -298,8 +349,8 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                                   onPressed: profileState.isCreating
                                       ? null
                                       : _handleCreateProfile,
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.black,
+                                  backgroundColor: AppColors.netflixRed,
+                                  foregroundColor: Colors.white,
                                   borderRadius: 0, // Rectangular
                                   style: CustomButtonStyle.flat,
                                 ),
