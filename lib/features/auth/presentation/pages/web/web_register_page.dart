@@ -7,7 +7,6 @@ import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
-import 'package:mobile/core/utils/page_transitions.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
 
@@ -145,6 +144,15 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             color: AppColors.inputBorder,
                           ),
                           style: const TextStyle(color: AppColors.netflixBlack),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return localizations.emailRequiredError;
+                            }
+                            if (!value.contains('@') || !value.contains('.')) {
+                              return localizations.emailValidationError;
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 16),
 
@@ -158,6 +166,15 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             color: AppColors.inputBorder,
                           ),
                           style: const TextStyle(color: AppColors.netflixBlack),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return localizations.passwordRequired;
+                            }
+                            if (value.length < 6) {
+                              return localizations.passwordMinLength;
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 16),
 
@@ -171,6 +188,15 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             color: AppColors.inputBorder,
                           ),
                           style: const TextStyle(color: AppColors.netflixBlack),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return localizations.confirmPassword;
+                            }
+                            if (value != _passwordController.text) {
+                              return localizations.confirmPasswordMatch;
+                            }
+                            return null;
+                          },
                         ),
 
                         const SizedBox(height: 32),

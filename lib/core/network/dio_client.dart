@@ -8,8 +8,8 @@ class DioClient {
   late final Dio _dio;
   final AuthInterceptor? _authInterceptor;
 
-  DioClient({AuthInterceptor? authInterceptor}) 
-      : _authInterceptor = authInterceptor {
+  DioClient({AuthInterceptor? authInterceptor})
+    : _authInterceptor = authInterceptor {
     _dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
@@ -27,7 +27,7 @@ class DioClient {
     _dio.interceptors.add(LoggingInterceptor());
     // Add auth interceptor if provided
     if (_authInterceptor != null) {
-      _dio.interceptors.add(_authInterceptor!);
+      _dio.interceptors.add(_authInterceptor);
     }
   }
 
@@ -39,4 +39,3 @@ class DioClient {
     _dio.close();
   }
 }
-

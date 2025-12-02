@@ -21,11 +21,11 @@ class AuthInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // Public endpoints (authentication gerektirmeyen)
     final publicPaths = [
-      '/authentication/api/auth/register',
-      '/authentication/api/auth/login',
-      '/authentication/api/auth/google',
-      '/subscription/api/subscription/plans',
-      '/subscription/api/subscription/health',
+      '/api/auth/register',
+      '/api/auth/login',
+      '/api/auth/google',
+      '/api/subscription/plans',
+      '/api/subscription/health',
     ];
 
     final isPublicPath = publicPaths.any((path) => 

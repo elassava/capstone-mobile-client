@@ -8,10 +8,8 @@ import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
-import 'package:mobile/features/auth/presentation/pages/web/web_register_page.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
-import 'package:mobile/features/subscription/presentation/pages/subscription_plan_page.dart';
 import 'package:mobile/features/subscription/presentation/providers/subscription_providers.dart';
 
 class WebLoginPage extends ConsumerStatefulWidget {
@@ -208,6 +206,19 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                           style: const TextStyle(
                                             color: AppColors.netflixWhite,
                                           ),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return localizations
+                                                  .emailRequiredError;
+                                            }
+                                            if (!value.contains('@') ||
+                                                !value.contains('.')) {
+                                              return localizations
+                                                  .emailValidationError;
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         const SizedBox(height: 16),
 
@@ -222,6 +233,18 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                           style: const TextStyle(
                                             color: AppColors.netflixWhite,
                                           ),
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return localizations
+                                                  .passwordRequired;
+                                            }
+                                            if (value.length < 6) {
+                                              return localizations
+                                                  .passwordMinLength;
+                                            }
+                                            return null;
+                                          },
                                         ),
                                         const SizedBox(height: 40),
 
@@ -303,8 +326,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                               WrapCrossAlignment.center,
                                           children: [
                                             Text(
-                                              localizations.signupSubtitle +
-                                                  ' ',
+                                              '${localizations.signupSubtitle} ',
                                               style: const TextStyle(
                                                 color: AppColors.textGray,
                                                 fontSize: 16,

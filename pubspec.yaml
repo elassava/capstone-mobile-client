@@ -51,6 +51,9 @@ dependencies:
 
   # JSON Serialization
   json_annotation: ^4.9.0
+  video_player: ^2.10.1
+  shimmer: ^3.0.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
