@@ -152,7 +152,7 @@ class WebDimensions {
 
   // Content cards
   static const double cardHeight = 150;
-  static const double top10RowHeight = 220;
+  static const double top10RowHeight = 280;
   static const double cardBorderRadius = 6;
 
   // Hero section

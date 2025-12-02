@@ -4,6 +4,7 @@ import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/web_responsive.dart';
+import 'package:mobile/core/utils/slippery_scroll_physics.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
 import 'package:mobile/features/content/domain/entities/content.dart';
@@ -126,7 +127,7 @@ class _WebHomePageState extends ConsumerState<WebHomePage> {
                   },
                   child: CustomScrollView(
                     controller: _scrollController,
-                    physics: const ClampingScrollPhysics(),
+                    physics: const SlipperyScrollPhysics(),
                     slivers: [
                       if (contentState.featuredContents.isNotEmpty)
                         SliverToBoxAdapter(
@@ -234,7 +235,7 @@ class _OptimizedAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scaler = context.responsive;
-    
+
     return ValueListenableBuilder<double>(
       valueListenable: scrollOffsetNotifier,
       builder: (context, scrollOffset, child) {
@@ -244,7 +245,9 @@ class _OptimizedAppBar extends StatelessWidget {
           height: scaler.h(WebDimensions.appBarHeight),
           alignment: Alignment.centerLeft,
           color: Colors.black.withValues(alpha: opacity),
-          padding: scaler.paddingSymmetric(horizontal: WebDimensions.appBarPadding),
+          padding: scaler.paddingSymmetric(
+            horizontal: WebDimensions.appBarPadding,
+          ),
           child: child,
         );
       },
@@ -312,9 +315,11 @@ class _NavLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scaler = context.responsive;
-    
+
     return Padding(
-      padding: scaler.paddingSymmetric(horizontal: WebDimensions.navLinkPadding),
+      padding: scaler.paddingSymmetric(
+        horizontal: WebDimensions.navLinkPadding,
+      ),
       child: TextButton(
         onPressed: () {},
         child: Text(

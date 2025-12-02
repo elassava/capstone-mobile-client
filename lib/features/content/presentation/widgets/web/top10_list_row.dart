@@ -14,8 +14,9 @@ class Top10ListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaler = context.responsive;
     final rowHeight = scaler.h(WebDimensions.top10RowHeight);
-    final itemWidth = rowHeight * 0.9; // Slightly less than square for better layout
-    final posterOffset = itemWidth * 0.35;
+    final itemWidth =
+        rowHeight * 1.2; // Wider to accommodate larger poster with offset
+    final posterOffset = itemWidth * 0.5;
 
     return Padding(
       padding: scaler.paddingOnly(bottom: WebDimensions.rowSpacing),
@@ -39,7 +40,9 @@ class Top10ListRow extends StatelessWidget {
           SizedBox(
             height: rowHeight,
             child: ListView.builder(
-              padding: scaler.paddingSymmetric(horizontal: WebDimensions.rowPadding),
+              padding: scaler.paddingSymmetric(
+                horizontal: WebDimensions.rowPadding,
+              ),
               scrollDirection: Axis.horizontal,
               itemCount: contents.length,
               cacheExtent: scaler.w(500),
@@ -57,7 +60,7 @@ class Top10ListRow extends StatelessWidget {
                         children: [
                           // Big Number (Behind)
                           Positioned(
-                            left: 0,
+                            left: scaler.w(35),
                             bottom: 0,
                             height: rowHeight,
                             child: FittedBox(
