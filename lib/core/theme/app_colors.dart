@@ -20,6 +20,8 @@ class AppColors {
   static const Color inputFill = Color(0xFF333333);
   static const Color textGray = Color(0xFF737373);
   static const Color textLightGray = Color(0xFFB3B3B3);
+  static const Color sectionTitle = Color(0xFFE5E5E5);
+  static const Color top10Border = Color(0xFF595959);
 
   // Gradient Colors for Onboarding
   static const Color onboardingGradientTop = Color(0xFF0F0D12);

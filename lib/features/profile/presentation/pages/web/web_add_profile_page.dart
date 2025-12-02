@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/features/profile/presentation/providers/profile_providers.dart';
@@ -24,7 +25,6 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
   String? _selectedAvatar;
   bool _isChildProfile = false;
 
-  // Available avatars from assets/icons
   final List<String> _avatars = [
     'assets/icons/1.png',
     'assets/icons/2.png',
@@ -36,7 +36,6 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
   @override
   void initState() {
     super.initState();
-    // Default avatar
     _selectedAvatar = _avatars[0];
   }
 
@@ -58,7 +57,7 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
             avatarUrl: _selectedAvatar,
             isChildProfile: _isChildProfile,
             maturityLevel: _isChildProfile ? 'PG' : 'ALL',
-            language: 'tr', // Default to TR for now, can be expanded
+            language: 'tr',
             isPinProtected: false,
             isDefault: false,
           );
@@ -71,22 +70,27 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
   }
 
   void _showAvatarSelectionDialog() {
+    final scaler = context.responsive;
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF141414),
         title: Text(
           AppLocalizations.of(context)!.selectingAvatar,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: scaler.sp(20),
+          ),
         ),
         content: SizedBox(
-          width: 400,
-          height: 300,
+          width: scaler.w(400),
+          height: scaler.h(300),
           child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
+              crossAxisSpacing: scaler.w(16),
+              mainAxisSpacing: scaler.h(16),
             ),
             itemCount: _avatars.length,
             itemBuilder: (context, index) {
@@ -101,9 +105,9 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: _selectedAvatar == avatar
-                        ? Border.all(color: Colors.white, width: 3)
+                        ? Border.all(color: Colors.white, width: scaler.s(3))
                         : null,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: scaler.borderRadius(4),
                     image: DecorationImage(
                       image: AssetImage(avatar),
                       fit: BoxFit.cover,
@@ -119,7 +123,10 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               AppLocalizations.of(context)!.cancel,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: scaler.sp(14),
+              ),
             ),
           ),
         ],
@@ -131,6 +138,7 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final profileState = ref.watch(profileNotifierProvider);
+    final scaler = context.responsive;
 
     ref.listen<ProfileState>(profileNotifierProvider, (previous, next) {
       if (next.error != null &&
@@ -162,13 +170,13 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
             children: [
               // Navbar
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 48.0,
-                  vertical: 24.0,
-                ),
+                padding: scaler.paddingSymmetric(horizontal: 48, vertical: 24),
                 child: Row(
                   children: [
-                    const SizedBox(height: 35, child: NetflixLogo()),
+                    SizedBox(
+                      height: scaler.h(35),
+                      child: const NetflixLogo(),
+                    ),
                     const Spacer(),
                   ],
                 ),
@@ -177,33 +185,33 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
               Expanded(
                 child: Center(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(24),
+                    padding: scaler.padding(24),
                     child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 600),
+                      constraints: BoxConstraints(maxWidth: scaler.w(600)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             localizations.addProfile,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 48,
+                              fontSize: scaler.sp(48),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          scaler.verticalSpace(16),
                           Text(
                             localizations.createProfileSubtitle,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 18,
+                              fontSize: scaler.sp(18),
                             ),
                           ),
-                          const SizedBox(height: 48),
+                          scaler.verticalSpace(48),
 
                           Divider(color: Colors.grey.withValues(alpha: 0.3)),
-                          const SizedBox(height: 32),
+                          scaler.verticalSpace(32),
 
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,10 +222,10 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                                   GestureDetector(
                                     onTap: _showAvatarSelectionDialog,
                                     child: Container(
-                                      width: 120,
-                                      height: 120,
+                                      width: scaler.s(120),
+                                      height: scaler.s(120),
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(4),
+                                        borderRadius: scaler.borderRadius(4),
                                         image: DecorationImage(
                                           image: AssetImage(_selectedAvatar!),
                                           fit: BoxFit.cover,
@@ -225,89 +233,80 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
-                                  // Simple avatar cycler for now
+                                  scaler.verticalSpace(16),
                                   TextButton(
                                     onPressed: _showAvatarSelectionDialog,
-                                    child: const Text(
-                                      'Change', // TODO: Localize
-                                      style: TextStyle(color: Colors.grey),
+                                    child: Text(
+                                      'Change',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: scaler.sp(14),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(width: 32),
+                              scaler.horizontalSpace(32),
 
                               // Form Fields
                               Expanded(
                                 child: Form(
                                   key: _formKey,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: scaler.paddingSymmetric(
                                           horizontal: 16,
                                           vertical: 4,
                                         ),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFF333333),
-                                          borderRadius: BorderRadius.circular(
-                                            2,
-                                          ),
+                                          borderRadius: scaler.borderRadius(2),
                                         ),
                                         child: TextFormField(
                                           controller: _profileNameController,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 16,
+                                            fontSize: scaler.sp(16),
                                           ),
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            hintText: localizations
-                                                .profileNamePlaceholder,
-                                            hintStyle: const TextStyle(
+                                            hintText: localizations.profileNamePlaceholder,
+                                            hintStyle: TextStyle(
                                               color: Colors.grey,
+                                              fontSize: scaler.sp(16),
                                             ),
                                           ),
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.trim().isEmpty) {
-                                              return localizations
-                                                  .profileNameRequired;
+                                            if (value == null || value.trim().isEmpty) {
+                                              return localizations.profileNameRequired;
                                             }
                                             return null;
                                           },
                                         ),
                                       ),
-                                      const SizedBox(height: 24),
+                                      scaler.verticalSpace(24),
 
                                       // Kid Profile Checkbox
                                       Row(
                                         children: [
                                           SizedBox(
-                                            height: 24,
-                                            width: 24,
+                                            height: scaler.s(24),
+                                            width: scaler.s(24),
                                             child: Checkbox(
                                               value: _isChildProfile,
                                               onChanged: (value) {
                                                 setState(() {
-                                                  _isChildProfile =
-                                                      value ?? false;
+                                                  _isChildProfile = value ?? false;
                                                 });
                                               },
-                                              fillColor:
-                                                  WidgetStateProperty.resolveWith(
-                                                    (states) {
-                                                      if (states.contains(
-                                                        WidgetState.selected,
-                                                      )) {
-                                                        return Colors.white;
-                                                      }
-                                                      return Colors.transparent;
-                                                    },
-                                                  ),
+                                              fillColor: WidgetStateProperty.resolveWith((states) {
+                                                if (states.contains(WidgetState.selected)) {
+                                                  return Colors.white;
+                                                }
+                                                return Colors.transparent;
+                                              }),
                                               checkColor: Colors.black,
                                               side: const BorderSide(
                                                 color: Colors.grey,
@@ -315,12 +314,12 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(width: 12),
-                                          const Text(
+                                          scaler.horizontalSpace(12),
+                                          Text(
                                             'Kid?',
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 16,
+                                              fontSize: scaler.sp(16),
                                             ),
                                           ),
                                         ],
@@ -332,16 +331,16 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                             ],
                           ),
 
-                          const SizedBox(height: 32),
+                          scaler.verticalSpace(32),
                           Divider(color: Colors.grey.withValues(alpha: 0.3)),
-                          const SizedBox(height: 32),
+                          scaler.verticalSpace(32),
 
                           // Buttons
                           Row(
                             children: [
                               SizedBox(
-                                width: 150,
-                                height: 40,
+                                width: scaler.w(150),
+                                height: scaler.h(40),
                                 child: CustomButton(
                                   text: profileState.isCreating
                                       ? '${localizations.continueButton}...'
@@ -351,11 +350,11 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                                       : _handleCreateProfile,
                                   backgroundColor: AppColors.netflixRed,
                                   foregroundColor: Colors.white,
-                                  borderRadius: 0, // Rectangular
+                                  borderRadius: 0,
                                   style: CustomButtonStyle.flat,
                                 ),
                               ),
-                              const SizedBox(width: 24),
+                              scaler.horizontalSpace(24),
                               OutlinedButton(
                                 onPressed: () => Navigator.of(context).pop(),
                                 style: OutlinedButton.styleFrom(
@@ -363,16 +362,16 @@ class _WebAddProfilePageState extends ConsumerState<WebAddProfilePage> {
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.zero,
                                   ),
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: scaler.paddingSymmetric(
                                     horizontal: 32,
                                     vertical: 18,
-                                  ), // Match height roughly
+                                  ),
                                 ),
                                 child: Text(
                                   localizations.cancel,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: 16,
+                                    fontSize: scaler.sp(16),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

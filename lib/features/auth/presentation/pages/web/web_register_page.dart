@@ -4,6 +4,7 @@ import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
@@ -55,6 +56,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       if (next.isSuccess && next.authResponse != null) {
@@ -82,12 +84,12 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
             flex: 1,
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
+                padding: scaler.paddingSymmetric(
                   horizontal: 40,
                   vertical: 20,
                 ),
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 440),
+                  constraints: BoxConstraints(maxWidth: scaler.w(440)),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -105,34 +107,34 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                               },
                               child: Text(
                                 localizations.signIn,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.netflixBlack,
-                                  fontSize: 16,
+                                  fontSize: scaler.sp(16),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 40),
+                        scaler.verticalSpace(40),
 
                         Text(
                           localizations.createPasswordTitle,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textPrimary,
-                            fontSize: 32,
+                            fontSize: scaler.sp(32),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        scaler.verticalSpace(16),
                         Text(
                           localizations.createPasswordSubtitle,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.textPrimary,
-                            fontSize: 18,
+                            fontSize: scaler.sp(18),
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        scaler.verticalSpace(32),
 
                         CustomTextField(
                           controller: _emailController,
@@ -154,7 +156,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 16),
+                        scaler.verticalSpace(16),
 
                         CustomTextField(
                           controller: _passwordController,
@@ -176,7 +178,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 16),
+                        scaler.verticalSpace(16),
 
                         CustomTextField(
                           controller: _confirmPasswordController,
@@ -199,11 +201,11 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                           },
                         ),
 
-                        const SizedBox(height: 32),
+                        scaler.verticalSpace(32),
 
                         SizedBox(
                           width: double.infinity,
-                          height: 64,
+                          height: scaler.h(64),
                           child: CustomButton(
                             text: authState.isLoading
                                 ? localizations.loading
@@ -213,10 +215,10 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                                 : _handleRegister,
                             backgroundColor: AppColors.netflixRed,
                             style: CustomButtonStyle.flat,
-                            fontSize: 24,
+                            fontSize: scaler.sp(24),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        scaler.verticalSpace(16),
                       ],
                     ),
                   ),
@@ -229,8 +231,8 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
           Expanded(
             flex: 1,
             child: Container(
-              color: AppColors.netflixWhite, // Matches page background
-              padding: const EdgeInsets.all(24), // Added padding
+              color: AppColors.netflixWhite,
+              padding: scaler.padding(24),
               child: TweenAnimationBuilder<double>(
                 tween: Tween(begin: 0.0, end: 1.0),
                 duration: const Duration(milliseconds: 1000),
@@ -239,15 +241,9 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
                   return Opacity(
                     opacity: value,
                     child: Transform.translate(
-                      offset: Offset(
-                        40 * (1 - value),
-                        0,
-                      ), // Slide in from right
+                      offset: Offset(40 * (1 - value), 0),
                       child: Transform.scale(
-                        scale:
-                            1.05 -
-                            (0.05 *
-                                value), // Subtle zoom out effect (1.05 -> 1.0)
+                        scale: 1.05 - (0.05 * value),
                         child: child,
                       ),
                     ),

@@ -3,6 +3,7 @@ import 'package:video_player/video_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/features/content/domain/entities/content.dart';
 
 class WebHoverPreviewCard extends StatefulWidget {
@@ -33,7 +34,7 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200), // Daha hızlı animasyon
+      duration: const Duration(milliseconds: 200),
     );
     _scaleAnimation = Tween<double>(begin: 0.9, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
@@ -78,6 +79,8 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
 
   @override
   Widget build(BuildContext context) {
+    final scaler = context.responsive;
+    
     return RepaintBoundary(
       child: MouseRegion(
         onExit: (_) => widget.onExit(),
@@ -90,13 +93,13 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.netflixDarkGray,
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: const [
+                  borderRadius: scaler.borderRadius(6),
+                  boxShadow: [
                     BoxShadow(
-                      color: Color(0x80000000), // Sabit renk, performans için
-                      blurRadius: 16,
-                      spreadRadius: 2,
-                      offset: Offset(0, 4),
+                      color: const Color(0x80000000),
+                      blurRadius: scaler.s(16),
+                      spreadRadius: scaler.s(2),
+                      offset: Offset(0, scaler.h(4)),
                     ),
                   ],
                 ),
@@ -125,7 +128,7 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
 
                     // Bottom Section: Info & Controls
                     Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: scaler.padding(WebDimensions.previewPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -138,7 +141,7 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
                                 iconColor: Colors.black,
                                 onPressed: () {},
                               ),
-                              const SizedBox(width: 8),
+                              scaler.horizontalSpace(8),
                               _CircleButton(
                                 icon: Icons.add,
                                 color: const Color(0xFF2A2A2A),
@@ -146,7 +149,7 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
                                 borderColor: const Color(0x80FFFFFF),
                                 onPressed: () {},
                               ),
-                              const SizedBox(width: 8),
+                              scaler.horizontalSpace(8),
                               _CircleButton(
                                 icon: Icons.thumb_up_outlined,
                                 color: const Color(0xFF2A2A2A),
@@ -164,22 +167,22 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 12),
+                          scaler.verticalSpace(12),
 
                           // Metadata Row
                           Row(
                             children: [
-                              const Text(
+                              Text(
                                 '98% Match',
                                 style: TextStyle(
-                                  color: Color(0xFF46D369),
+                                  color: const Color(0xFF46D369),
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                  fontSize: scaler.sp(12),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              scaler.horizontalSpace(8),
                               Container(
-                                padding: const EdgeInsets.symmetric(
+                                padding: scaler.paddingSymmetric(
                                   horizontal: 4,
                                   vertical: 1,
                                 ),
@@ -187,29 +190,29 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
                                   border: Border.all(
                                     color: const Color(0x66FFFFFF),
                                   ),
-                                  borderRadius: BorderRadius.circular(2),
+                                  borderRadius: scaler.borderRadius(2),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   '13+',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 10,
+                                    fontSize: scaler.sp(10),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              scaler.horizontalSpace(8),
                               Text(
                                 widget.content.durationMinutes != null
                                     ? '${widget.content.durationMinutes}m'
                                     : '${widget.content.totalSeasons ?? 1} Seasons',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 12,
+                                  fontSize: scaler.sp(12),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              scaler.horizontalSpace(8),
                               Container(
-                                padding: const EdgeInsets.symmetric(
+                                padding: scaler.paddingSymmetric(
                                   horizontal: 4,
                                   vertical: 1,
                                 ),
@@ -217,29 +220,29 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
                                   border: Border.all(
                                     color: const Color(0x66FFFFFF),
                                   ),
-                                  borderRadius: BorderRadius.circular(2),
+                                  borderRadius: scaler.borderRadius(2),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'HD',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 9,
+                                    fontSize: scaler.sp(9),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
+                          scaler.verticalSpace(8),
 
                           // Genres
                           if (widget.content.genres != null &&
                               widget.content.genres!.isNotEmpty)
                             Text(
                               widget.content.genres!.join(' • '),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: scaler.sp(12),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -279,7 +282,7 @@ class _WebHoverPreviewCardState extends State<WebHoverPreviewCard>
   }
 }
 
-/// Ayrı widget olarak çıkarıldı - const constructor ile optimize edildi
+/// Circle button with responsive sizing
 class _CircleButton extends StatelessWidget {
   final IconData icon;
   final Color color;
@@ -297,19 +300,25 @@ class _CircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaler = context.responsive;
+    
     return Container(
-      width: 36,
-      height: 36,
+      width: scaler.s(WebDimensions.previewButtonSize),
+      height: scaler.s(WebDimensions.previewButtonSize),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: color,
         border: borderColor != null
-            ? Border.all(color: borderColor!, width: 1)
+            ? Border.all(color: borderColor!, width: scaler.s(1))
             : null,
       ),
       child: IconButton(
         padding: EdgeInsets.zero,
-        icon: Icon(icon, size: 20, color: iconColor),
+        icon: Icon(
+          icon,
+          size: scaler.s(WebDimensions.previewIconSize),
+          color: iconColor,
+        ),
         onPressed: onPressed,
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/features/content/domain/entities/content.dart';
 import 'package:mobile/features/content/presentation/providers/hover_preview_provider.dart';
 
@@ -55,12 +56,14 @@ class _WebContentCardState extends ConsumerState<WebContentCard> {
     final renderBox = context.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
     
+    final scaler = context.responsive;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
+    final previewWidth = scaler.w(WebDimensions.previewWidth);
 
     // Calculate center position relative to the screen
-    final double centerLeft = offset.dx - (350 - size.width) / 2;
-    final double centerTop = offset.dy - (196 - size.height) / 2;
+    final double centerLeft = offset.dx - (previewWidth - size.width) / 2;
+    final double centerTop = offset.dy - (scaler.h(196) - size.height) / 2;
 
     ref
         .read(hoverPreviewProvider.notifier)
@@ -69,28 +72,30 @@ class _WebContentCardState extends ConsumerState<WebContentCard> {
 
   @override
   Widget build(BuildContext context) {
+    final scaler = context.responsive;
+    
     return RepaintBoundary(
       child: MouseRegion(
         onEnter: (_) => _onHover(true),
         onExit: (_) => _onHover(false),
         child: GestureDetector(
           onTap: widget.onTap,
-          child: widget.isTop10 ? _buildTop10Card() : _buildStandardCard(),
+          child: widget.isTop10 ? _buildTop10Card(scaler) : _buildStandardCard(scaler),
         ),
       ),
     );
   }
 
-  Widget _buildStandardCard() {
+  Widget _buildStandardCard(WebResponsive scaler) {
     return AspectRatio(
       aspectRatio: widget.aspectRatio,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: scaler.borderRadius(WebDimensions.cardBorderRadius),
           color: AppColors.netflixDarkGray,
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: scaler.borderRadius(WebDimensions.cardBorderRadius),
           child: _buildImage(
             widget.content.thumbnailUrl ?? widget.content.posterUrl ?? '',
           ),
@@ -99,14 +104,14 @@ class _WebContentCardState extends ConsumerState<WebContentCard> {
     );
   }
 
-  Widget _buildTop10Card() {
+  Widget _buildTop10Card(WebResponsive scaler) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: scaler.borderRadius(WebDimensions.cardBorderRadius),
         color: AppColors.netflixDarkGray,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: scaler.borderRadius(WebDimensions.cardBorderRadius),
         child: _buildImage(widget.content.posterUrl ?? ''),
       ),
     );
@@ -126,11 +131,9 @@ class _WebContentCardState extends ConsumerState<WebContentCard> {
       );
     }
     
-    // CachedNetworkImage ile optimize edilmiş image loading
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
-      // Memory cache için boyut sınırlaması
       memCacheWidth: widget.isTop10 ? 300 : 400,
       memCacheHeight: widget.isTop10 ? 450 : 225,
       placeholder: (context, url) => Container(

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
@@ -45,9 +46,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
 
   String _formatCardNumber(String value) {
     final digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
-    final limitedDigits = digitsOnly.length > 16
-        ? digitsOnly.substring(0, 16)
-        : digitsOnly;
+    final limitedDigits = digitsOnly.length > 16 ? digitsOnly.substring(0, 16) : digitsOnly;
 
     final buffer = StringBuffer();
     for (int i = 0; i < limitedDigits.length; i++) {
@@ -62,9 +61,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
 
   String _formatExpiryDate(String value) {
     final digitsOnly = value.replaceAll(RegExp(r'[^\d]'), '');
-    final limitedDigits = digitsOnly.length > 4
-        ? digitsOnly.substring(0, 4)
-        : digitsOnly;
+    final limitedDigits = digitsOnly.length > 4 ? digitsOnly.substring(0, 4) : digitsOnly;
 
     if (limitedDigits.length >= 2) {
       return '${limitedDigits.substring(0, 2)}/${limitedDigits.substring(2)}';
@@ -81,10 +78,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
   Future<void> _handlePayment() async {
     if (_formKey.currentState!.validate()) {
       try {
-        final cardNumberDigitsOnly = _cardNumberController.text.replaceAll(
-          ' ',
-          '',
-        );
+        final cardNumberDigitsOnly = _cardNumberController.text.replaceAll(' ', '');
         final expiryParts = _expiryDateController.text.split('/');
         final cardBrand = CardUtils.detectCardBrand(cardNumberDigitsOnly);
 
@@ -99,9 +93,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
         );
 
         final paymentDataSource = PaymentRemoteDataSourceImpl();
-        final paymentMethod = await paymentDataSource.addPaymentMethod(
-          paymentRequest,
-        );
+        final paymentMethod = await paymentDataSource.addPaymentMethod(paymentRequest);
 
         await ref
             .read(subscriptionNotifierProvider.notifier)
@@ -114,9 +106,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
         if (mounted) {
           final subscriptionState = ref.read(subscriptionNotifierProvider);
           if (!subscriptionState.isSuccess) {
-            context.showErrorSnackBar(
-              e.toString().replaceAll('Exception: ', ''),
-            );
+            context.showErrorSnackBar(e.toString().replaceAll('Exception: ', ''));
           }
         }
       }
@@ -127,13 +117,10 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
     if (value == null || value.isEmpty) {
       return localizations.cardNumberRequired;
     }
-
     final digitsOnly = value.replaceAll(' ', '');
-
     if (digitsOnly.length != 16) {
       return localizations.cardNumberInvalid;
     }
-
     return null;
   }
 
@@ -141,11 +128,9 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
     if (value == null || value.isEmpty) {
       return localizations.expiryDateRequired;
     }
-
     if (!_expiryDateRegex.hasMatch(value)) {
       return localizations.expiryDateInvalid;
     }
-
     final parts = value.split('/');
     if (parts.length == 2) {
       final month = int.tryParse(parts[0]);
@@ -153,7 +138,6 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
         return localizations.expiryDateInvalid;
       }
     }
-
     return null;
   }
 
@@ -161,22 +145,16 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
     if (value == null || value.isEmpty) {
       return localizations.cvvRequired;
     }
-
     if (!_cvvRegex.hasMatch(value)) {
       return localizations.cvvInvalid;
     }
-
     return null;
   }
 
-  String? _validateCardholderName(
-    String? value,
-    AppLocalizations localizations,
-  ) {
+  String? _validateCardholderName(String? value, AppLocalizations localizations) {
     if (value == null || value.isEmpty) {
       return localizations.cardholderNameRequired;
     }
-
     return null;
   }
 
@@ -184,19 +162,15 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
   Widget build(BuildContext context) {
     final subscriptionState = ref.watch(subscriptionNotifierProvider);
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
 
-    ref.listen<SubscriptionState>(subscriptionNotifierProvider, (
-      previous,
-      next,
-    ) {
+    ref.listen<SubscriptionState>(subscriptionNotifierProvider, (previous, next) {
       if (previous == null) return;
 
       if (next.isSuccess && previous.isSuccess != next.isSuccess) {
         context.showSuccessSnackBar(localizations.paymentSuccess);
         if (mounted) {
-          Navigator.of(
-            context,
-          ).pushNamedAndRemoveUntil('/profiles', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/profiles', (route) => false);
         }
       } else if (next.error != null &&
           next.error!.isNotEmpty &&
@@ -212,34 +186,36 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
         backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
+          preferredSize: Size.fromHeight(scaler.h(80)),
           child: _GlassAppBar(
             child: Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: scaler.s(24),
+                  ),
                   onPressed: subscriptionState.isSubscribing
                       ? null
                       : () => Navigator.of(context).pop(),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(24.0),
-                  child: SizedBox(height: 25, child: NetflixLogo()),
+                Padding(
+                  padding: scaler.padding(24),
+                  child: SizedBox(
+                    height: scaler.h(25),
+                    child: const NetflixLogo(),
+                  ),
                 ),
               ],
             ),
           ),
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.only(
-            top: 120,
-            bottom: 40,
-            left: 24,
-            right: 24,
-          ),
+          padding: scaler.paddingOnly(top: 120, bottom: 40, left: 24, right: 24),
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 600),
+              constraints: BoxConstraints(maxWidth: scaler.w(600)),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -247,34 +223,30 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                   children: [
                     Text(
                       localizations.paymentInfo,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.netflixBlack,
-                        fontSize: 32,
+                        fontSize: scaler.sp(32),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    scaler.verticalSpace(16),
                     Text(
                       localizations.paymentInfoSubtitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.textPrimary,
-                        fontSize: 18,
+                        fontSize: scaler.sp(18),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    scaler.verticalSpace(32),
 
                     // Plan Summary Card
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: scaler.padding(24),
                       decoration: BoxDecoration(
-                        color: AppColors.netflixLightGray.withValues(
-                          alpha: 0.1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.netflixLightGray.withValues(alpha: 0.1),
+                        borderRadius: scaler.borderRadius(8),
                         border: Border.all(
-                          color: AppColors.netflixLightGray.withValues(
-                            alpha: 0.3,
-                          ),
+                          color: AppColors.netflixLightGray.withValues(alpha: 0.3),
                           width: 1,
                         ),
                       ),
@@ -286,45 +258,45 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                             children: [
                               Text(
                                 widget.selectedPlan.displayName,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.netflixBlack,
-                                  fontSize: 20,
+                                  fontSize: scaler.sp(20),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              scaler.verticalSpace(4),
                               Text(
                                 localizations.monthly,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.textGray,
-                                  fontSize: 14,
+                                  fontSize: scaler.sp(14),
                                 ),
                               ),
                             ],
                           ),
                           Text(
                             '₺${widget.selectedPlan.monthlyPrice.toStringAsFixed(2)}/mo',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.netflixRed,
-                              fontSize: 20,
+                              fontSize: scaler.sp(20),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    scaler.verticalSpace(40),
 
                     // Card Number
                     Text(
                       localizations.cardNumber,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.netflixBlack,
-                        fontSize: 16,
+                        fontSize: scaler.sp(16),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    scaler.verticalSpace(8),
                     CustomTextField(
                       controller: _cardNumberController,
                       hintText: localizations.cardNumberPlaceholder,
@@ -333,8 +305,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                       borderColor: AppColors.inputBorder,
                       hintStyle: const TextStyle(color: AppColors.inputBorder),
                       style: const TextStyle(color: AppColors.netflixBlack),
-                      validator: (value) =>
-                          _validateCardNumber(value, localizations),
+                      validator: (value) => _validateCardNumber(value, localizations),
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(19),
@@ -342,14 +313,12 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                           final formatted = _formatCardNumber(newValue.text);
                           return TextEditingValue(
                             text: formatted,
-                            selection: TextSelection.collapsed(
-                              offset: formatted.length,
-                            ),
+                            selection: TextSelection.collapsed(offset: formatted.length),
                           );
                         }),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    scaler.verticalSpace(24),
 
                     // Expiry Date and CVV Row
                     Row(
@@ -361,42 +330,30 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                             children: [
                               Text(
                                 localizations.expiryDate,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.netflixBlack,
-                                  fontSize: 16,
+                                  fontSize: scaler.sp(16),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              scaler.verticalSpace(8),
                               CustomTextField(
                                 controller: _expiryDateController,
                                 hintText: localizations.expiryDatePlaceholder,
                                 keyboardType: TextInputType.number,
                                 fillColor: Colors.white,
                                 borderColor: AppColors.inputBorder,
-                                hintStyle: const TextStyle(
-                                  color: AppColors.inputBorder,
-                                ),
-                                style: const TextStyle(
-                                  color: AppColors.netflixBlack,
-                                ),
-                                validator: (value) =>
-                                    _validateExpiryDate(value, localizations),
+                                hintStyle: const TextStyle(color: AppColors.inputBorder),
+                                style: const TextStyle(color: AppColors.netflixBlack),
+                                validator: (value) => _validateExpiryDate(value, localizations),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(5),
-                                  TextInputFormatter.withFunction((
-                                    oldValue,
-                                    newValue,
-                                  ) {
-                                    final formatted = _formatExpiryDate(
-                                      newValue.text,
-                                    );
+                                  TextInputFormatter.withFunction((oldValue, newValue) {
+                                    final formatted = _formatExpiryDate(newValue.text);
                                     return TextEditingValue(
                                       text: formatted,
-                                      selection: TextSelection.collapsed(
-                                        offset: formatted.length,
-                                      ),
+                                      selection: TextSelection.collapsed(offset: formatted.length),
                                     );
                                   }),
                                 ],
@@ -404,20 +361,20 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        scaler.horizontalSpace(16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 localizations.cvv,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: AppColors.netflixBlack,
-                                  fontSize: 16,
+                                  fontSize: scaler.sp(16),
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(height: 8),
+                              scaler.verticalSpace(8),
                               CustomTextField(
                                 controller: _cvvController,
                                 hintText: localizations.cvvPlaceholder,
@@ -425,27 +382,17 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                                 keyboardType: TextInputType.number,
                                 fillColor: Colors.white,
                                 borderColor: AppColors.inputBorder,
-                                hintStyle: const TextStyle(
-                                  color: AppColors.inputBorder,
-                                ),
-                                style: const TextStyle(
-                                  color: AppColors.netflixBlack,
-                                ),
-                                validator: (value) =>
-                                    _validateCvv(value, localizations),
+                                hintStyle: const TextStyle(color: AppColors.inputBorder),
+                                style: const TextStyle(color: AppColors.netflixBlack),
+                                validator: (value) => _validateCvv(value, localizations),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(4),
-                                  TextInputFormatter.withFunction((
-                                    oldValue,
-                                    newValue,
-                                  ) {
+                                  TextInputFormatter.withFunction((oldValue, newValue) {
                                     final formatted = _formatCvv(newValue.text);
                                     return TextEditingValue(
                                       text: formatted,
-                                      selection: TextSelection.collapsed(
-                                        offset: formatted.length,
-                                      ),
+                                      selection: TextSelection.collapsed(offset: formatted.length),
                                     );
                                   }),
                                 ],
@@ -455,18 +402,18 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    scaler.verticalSpace(24),
 
                     // Cardholder Name
                     Text(
                       localizations.cardholderName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.netflixBlack,
-                        fontSize: 16,
+                        fontSize: scaler.sp(16),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    scaler.verticalSpace(8),
                     CustomTextField(
                       controller: _cardholderNameController,
                       hintText: localizations.cardholderNamePlaceholder,
@@ -474,25 +421,22 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
                       borderColor: AppColors.inputBorder,
                       hintStyle: const TextStyle(color: AppColors.inputBorder),
                       style: const TextStyle(color: AppColors.netflixBlack),
-                      validator: (value) =>
-                          _validateCardholderName(value, localizations),
+                      validator: (value) => _validateCardholderName(value, localizations),
                     ),
-                    const SizedBox(height: 40),
+                    scaler.verticalSpace(40),
 
                     // Pay Button
                     SizedBox(
                       width: double.infinity,
-                      height: 64,
+                      height: scaler.h(64),
                       child: CustomButton(
                         text: subscriptionState.isSubscribing
                             ? localizations.loading
                             : localizations.payNow,
-                        onPressed: subscriptionState.isSubscribing
-                            ? null
-                            : _handlePayment,
+                        onPressed: subscriptionState.isSubscribing ? null : _handlePayment,
                         backgroundColor: AppColors.netflixRed,
                         style: CustomButtonStyle.flat,
-                        fontSize: 24,
+                        fontSize: scaler.sp(24),
                       ),
                     ),
                   ],

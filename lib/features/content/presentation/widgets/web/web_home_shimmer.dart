@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/shimmer_loading_card.dart';
 
 class WebHomeShimmer extends StatelessWidget {
@@ -6,7 +7,8 @@ class WebHomeShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final scaler = context.responsive;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return SingleChildScrollView(
       physics: const NeverScrollableScrollPhysics(),
@@ -16,11 +18,11 @@ class WebHomeShimmer extends StatelessWidget {
           // Hero Section Shimmer
           ShimmerLoadingCard(
             width: double.infinity,
-            height: size.height * 0.85,
+            height: screenHeight * WebDimensions.heroHeightPercent,
             borderRadius: 0,
           ),
 
-          const SizedBox(height: 20),
+          scaler.verticalSpace(20),
 
           // Rows Shimmer
           _buildShimmerRow(context),
@@ -32,30 +34,38 @@ class WebHomeShimmer extends StatelessWidget {
   }
 
   Widget _buildShimmerRow(BuildContext context) {
+    final scaler = context.responsive;
+    
     return Padding(
-      padding: const EdgeInsets.only(bottom: 40.0),
+      padding: scaler.paddingOnly(bottom: WebDimensions.rowSpacing),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Title Shimmer
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 10.0),
-            child: ShimmerLoadingCard(width: 200, height: 24),
+          Padding(
+            padding: scaler.paddingSymmetric(
+              horizontal: WebDimensions.rowPadding,
+              vertical: 10,
+            ),
+            child: ShimmerLoadingCard(
+              width: scaler.w(200),
+              height: scaler.h(24),
+            ),
           ),
 
           // Cards Row
           SizedBox(
-            height: 130,
+            height: scaler.h(WebDimensions.cardHeight),
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 60.0),
+              padding: scaler.paddingSymmetric(horizontal: WebDimensions.rowPadding),
               scrollDirection: Axis.horizontal,
-              itemCount: 6, // Show a few placeholder cards
+              itemCount: 6,
               itemBuilder: (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.only(right: 10.0),
+                return Padding(
+                  padding: scaler.paddingOnly(right: WebDimensions.cardSpacing),
                   child: ShimmerLoadingCard(
-                    width: 230, // Approx 16:9 width for 130 height
-                    height: 130,
+                    width: scaler.w(230),
+                    height: scaler.h(WebDimensions.cardHeight),
                   ),
                 );
               },

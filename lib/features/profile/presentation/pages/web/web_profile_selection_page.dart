@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/confirmation_dialog.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
@@ -27,14 +28,13 @@ class _WebProfileSelectionPageState
   int? _maxProfiles;
   bool _isEditMode = false;
 
-  // Color palette for profile cards fallback
   final List<Color> _profileColors = [
-    const Color(0xFF0071EB), // Blue
-    const Color(0xFFE50914), // Red
-    const Color(0xFF00D474), // Green
-    const Color(0xFF564D4D), // Gray
-    const Color(0xFFB81D24), // Netflix Red
-    const Color(0xFF0072EB), // Light Blue
+    const Color(0xFF0071EB),
+    const Color(0xFFE50914),
+    const Color(0xFF00D474),
+    const Color(0xFF564D4D),
+    const Color(0xFFB81D24),
+    const Color(0xFF0072EB),
   ];
 
   @override
@@ -62,8 +62,7 @@ class _WebProfileSelectionPageState
   Future<void> _loadMaxProfiles() async {
     try {
       final subscriptionRemoteDataSource = SubscriptionRemoteDataSourceImpl();
-      final subscription = await subscriptionRemoteDataSource
-          .getMySubscription();
+      final subscription = await subscriptionRemoteDataSource.getMySubscription();
 
       if (subscription != null) {
         final allPlans = await subscriptionRemoteDataSource.getAllPlans();
@@ -155,6 +154,7 @@ class _WebProfileSelectionPageState
   Widget build(BuildContext context) {
     final profileState = ref.watch(profileNotifierProvider);
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
 
     ref.listen<ProfileState>(profileNotifierProvider, (previous, next) {
       if (next.isSuccess && previous?.isSuccess != true) {
@@ -194,13 +194,16 @@ class _WebProfileSelectionPageState
             children: [
               // Navbar
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 48.0,
-                  vertical: 24.0,
+                padding: scaler.paddingSymmetric(
+                  horizontal: 48,
+                  vertical: 24,
                 ),
                 child: Row(
                   children: [
-                    const SizedBox(height: 35, child: NetflixLogo()),
+                    SizedBox(
+                      height: scaler.h(35),
+                      child: const NetflixLogo(),
+                    ),
                     const Spacer(),
                   ],
                 ),
@@ -217,18 +220,18 @@ class _WebProfileSelectionPageState
                           children: [
                             Text(
                               localizations.whosWatching,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 48, // Larger for web
+                                fontSize: scaler.sp(48),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const SizedBox(height: 48),
+                            scaler.verticalSpace(48),
 
                             // Profiles Grid
                             Wrap(
-                              spacing: 32,
-                              runSpacing: 32,
+                              spacing: scaler.w(32),
+                              runSpacing: scaler.h(32),
                               alignment: WrapAlignment.center,
                               children: [
                                 ...profileState.profiles.asMap().entries.map((
@@ -242,7 +245,7 @@ class _WebProfileSelectionPageState
                                     isEditMode: _isEditMode,
                                     onTap: () {
                                       if (_isEditMode) {
-                                        // Edit profile logic could go here
+                                        // Edit profile logic
                                       } else {
                                         Navigator.pushReplacement(
                                           context,
@@ -256,19 +259,16 @@ class _WebProfileSelectionPageState
                                       profile.id,
                                       profile.profileName,
                                     ),
-                                    color:
-                                        _profileColors[index %
-                                            _profileColors.length],
+                                    color: _profileColors[index % _profileColors.length],
                                   );
                                 }),
                                 if (_maxProfiles == null ||
-                                    profileState.profiles.length <
-                                        _maxProfiles!)
+                                    profileState.profiles.length < _maxProfiles!)
                                   _WebAddProfileCard(onTap: _handleAddProfile),
                               ],
                             ),
 
-                            const SizedBox(height: 80),
+                            scaler.verticalSpace(80),
 
                             // Manage Profiles Button
                             OutlinedButton(
@@ -282,21 +282,21 @@ class _WebProfileSelectionPageState
                                   color: Colors.grey,
                                   width: 1,
                                 ),
-                                padding: const EdgeInsets.symmetric(
+                                padding: scaler.paddingSymmetric(
                                   horizontal: 32,
                                   vertical: 16,
                                 ),
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.zero,
-                                ), // Rectangular
+                                ),
                               ),
                               child: Text(
                                 _isEditMode
                                     ? localizations.done
                                     : localizations.manageProfiles,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 18,
+                                  fontSize: scaler.sp(18),
                                   letterSpacing: 2,
                                 ),
                               ),
@@ -366,7 +366,8 @@ class _WebProfileCardState extends State<_WebProfileCard>
 
   @override
   Widget build(BuildContext context) {
-    const cardSize = 160.0; // Fixed size for web
+    final scaler = context.responsive;
+    final cardSize = scaler.s(160);
 
     return MouseRegion(
       onEnter: (_) {
@@ -390,15 +391,14 @@ class _WebProfileCardState extends State<_WebProfileCard>
                     width: cardSize,
                     height: cardSize,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: scaler.borderRadius(4),
                       border: _isHovered && !widget.isEditMode
-                          ? Border.all(color: Colors.white, width: 3)
+                          ? Border.all(color: Colors.white, width: scaler.s(3))
                           : null,
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child:
-                          widget.profile.avatarUrl != null &&
+                      borderRadius: scaler.borderRadius(4),
+                      child: widget.profile.avatarUrl != null &&
                               widget.profile.avatarUrl!.isNotEmpty
                           ? Image.network(
                               widget.profile.avatarUrl!,
@@ -416,54 +416,57 @@ class _WebProfileCardState extends State<_WebProfileCard>
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.5),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: scaler.borderRadius(4),
                       ),
                       child: Center(
                         child: Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: scaler.padding(8),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: scaler.s(2),
+                            ),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.edit,
                             color: Colors.white,
-                            size: 24,
+                            size: scaler.s(24),
                           ),
                         ),
                       ),
                     ),
                   ),
 
-                // Delete Button (X)
+                // Delete Button
                 if (widget.isEditMode)
                   Positioned(
-                    top: -10,
-                    right: -10,
+                    top: scaler.h(-10),
+                    right: scaler.w(-10),
                     child: GestureDetector(
                       onTap: widget.onDelete,
                       child: Container(
-                        padding: const EdgeInsets.all(4),
+                        padding: scaler.padding(4),
                         decoration: const BoxDecoration(
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.close,
                           color: Colors.white,
-                          size: 16,
+                          size: scaler.s(16),
                         ),
                       ),
                     ),
                   ),
               ],
             ),
-            const SizedBox(height: 12),
+            scaler.verticalSpace(12),
             Text(
               widget.profile.profileName,
               style: TextStyle(
                 color: _isHovered ? Colors.white : Colors.grey,
-                fontSize: 18,
+                fontSize: scaler.sp(18),
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -474,12 +477,17 @@ class _WebProfileCardState extends State<_WebProfileCard>
   }
 
   Widget _buildPlaceholder() {
+    final scaler = context.responsive;
     return Image.asset(
       _getAvatarPath(widget.index),
       fit: BoxFit.cover,
       errorBuilder: (_, __, ___) => Container(
         color: widget.color,
-        child: const Icon(Icons.person, color: Colors.white, size: 64),
+        child: Icon(
+          Icons.person,
+          color: Colors.white,
+          size: scaler.s(64),
+        ),
       ),
     );
   }
@@ -521,7 +529,8 @@ class _WebAddProfileCardState extends State<_WebAddProfileCard>
 
   @override
   Widget build(BuildContext context) {
-    const cardSize = 160.0;
+    final scaler = context.responsive;
+    final cardSize = scaler.s(160);
     final localizations = AppLocalizations.of(context)!;
 
     return MouseRegion(
@@ -544,29 +553,29 @@ class _WebAddProfileCardState extends State<_WebAddProfileCard>
                 height: cardSize,
                 decoration: BoxDecoration(
                   color: _isHovered ? Colors.white : Colors.transparent,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: scaler.borderRadius(4),
                   border: Border.all(
                     color: _isHovered
                         ? Colors.white
                         : Colors.grey.withValues(alpha: 0.7),
-                    width: 2,
+                    width: scaler.s(2),
                   ),
                 ),
                 child: Center(
                   child: Icon(
                     Icons.add_circle,
-                    size: 64,
+                    size: scaler.s(64),
                     color: _isHovered ? Colors.black : Colors.grey,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            scaler.verticalSpace(12),
             Text(
               localizations.addProfile,
               style: TextStyle(
                 color: _isHovered ? Colors.white : Colors.grey,
-                fontSize: 18,
+                fontSize: scaler.sp(18),
                 fontWeight: FontWeight.w400,
               ),
             ),

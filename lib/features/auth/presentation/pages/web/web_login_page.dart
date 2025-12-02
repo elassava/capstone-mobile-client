@@ -5,6 +5,7 @@ import 'package:mobile/core/di/service_locator.dart';
 import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
@@ -46,6 +47,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
 
     ref.listen<AuthState>(authNotifierProvider, (previous, next) async {
       if (next.isSuccess && next.authResponse != null) {
@@ -123,7 +125,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                       children: [
                         // Header
                         Padding(
-                          padding: const EdgeInsets.symmetric(
+                          padding: scaler.paddingSymmetric(
                             horizontal: 60,
                             vertical: 24,
                           ),
@@ -148,18 +150,18 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                               );
                             },
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: scaler.borderRadius(16),
                               child: BackdropFilter(
                                 filter: ImageFilter.blur(
                                   sigmaX: 15,
                                   sigmaY: 15,
                                 ),
                                 child: Container(
-                                  width: 450,
-                                  padding: const EdgeInsets.all(60),
+                                  width: scaler.w(450),
+                                  padding: scaler.padding(60),
                                   decoration: BoxDecoration(
                                     color: Colors.black.withValues(alpha: 0.4),
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: scaler.borderRadius(16),
                                     border: Border.all(
                                       color: Colors.white.withValues(
                                         alpha: 0.1,
@@ -171,8 +173,8 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                         color: Colors.black.withValues(
                                           alpha: 0.3,
                                         ),
-                                        blurRadius: 30,
-                                        offset: const Offset(0, 15),
+                                        blurRadius: scaler.s(30),
+                                        offset: Offset(0, scaler.h(15)),
                                       ),
                                     ],
                                   ),
@@ -185,13 +187,13 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                       children: [
                                         Text(
                                           localizations.signIn,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: AppColors.netflixWhite,
-                                            fontSize: 32,
+                                            fontSize: scaler.sp(32),
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        const SizedBox(height: 28),
+                                        scaler.verticalSpace(28),
 
                                         CustomTextField(
                                           controller: _emailController,
@@ -220,7 +222,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                             return null;
                                           },
                                         ),
-                                        const SizedBox(height: 16),
+                                        scaler.verticalSpace(16),
 
                                         CustomTextField(
                                           controller: _passwordController,
@@ -246,11 +248,11 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                             return null;
                                           },
                                         ),
-                                        const SizedBox(height: 40),
+                                        scaler.verticalSpace(40),
 
                                         SizedBox(
                                           width: double.infinity,
-                                          height: 48,
+                                          height: scaler.h(48),
                                           child: CustomButton(
                                             text: authState.isLoading
                                                 ? localizations.loading
@@ -262,11 +264,11 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                                 AppColors.netflixRed,
                                             style: CustomButtonStyle.flat,
                                             borderRadius: 4,
-                                            fontSize: 16,
+                                            fontSize: scaler.sp(16),
                                           ),
                                         ),
 
-                                        const SizedBox(height: 16),
+                                        scaler.verticalSpace(16),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -274,8 +276,8 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                             Row(
                                               children: [
                                                 SizedBox(
-                                                  height: 24,
-                                                  width: 24,
+                                                  height: scaler.s(24),
+                                                  width: scaler.s(24),
                                                   child: Checkbox(
                                                     value: true,
                                                     onChanged: (value) {},
@@ -287,13 +289,13 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                                     side: BorderSide.none,
                                                   ),
                                                 ),
-                                                const SizedBox(width: 4),
+                                                scaler.horizontalSpace(4),
                                                 Text(
                                                   localizations.rememberMe,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     color:
                                                         AppColors.textLightGray,
-                                                    fontSize: 13,
+                                                    fontSize: scaler.sp(13),
                                                   ),
                                                 ),
                                               ],
@@ -309,17 +311,17 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                               ),
                                               child: Text(
                                                 localizations.needHelp,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color:
                                                       AppColors.textLightGray,
-                                                  fontSize: 13,
+                                                  fontSize: scaler.sp(13),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
 
-                                        const SizedBox(height: 40),
+                                        scaler.verticalSpace(40),
 
                                         Wrap(
                                           crossAxisAlignment:
@@ -327,9 +329,9 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                           children: [
                                             Text(
                                               '${localizations.signupSubtitle} ',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 color: AppColors.textGray,
-                                                fontSize: 16,
+                                                fontSize: scaler.sp(16),
                                               ),
                                             ),
                                             GestureDetector(
@@ -341,21 +343,21 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                               },
                                               child: Text(
                                                 localizations.signUp,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: AppColors.netflixWhite,
-                                                  fontSize: 16,
+                                                  fontSize: scaler.sp(16),
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 12),
+                                        scaler.verticalSpace(12),
                                         Text(
                                           localizations.recaptchaInfo,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: AppColors.inputBorder,
-                                            fontSize: 13,
+                                            fontSize: scaler.sp(13),
                                           ),
                                         ),
                                       ],
@@ -369,8 +371,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
 
                         const Spacer(),
 
-                        // Footer spacing if needed, but using Spacer now
-                        const SizedBox(height: 40),
+                        scaler.verticalSpace(40),
                       ],
                     ),
                   ),

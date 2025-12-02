@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/utils/web_responsive.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/features/subscription/domain/entities/subscription_plan.dart';
@@ -48,6 +49,8 @@ class _WebSubscriptionPlanPageState
 
   Future<bool> _showExitConfirmationDialog(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
+    
     return await showDialog<bool>(
           context: context,
           barrierColor: Colors.black.withValues(alpha: 0.6),
@@ -55,69 +58,65 @@ class _WebSubscriptionPlanPageState
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Dialog(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: scaler.borderRadius(8),
               ),
               backgroundColor: Colors.transparent,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: scaler.borderRadius(8),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                   child: Container(
-                    constraints: const BoxConstraints(maxWidth: 400),
+                    constraints: BoxConstraints(maxWidth: scaler.w(400)),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.75),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: scaler.borderRadius(8),
                       border: Border.all(
                         color: Colors.white.withValues(alpha: 0.15),
                         width: 1,
                       ),
                     ),
-                    padding: const EdgeInsets.all(24),
+                    padding: scaler.padding(24),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           localizations.leavePageTitle,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: scaler.sp(20),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        scaler.verticalSpace(12),
                         Text(
                           localizations.leavePageMessage,
                           style: TextStyle(
                             color: Colors.white.withValues(alpha: 0.8),
-                            fontSize: 14,
+                            fontSize: scaler.sp(14),
                           ),
                         ),
-                        const SizedBox(height: 24),
+                        scaler.verticalSpace(24),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Expanded(
                               child: CustomButton(
                                 text: localizations.stay,
-                                onPressed: () =>
-                                    Navigator.of(context).pop(false),
-                                backgroundColor: Colors.white.withValues(
-                                  alpha: 0.2,
-                                ),
+                                onPressed: () => Navigator.of(context).pop(false),
+                                backgroundColor: Colors.white.withValues(alpha: 0.2),
                                 style: CustomButtonStyle.flat,
-                                fontSize: 16,
+                                fontSize: scaler.sp(16),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            scaler.horizontalSpace(12),
                             Expanded(
                               child: CustomButton(
                                 text: localizations.leave,
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
+                                onPressed: () => Navigator.of(context).pop(true),
                                 backgroundColor: AppColors.netflixRed,
                                 style: CustomButtonStyle.flat,
-                                fontSize: 16,
+                                fontSize: scaler.sp(16),
                               ),
                             ),
                           ],
@@ -137,6 +136,7 @@ class _WebSubscriptionPlanPageState
   Widget build(BuildContext context) {
     final subscriptionState = ref.watch(subscriptionNotifierProvider);
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
 
     return PopScope(
       canPop: false,
@@ -149,34 +149,32 @@ class _WebSubscriptionPlanPageState
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        extendBodyBehindAppBar: true, // Important for glass effect
+        extendBodyBehindAppBar: true,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
+          preferredSize: Size.fromHeight(scaler.h(80)),
           child: _GlassAppBar(
             child: Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(24.0),
+                Padding(
+                  padding: scaler.padding(24),
                   child: SizedBox(
-                    height: 25, // Reduced logo size
-                    child: NetflixLogo(),
+                    height: scaler.h(25),
+                    child: const NetflixLogo(),
                   ),
                 ),
                 const Spacer(),
                 TextButton(
-                  onPressed: () {
-                    // Sign out logic
-                  },
+                  onPressed: () {},
                   child: Text(
                     localizations.signOut,
-                    style: const TextStyle(
-                      color: Colors.white, // White text for dark navbar
-                      fontSize: 16,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: scaler.sp(16),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                const SizedBox(width: 24),
+                scaler.horizontalSpace(24),
               ],
             ),
           ),
@@ -186,7 +184,7 @@ class _WebSubscriptionPlanPageState
                 child: CircularProgressIndicator(color: AppColors.netflixRed),
               )
             : SingleChildScrollView(
-                padding: const EdgeInsets.only(
+                padding: scaler.paddingOnly(
                   top: 120,
                   bottom: 40,
                   left: 24,
@@ -197,27 +195,27 @@ class _WebSubscriptionPlanPageState
                   children: [
                     Center(
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1000),
+                        constraints: BoxConstraints(maxWidth: scaler.w(1000)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               localizations.choosePlan,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.netflixBlack,
-                                fontSize: 32,
+                                fontSize: scaler.sp(32),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            scaler.verticalSpace(16),
                             Text(
                               localizations.choosePlanSubtitle,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.textPrimary,
-                                fontSize: 18,
+                                fontSize: scaler.sp(18),
                               ),
                             ),
-                            const SizedBox(height: 40),
+                            scaler.verticalSpace(40),
 
                             // Plan Cards
                             if (subscriptionState.plans.isNotEmpty)
@@ -228,13 +226,10 @@ class _WebSubscriptionPlanPageState
                                     .map(
                                       (plan) => Expanded(
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                          ),
+                                          padding: scaler.paddingSymmetric(horizontal: 8),
                                           child: _WebPlanCard(
                                             plan: plan,
-                                            isSelected:
-                                                _selectedPlan?.id == plan.id,
+                                            isSelected: _selectedPlan?.id == plan.id,
                                             planColor: _getPlanColor(plan),
                                             onTap: () {
                                               setState(() {
@@ -248,23 +243,20 @@ class _WebSubscriptionPlanPageState
                                     .toList(),
                               ),
 
-                            const SizedBox(height: 40),
+                            scaler.verticalSpace(40),
 
                             Center(
                               child: SizedBox(
-                                width: 400,
-                                height: 64,
+                                width: scaler.w(400),
+                                height: scaler.h(64),
                                 child: CustomButton(
                                   text: localizations.subscribe,
-                                  onPressed: _selectedPlan != null
-                                      ? _handleSubscribe
-                                      : null,
+                                  onPressed: _selectedPlan != null ? _handleSubscribe : null,
                                   backgroundColor: _selectedPlan != null
-                                      ? AppColors
-                                            .netflixRed // Always red when active
+                                      ? AppColors.netflixRed
                                       : AppColors.netflixGray,
                                   style: CustomButtonStyle.flat,
-                                  fontSize: 24,
+                                  fontSize: scaler.sp(24),
                                 ),
                               ),
                             ),
@@ -289,15 +281,13 @@ class _GlassAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Increased blur
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.8), // Darker background
+            color: Colors.black.withValues(alpha: 0.8),
             border: Border(
               bottom: BorderSide(
-                color: Colors.white.withValues(
-                  alpha: 0.2,
-                ), // Silver/Glass border
+                color: Colors.white.withValues(alpha: 0.2),
                 width: 0.5,
               ),
             ),
@@ -325,14 +315,16 @@ class _WebPlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final scaler = context.responsive;
+    
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(24),
+        padding: scaler.padding(24),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: scaler.borderRadius(12),
           border: Border.all(
             color: isSelected
                 ? planColor
@@ -343,15 +335,15 @@ class _WebPlanCard extends StatelessWidget {
               ? [
                   BoxShadow(
                     color: planColor.withValues(alpha: 0.2),
-                    blurRadius: 15,
-                    offset: const Offset(0, 8),
+                    blurRadius: scaler.s(15),
+                    offset: Offset(0, scaler.h(8)),
                   ),
                 ]
               : [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
+                    blurRadius: scaler.s(5),
+                    offset: Offset(0, scaler.h(2)),
                   ),
                 ],
         ),
@@ -359,43 +351,43 @@ class _WebPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: scaler.paddingSymmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: planColor,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: scaler.borderRadius(4),
               ),
               child: Text(
                 plan.planName,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: scaler.sp(14),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            scaler.verticalSpace(16),
             Text(
               plan.displayName,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.netflixBlack,
-                fontSize: 24,
+                fontSize: scaler.sp(24),
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            scaler.verticalSpace(8),
             Text(
               "₺${plan.monthlyPrice}/mo",
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.textPrimary,
-                fontSize: 18,
+                fontSize: scaler.sp(18),
               ),
             ),
-            const SizedBox(height: 24),
+            scaler.verticalSpace(24),
             _FeatureRow(
               text: "${plan.videoQuality} ${localizations.videoQuality}",
               iconColor: planColor,
             ),
-            const SizedBox(height: 12),
+            scaler.verticalSpace(12),
             _FeatureRow(
               text: localizations.watchOnDevices,
               iconColor: planColor,
@@ -415,14 +407,19 @@ class _FeatureRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaler = context.responsive;
+    
     return Row(
       children: [
-        Icon(Icons.check, color: iconColor, size: 20),
-        const SizedBox(width: 12),
+        Icon(Icons.check, color: iconColor, size: scaler.s(20)),
+        scaler.horizontalSpace(12),
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(color: AppColors.textGray, fontSize: 14),
+            style: TextStyle(
+              color: AppColors.textGray,
+              fontSize: scaler.sp(14),
+            ),
           ),
         ),
       ],
