@@ -29,7 +29,7 @@ class HeroSection extends StatelessWidget {
     final scaler = context.responsive;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    
+
     // Hero section takes 85% of viewport height
     final height = screenHeight * WebDimensions.heroHeightPercent;
 
@@ -84,10 +84,12 @@ class HeroSection extends StatelessWidget {
 
             // Content Info - Responsive positioned
             Positioned(
-              left: scaler.w(scaler.isSmallScreen ? 20 : WebDimensions.rowPadding),
+              left: scaler.w(
+                scaler.isSmallScreen ? 20 : WebDimensions.rowPadding,
+              ),
               bottom: scaler.h(WebDimensions.heroBottomOffset),
-              width: scaler.isSmallScreen 
-                  ? screenWidth - scaler.w(40) 
+              width: scaler.isSmallScreen
+                  ? screenWidth - scaler.w(40)
                   : screenWidth * WebDimensions.heroContentWidthPercent,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,18 +195,18 @@ class _HeroButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scaler = context.responsive;
-    
+
     return ElevatedButton.icon(
       onPressed: onPressed,
       icon: Icon(
         icon,
-        size: scaler.s(WebDimensions.buttonIconSize),
+        size: scaler.s(WebDimensions.heroButtonIconSize),
         color: isPrimary ? Colors.black : Colors.white,
       ),
       label: Text(
         label,
         style: TextStyle(
-          fontSize: scaler.sp(WebDimensions.buttonFontSize),
+          fontSize: scaler.sp(WebDimensions.heroButtonFontSize),
           fontWeight: FontWeight.bold,
           color: isPrimary ? Colors.black : Colors.white,
         ),
@@ -212,12 +214,10 @@ class _HeroButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: isPrimary ? Colors.white : const Color(0x666D6D6E),
         padding: scaler.paddingSymmetric(
-          horizontal: WebDimensions.buttonPaddingH,
-          vertical: WebDimensions.buttonPaddingV,
+          horizontal: WebDimensions.heroButtonPaddingH,
+          vertical: WebDimensions.heroButtonPaddingV,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: scaler.borderRadius(4),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: scaler.borderRadius(4)),
       ),
     );
   }
