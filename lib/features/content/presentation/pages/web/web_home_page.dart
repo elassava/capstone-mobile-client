@@ -17,6 +17,7 @@ import 'package:mobile/features/content/presentation/widgets/web/web_home_shimme
 import 'package:mobile/features/content/presentation/widgets/web/hero_section.dart';
 import 'package:mobile/features/content/presentation/widgets/web/content_list_row.dart';
 import 'package:mobile/features/content/presentation/widgets/web/top10_list_row.dart';
+import 'package:mobile/features/content/presentation/pages/web/web_video_player.dart';
 
 class WebHomePage extends ConsumerStatefulWidget {
   const WebHomePage({super.key});
@@ -93,6 +94,16 @@ class _WebHomePageState extends ConsumerState<WebHomePage> {
     return _cachedNewReleases!;
   }
 
+  void _playVideo(BuildContext context, String videoUrl) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const WebVideoPlayer(
+          videoUrl: 'bbb_30fps/bbb_30fps.mpd', // Using dummy data for now
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final contentState = ref.watch(contentNotifierProvider);
@@ -135,6 +146,14 @@ class _WebHomePageState extends ConsumerState<WebHomePage> {
                             child: HeroSection(
                               content: contentState.featuredContents.first,
                               localizations: localizations,
+                              onPlay: () => _playVideo(
+                                context,
+                                contentState
+                                        .featuredContents
+                                        .first
+                                        .videoFilePath ??
+                                    '',
+                              ),
                             ),
                           ),
                         ),
@@ -211,7 +230,13 @@ class _WebHomePageState extends ConsumerState<WebHomePage> {
                         onExit: () {
                           ref.read(hoverPreviewProvider.notifier).hidePreview();
                         },
-                        onTap: () {},
+                        onTap: () {
+                          ref.read(hoverPreviewProvider.notifier).hidePreview();
+                          _playVideo(
+                            context,
+                            previewState.activeContent!.videoFilePath ?? '',
+                          );
+                        },
                       ),
                     );
                   },

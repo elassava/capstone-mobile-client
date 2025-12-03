@@ -10,11 +10,13 @@ import 'package:mobile/features/content/domain/entities/content.dart';
 class HeroSection extends StatelessWidget {
   final Content content;
   final AppLocalizations localizations;
+  final VoidCallback? onPlay;
 
   const HeroSection({
     super.key,
     required this.content,
     required this.localizations,
+    this.onPlay,
   });
 
   String _getAbsoluteUrl(String url) {
@@ -137,7 +139,7 @@ class HeroSection extends StatelessWidget {
                         icon: Icons.play_arrow,
                         label: localizations.play,
                         isPrimary: true,
-                        onPressed: () {},
+                        onPressed: onPlay ?? () {},
                       ),
                       _HeroButton(
                         icon: Icons.info_outline,
