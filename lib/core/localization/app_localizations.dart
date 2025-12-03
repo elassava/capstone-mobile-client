@@ -166,6 +166,33 @@ class AppLocalizations {
   String get nextButton => _getLocalizedValue('nextButton');
   String get moreInfo => _getLocalizedValue('moreInfo');
 
+  // Error Messages
+  String get errorGeneric => _getLocalizedValue('errorGeneric');
+  String get errorNetwork => _getLocalizedValue('errorNetwork');
+  String get errorUnknown => _getLocalizedValue('errorUnknown');
+  String get errorInvalidCredentials =>
+      _getLocalizedValue('errorInvalidCredentials');
+  String get errorUserNotFound => _getLocalizedValue('errorUserNotFound');
+  String get errorEmailAlreadyExists =>
+      _getLocalizedValue('errorEmailAlreadyExists');
+  String get errorWeakPassword => _getLocalizedValue('errorWeakPassword');
+  String get errorAuthFailed => _getLocalizedValue('errorAuthFailed');
+  String get errorSubscriptionFailed =>
+      _getLocalizedValue('errorSubscriptionFailed');
+  String get errorPaymentDeclined => _getLocalizedValue('errorPaymentDeclined');
+  String get errorInvalidPaymentMethod =>
+      _getLocalizedValue('errorInvalidPaymentMethod');
+  String get errorProfileCreateFailed =>
+      _getLocalizedValue('errorProfileCreateFailed');
+  String get errorProfileDeleteFailed =>
+      _getLocalizedValue('errorProfileDeleteFailed');
+  String get errorProfileUpdateFailed =>
+      _getLocalizedValue('errorProfileUpdateFailed');
+  String get errorContentLoadFailed =>
+      _getLocalizedValue('errorContentLoadFailed');
+  String get errorContentNotAvailable =>
+      _getLocalizedValue('errorContentNotAvailable');
+
   String _getLocalizedValue(String key) {
     switch (locale.languageCode) {
       case 'tr':
@@ -309,6 +336,24 @@ class AppLocalizations {
     'addPasswordPlaceholder': 'Parola ekle',
     'nextButton': 'İleri',
     'moreInfo': 'Daha Fazla Bilgi',
+    // Error Messages
+    'errorGeneric': 'Bir hata oluştu. Lütfen tekrar deneyin.',
+    'errorNetwork': 'Bağlantı hatası. İnternet bağlantınızı kontrol edin.',
+    'errorUnknown': 'Beklenmeyen bir hata oluştu.',
+    'errorInvalidCredentials': 'E-posta veya şifre hatalı.',
+    'errorUserNotFound': 'Kullanıcı bulunamadı.',
+    'errorEmailAlreadyExists': 'Bu e-posta adresi zaten kullanılıyor.',
+    'errorWeakPassword': 'Şifreniz çok zayıf. Daha güçlü bir şifre seçin.',
+    'errorAuthFailed': 'Giriş yapılamadı. Bilgilerinizi kontrol edin.',
+    'errorSubscriptionFailed': 'Abonelik işlemi başarısız oldu.',
+    'errorPaymentDeclined':
+        'Ödeme reddedildi. Kart bilgilerinizi kontrol edin.',
+    'errorInvalidPaymentMethod': 'Geçersiz ödeme yöntemi.',
+    'errorProfileCreateFailed': 'Profil oluşturulamadı. Lütfen tekrar deneyin.',
+    'errorProfileDeleteFailed': 'Profil silinemedi.',
+    'errorProfileUpdateFailed': 'Profil güncellenemedi.',
+    'errorContentLoadFailed': 'İçerik yüklenemedi.',
+    'errorContentNotAvailable': 'İçerik şu anda mevcut değil.',
   };
 
   static const Map<String, String> _englishStrings = {
@@ -442,6 +487,24 @@ class AppLocalizations {
     'addPasswordPlaceholder': 'Add password',
     'nextButton': 'Next',
     'moreInfo': 'More Info',
+    // Error Messages
+    'errorGeneric': 'An error occurred. Please try again.',
+    'errorNetwork': 'Connection error. Check your internet connection.',
+    'errorUnknown': 'An unexpected error occurred.',
+    'errorInvalidCredentials': 'Invalid email or password.',
+    'errorUserNotFound': 'User not found.',
+    'errorEmailAlreadyExists': 'This email address is already in use.',
+    'errorWeakPassword':
+        'Your password is too weak. Choose a stronger password.',
+    'errorAuthFailed': 'Login failed. Check your credentials.',
+    'errorSubscriptionFailed': 'Subscription failed.',
+    'errorPaymentDeclined': 'Payment declined. Check your card details.',
+    'errorInvalidPaymentMethod': 'Invalid payment method.',
+    'errorProfileCreateFailed': 'Failed to create profile. Please try again.',
+    'errorProfileDeleteFailed': 'Failed to delete profile.',
+    'errorProfileUpdateFailed': 'Failed to update profile.',
+    'errorContentLoadFailed': 'Failed to load content.',
+    'errorContentNotAvailable': 'Content is not available right now.',
   };
 }
 

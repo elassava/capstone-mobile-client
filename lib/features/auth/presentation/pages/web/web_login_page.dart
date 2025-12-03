@@ -6,9 +6,11 @@ import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/web_responsive.dart';
+import 'package:mobile/core/utils/error_handler.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
+import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
 import 'package:mobile/features/subscription/presentation/providers/subscription_providers.dart';
@@ -54,9 +56,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
         final authInterceptor = serviceLocator.get<AuthInterceptor>();
         authInterceptor.setToken(next.authResponse!.token);
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(localizations.loginSuccess)));
+        context.showSuccessSnackBar(localizations.loginSuccess);
 
         final hasSubscriptionResult = await ref
             .read(subscriptionNotifierProvider.notifier)
@@ -74,9 +74,9 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
           Navigator.pushReplacementNamed(context, '/profiles');
         }
       } else if (next.error != null && next.error!.isNotEmpty) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error!)));
+        context.showErrorSnackBar(
+          ErrorHandler.getLocalizedErrorMessage(context, next.error),
+        );
       }
     });
 

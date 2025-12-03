@@ -4,6 +4,7 @@ import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/utils/web_responsive.dart';
+import 'package:mobile/core/utils/error_handler.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/confirmation_dialog.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
@@ -62,7 +63,8 @@ class _WebProfileSelectionPageState
   Future<void> _loadMaxProfiles() async {
     try {
       final subscriptionRemoteDataSource = SubscriptionRemoteDataSourceImpl();
-      final subscription = await subscriptionRemoteDataSource.getMySubscription();
+      final subscription = await subscriptionRemoteDataSource
+          .getMySubscription();
 
       if (subscription != null) {
         final allPlans = await subscriptionRemoteDataSource.getAllPlans();
@@ -168,7 +170,9 @@ class _WebProfileSelectionPageState
           context.showSuccessSnackBar(localizations.profileCreated);
         }
       } else if (next.error != null && next.error!.isNotEmpty) {
-        context.showErrorSnackBar(next.error!);
+        context.showErrorSnackBar(
+          ErrorHandler.getLocalizedErrorMessage(context, next.error),
+        );
       }
     });
 
@@ -194,16 +198,10 @@ class _WebProfileSelectionPageState
             children: [
               // Navbar
               Padding(
-                padding: scaler.paddingSymmetric(
-                  horizontal: 48,
-                  vertical: 24,
-                ),
+                padding: scaler.paddingSymmetric(horizontal: 48, vertical: 24),
                 child: Row(
                   children: [
-                    SizedBox(
-                      height: scaler.h(35),
-                      child: const NetflixLogo(),
-                    ),
+                    SizedBox(height: scaler.h(35), child: const NetflixLogo()),
                     const Spacer(),
                   ],
                 ),
@@ -259,11 +257,14 @@ class _WebProfileSelectionPageState
                                       profile.id,
                                       profile.profileName,
                                     ),
-                                    color: _profileColors[index % _profileColors.length],
+                                    color:
+                                        _profileColors[index %
+                                            _profileColors.length],
                                   );
                                 }),
                                 if (_maxProfiles == null ||
-                                    profileState.profiles.length < _maxProfiles!)
+                                    profileState.profiles.length <
+                                        _maxProfiles!)
                                   _WebAddProfileCard(onTap: _handleAddProfile),
                               ],
                             ),
@@ -398,7 +399,8 @@ class _WebProfileCardState extends State<_WebProfileCard>
                     ),
                     child: ClipRRect(
                       borderRadius: scaler.borderRadius(4),
-                      child: widget.profile.avatarUrl != null &&
+                      child:
+                          widget.profile.avatarUrl != null &&
                               widget.profile.avatarUrl!.isNotEmpty
                           ? Image.network(
                               widget.profile.avatarUrl!,
@@ -483,11 +485,7 @@ class _WebProfileCardState extends State<_WebProfileCard>
       fit: BoxFit.cover,
       errorBuilder: (_, __, ___) => Container(
         color: widget.color,
-        child: Icon(
-          Icons.person,
-          color: Colors.white,
-          size: scaler.s(64),
-        ),
+        child: Icon(Icons.person, color: Colors.white, size: scaler.s(64)),
       ),
     );
   }

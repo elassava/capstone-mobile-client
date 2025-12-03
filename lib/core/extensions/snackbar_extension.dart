@@ -1,50 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/core/widgets/modern_snackbar.dart';
 
-/// SnackBar Extension for consistent snackbar display across the app
+/// SnackBar Extension for consistent modern snackbar display across the app
 extension SnackBarExtension on BuildContext {
-  /// Show success snackbar
+  /// Show success snackbar with glassmorphism effect
   void showSuccessSnackBar(String message) {
+    ScaffoldMessenger.of(this).clearSnackBars();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.green,
+        content: ModernSnackbar(message: message, type: SnackbarType.success),
+        backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+        duration: const Duration(seconds: 4),
+        dismissDirection: DismissDirection.horizontal,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
 
-  /// Show error snackbar
+  /// Show error snackbar with glassmorphism effect
   void showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(this).clearSnackBars();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: Text(message),
-        backgroundColor: AppColors.netflixRed,
+        content: ModernSnackbar(message: message, type: SnackbarType.error),
+        backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+        duration: const Duration(seconds: 4),
+        dismissDirection: DismissDirection.horizontal,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
 
-  /// Show info snackbar
+  /// Show info snackbar with glassmorphism effect
   void showInfoSnackBar(String message) {
+    ScaffoldMessenger.of(this).clearSnackBars();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: Text(message),
-        backgroundColor: AppColors.netflixLightGray,
+        content: ModernSnackbar(message: message, type: SnackbarType.info),
+        backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+        duration: const Duration(seconds: 4),
+        dismissDirection: DismissDirection.horizontal,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
 }
-
-
-

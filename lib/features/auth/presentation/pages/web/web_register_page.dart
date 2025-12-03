@@ -5,9 +5,11 @@ import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/localization/app_localizations.dart';
 import 'package:mobile/core/utils/web_responsive.dart';
+import 'package:mobile/core/utils/error_handler.dart';
 import 'package:mobile/core/widgets/netflix_logo.dart';
 import 'package:mobile/core/widgets/custom_button.dart';
 import 'package:mobile/core/widgets/custom_text_field.dart';
+import 'package:mobile/core/extensions/snackbar_extension.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
 
@@ -35,10 +37,8 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
   Future<void> _handleRegister() async {
     if (_formKey.currentState!.validate()) {
       if (_passwordController.text != _confirmPasswordController.text) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.confirmPasswordMatch),
-          ),
+        context.showErrorSnackBar(
+          AppLocalizations.of(context)!.confirmPasswordMatch,
         );
         return;
       }
@@ -63,15 +63,13 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
         final authInterceptor = serviceLocator.get<AuthInterceptor>();
         authInterceptor.setToken(next.authResponse!.token);
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(localizations.signupSuccess)));
+        context.showSuccessSnackBar(localizations.signupSuccess);
 
         Navigator.pushReplacementNamed(context, '/plans');
       } else if (next.error != null && next.error!.isNotEmpty) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error!)));
+        context.showErrorSnackBar(
+          ErrorHandler.getLocalizedErrorMessage(context, next.error),
+        );
       }
     });
 
@@ -84,10 +82,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
             flex: 1,
             child: Center(
               child: SingleChildScrollView(
-                padding: scaler.paddingSymmetric(
-                  horizontal: 40,
-                  vertical: 20,
-                ),
+                padding: scaler.paddingSymmetric(horizontal: 40, vertical: 20),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: scaler.w(440)),
                   child: Form(
