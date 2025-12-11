@@ -3,12 +3,33 @@ import 'package:mobile/core/widgets/modern_snackbar.dart';
 
 /// SnackBar Extension for consistent modern snackbar display across the app
 extension SnackBarExtension on BuildContext {
+  /// Determine if the current scaffold has a dark background
+  bool _isDarkBackground(BuildContext context) {
+    try {
+      final theme = Theme.of(context);
+      final backgroundColor = theme.scaffoldBackgroundColor;
+      final brightness = backgroundColor.computeLuminance();
+      return brightness < 0.5;
+    } catch (e) {
+      return true;
+    }
+  }
+
   /// Show success snackbar with glassmorphism effect
-  void showSuccessSnackBar(String message) {
+  /// 
+  /// [message] - The message to display
+  /// [isDarkBackground] - Optional: manually specify if background is dark.
+  ///                      If null, will auto-detect from theme.
+  void showSuccessSnackBar(String message, {bool? isDarkBackground}) {
+    final isDark = isDarkBackground ?? _isDarkBackground(this);
     ScaffoldMessenger.of(this).clearSnackBars();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: ModernSnackbar(message: message, type: SnackbarType.success),
+        content: ModernSnackbar(
+          message: message, 
+          type: SnackbarType.success,
+          isDarkBackground: isDark,
+        ),
         backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
         elevation: 0,
@@ -21,11 +42,20 @@ extension SnackBarExtension on BuildContext {
   }
 
   /// Show error snackbar with glassmorphism effect
-  void showErrorSnackBar(String message) {
+  /// 
+  /// [message] - The message to display
+  /// [isDarkBackground] - Optional: manually specify if background is dark.
+  ///                      If null, will auto-detect from theme.
+  void showErrorSnackBar(String message, {bool? isDarkBackground}) {
+    final isDark = isDarkBackground ?? _isDarkBackground(this);
     ScaffoldMessenger.of(this).clearSnackBars();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: ModernSnackbar(message: message, type: SnackbarType.error),
+        content: ModernSnackbar(
+          message: message, 
+          type: SnackbarType.error,
+          isDarkBackground: isDark,
+        ),
         backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
         elevation: 0,
@@ -38,11 +68,20 @@ extension SnackBarExtension on BuildContext {
   }
 
   /// Show info snackbar with glassmorphism effect
-  void showInfoSnackBar(String message) {
+  /// 
+  /// [message] - The message to display
+  /// [isDarkBackground] - Optional: manually specify if background is dark.
+  ///                      If null, will auto-detect from theme.
+  void showInfoSnackBar(String message, {bool? isDarkBackground}) {
+    final isDark = isDarkBackground ?? _isDarkBackground(this);
     ScaffoldMessenger.of(this).clearSnackBars();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: ModernSnackbar(message: message, type: SnackbarType.info),
+        content: ModernSnackbar(
+          message: message, 
+          type: SnackbarType.info,
+          isDarkBackground: isDark,
+        ),
         backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
         elevation: 0,

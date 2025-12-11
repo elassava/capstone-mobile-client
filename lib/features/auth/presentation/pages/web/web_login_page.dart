@@ -56,7 +56,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
         final authInterceptor = serviceLocator.get<AuthInterceptor>();
         authInterceptor.setToken(next.authResponse!.token);
 
-        context.showSuccessSnackBar(localizations.loginSuccess);
+        context.showSuccessSnackBar(localizations.loginSuccess, isDarkBackground: false);
 
         final hasSubscriptionResult = await ref
             .read(subscriptionNotifierProvider.notifier)
@@ -76,6 +76,7 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
       } else if (next.error != null && next.error!.isNotEmpty) {
         context.showErrorSnackBar(
           ErrorHandler.getLocalizedErrorMessage(context, next.error),
+          isDarkBackground: false,
         );
       }
     });
@@ -134,50 +135,137 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
 
                         const Spacer(),
 
-                        // Login Card
+                        // Login Card - iOS 26 Liquid Glass
                         Center(
                           child: TweenAnimationBuilder<double>(
                             tween: Tween(begin: 0.0, end: 1.0),
-                            duration: const Duration(milliseconds: 600),
-                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 800),
+                            curve: Curves.easeOutCubic,
                             builder: (context, value, child) {
                               return Opacity(
                                 opacity: value,
                                 child: Transform.translate(
-                                  offset: Offset(0, 20 * (1 - value)),
-                                  child: child,
+                                  offset: Offset(0, 30 * (1 - value)),
+                                  child: Transform.scale(
+                                    scale: 0.95 + (0.05 * value),
+                                    child: child,
+                                  ),
                                 ),
                               );
                             },
-                            child: ClipRRect(
-                              borderRadius: scaler.borderRadius(16),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                  sigmaX: 15,
-                                  sigmaY: 15,
-                                ),
-                                child: Container(
-                                  width: scaler.w(450),
-                                  padding: scaler.padding(60),
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.4),
-                                    borderRadius: scaler.borderRadius(16),
-                                    border: Border.all(
-                                      color: Colors.white.withValues(
-                                        alpha: 0.1,
-                                      ),
-                                      width: 1,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withValues(
-                                          alpha: 0.3,
-                                        ),
-                                        blurRadius: scaler.s(30),
-                                        offset: Offset(0, scaler.h(15)),
-                                      ),
-                                    ],
+                            child: Container(
+                              width: scaler.w(450),
+                              decoration: BoxDecoration(
+                                borderRadius: scaler.borderRadius(24),
+                                boxShadow: [
+                                  // Outer glow - Netflix red tint
+                                  BoxShadow(
+                                    color: AppColors.netflixRed.withValues(alpha: 0.15),
+                                    blurRadius: 60,
+                                    spreadRadius: -10,
+                                    offset: const Offset(0, 20),
                                   ),
+                                  // Soft ambient shadow
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.5),
+                                    blurRadius: 40,
+                                    spreadRadius: -5,
+                                    offset: const Offset(0, 25),
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: scaler.borderRadius(24),
+                                child: Stack(
+                                  children: [
+                                    // Ultra blur layer
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: scaler.borderRadius(24),
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    // Base glass layer
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: scaler.borderRadius(24),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Colors.white.withValues(alpha: 0.12),
+                                            Colors.white.withValues(alpha: 0.06),
+                                            Colors.white.withValues(alpha: 0.02),
+                                          ],
+                                          stops: const [0.0, 0.5, 1.0],
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    // Spectral border effect
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: scaler.borderRadius(24),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            AppColors.netflixRed.withValues(alpha: 0.3),
+                                            const Color(0xFFE879F9).withValues(alpha: 0.2),
+                                            const Color(0xFF60A5FA).withValues(alpha: 0.2),
+                                            AppColors.netflixRed.withValues(alpha: 0.3),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    // Inner glass fill
+                                    Container(
+                                      margin: const EdgeInsets.all(1.5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(22.5),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            const Color(0xFF1A1A2E).withValues(alpha: 0.92),
+                                            const Color(0xFF0F0F1A).withValues(alpha: 0.88),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    // Top highlight reflection
+                                    Positioned(
+                                      top: 0,
+                                      left: 0,
+                                      right: 0,
+                                      height: 80,
+                                      child: Container(
+                                        margin: const EdgeInsets.all(1.5),
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(22.5),
+                                            topRight: Radius.circular(22.5),
+                                          ),
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.white.withValues(alpha: 0.12),
+                                              Colors.white.withValues(alpha: 0.0),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    
+                                    // Content
+                                    Padding(
+                                      padding: scaler.padding(60),
                                   child: Form(
                                     key: _formKey,
                                     child: Column(
@@ -363,6 +451,8 @@ class _WebLoginPageState extends ConsumerState<WebLoginPage> {
                                       ],
                                     ),
                                   ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

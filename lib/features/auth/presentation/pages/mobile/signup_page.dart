@@ -119,6 +119,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
         
         context.showSuccessSnackBar(
           _localizations?.signupSuccess ?? AppLocalizations.of(context)!.signupSuccess,
+          isDarkBackground: false,
         );
         // Navigate to subscription plan page
         Navigator.pushReplacement(
@@ -126,7 +127,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
           SlideFadePageRoute(child: const SubscriptionPlanPage()),
         );
       } else if (next.error != null && next.error!.isNotEmpty) {
-        context.showErrorSnackBar(next.error!);
+        context.showErrorSnackBar(next.error!, isDarkBackground: false);
       }
     });
 

@@ -39,6 +39,7 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
       if (_passwordController.text != _confirmPasswordController.text) {
         context.showErrorSnackBar(
           AppLocalizations.of(context)!.confirmPasswordMatch,
+          isDarkBackground: false,
         );
         return;
       }
@@ -63,12 +64,13 @@ class _WebRegisterPageState extends ConsumerState<WebRegisterPage> {
         final authInterceptor = serviceLocator.get<AuthInterceptor>();
         authInterceptor.setToken(next.authResponse!.token);
 
-        context.showSuccessSnackBar(localizations.signupSuccess);
+        context.showSuccessSnackBar(localizations.signupSuccess, isDarkBackground: false);
 
         Navigator.pushReplacementNamed(context, '/plans');
       } else if (next.error != null && next.error!.isNotEmpty) {
         context.showErrorSnackBar(
           ErrorHandler.getLocalizedErrorMessage(context, next.error),
+          isDarkBackground: false,
         );
       }
     });

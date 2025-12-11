@@ -118,6 +118,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
           if (!subscriptionState.isSuccess) {
             context.showErrorSnackBar(
               ErrorHandler.getLocalizedErrorMessage(context, e.toString()),
+              isDarkBackground: false,
             );
           }
         }
@@ -186,7 +187,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
       if (previous == null) return;
 
       if (next.isSuccess && previous.isSuccess != next.isSuccess) {
-        context.showSuccessSnackBar(localizations.paymentSuccess);
+        context.showSuccessSnackBar(localizations.paymentSuccess, isDarkBackground: false);
         if (mounted) {
           Navigator.of(
             context,
@@ -198,6 +199,7 @@ class _WebPaymentPageState extends ConsumerState<WebPaymentPage> {
           previous.error != next.error) {
         context.showErrorSnackBar(
           ErrorHandler.getLocalizedErrorMessage(context, next.error),
+          isDarkBackground: false,
         );
       }
     });

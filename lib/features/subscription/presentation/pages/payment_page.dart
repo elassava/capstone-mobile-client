@@ -147,6 +147,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
           if (!subscriptionState.isSuccess) {
             context.showErrorSnackBar(
               e.toString().replaceAll('Exception: ', ''),
+              isDarkBackground: false,
             );
           }
         }
@@ -238,6 +239,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
         // Success state changed to true
         context.showSuccessSnackBar(
           _localizations?.paymentSuccess ?? AppLocalizations.of(context)!.paymentSuccess,
+          isDarkBackground: false,
         );
         // Navigate to ProfileListPage and clear navigation stack
         if (mounted) {
@@ -255,6 +257,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
         // Error state changed and not currently subscribing
         context.showErrorSnackBar(
           next.error!,
+          isDarkBackground: false,
         );
       }
     });

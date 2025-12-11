@@ -44,6 +44,7 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
       context.showErrorSnackBar(
         _localizations?.subscriptionFailed ??
             AppLocalizations.of(context)!.subscriptionFailed,
+        isDarkBackground: false,
       );
       return;
     }
@@ -94,11 +95,12 @@ class _SubscriptionPlanPageState extends ConsumerState<SubscriptionPlanPage> {
         context.showSuccessSnackBar(
           _localizations?.subscribeSuccess ??
               AppLocalizations.of(context)!.subscribeSuccess,
+          isDarkBackground: false,
         );
         // Navigate back or to home
         Navigator.of(context).pop();
       } else if (next.error != null && next.error!.isNotEmpty) {
-        context.showErrorSnackBar(next.error!);
+        context.showErrorSnackBar(next.error!, isDarkBackground: false);
       }
     });
 

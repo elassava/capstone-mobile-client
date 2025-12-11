@@ -103,6 +103,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         
         context.showSuccessSnackBar(
           _localizations?.loginSuccess ?? AppLocalizations.of(context)!.loginSuccess,
+          isDarkBackground: false,
         );
         // Check subscription and navigate accordingly
         // First, try to check if user has active subscription (lightweight check)
@@ -129,7 +130,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           }
         }
       } else if (next.error != null && next.error!.isNotEmpty) {
-        context.showErrorSnackBar(next.error!);
+        context.showErrorSnackBar(next.error!, isDarkBackground: false);
       }
     });
 
