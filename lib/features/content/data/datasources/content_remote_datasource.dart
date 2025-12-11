@@ -54,7 +54,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         posterUrl: 'assets/images/web_background.jpeg',
         thumbnailUrl: 'assets/images/web_background.jpeg',
         videoFilePath:
-            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            'http://172.16.8.179/api/stream/dash/1/bbb_30fps.mpd',
         trailerUrl:
             'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
         rating: 8.7,

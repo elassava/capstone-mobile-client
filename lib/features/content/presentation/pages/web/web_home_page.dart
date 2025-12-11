@@ -97,8 +97,8 @@ class _WebHomePageState extends ConsumerState<WebHomePage> {
   void _playVideo(BuildContext context, String videoUrl) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const WebVideoPlayer(
-          videoUrl: 'bbb_30fps/bbb_30fps.mpd', // Using dummy data for now
+        builder: (context) => WebVideoPlayer(
+          videoUrl: videoUrl,
         ),
       ),
     );
