@@ -1,7 +1,7 @@
 /// User entity - Domain layer
 class User {
-  final int id;
-  final int userId;
+  final String id;
+  final String userId;
   final String email;
   final bool isGoogleUser;
   final DateTime createdAt;

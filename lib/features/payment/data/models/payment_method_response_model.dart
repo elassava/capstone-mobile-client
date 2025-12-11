@@ -1,6 +1,6 @@
 /// Payment Method Response Model (DTO)
 class PaymentMethodResponseModel {
-  final int id;
+  final String id;
   final String type;
   final String cardHolderName;
   final String lastFourDigits;
@@ -25,7 +25,7 @@ class PaymentMethodResponseModel {
   /// Convert JSON to PaymentMethodResponseModel
   factory PaymentMethodResponseModel.fromJson(Map<String, dynamic> json) {
     return PaymentMethodResponseModel(
-      id: json['id'] as int,
+      id: json['id']?.toString() ?? '',
       type: json['type'] as String,
       cardHolderName: json['cardHolderName'] as String,
       lastFourDigits: json['lastFourDigits'] as String,

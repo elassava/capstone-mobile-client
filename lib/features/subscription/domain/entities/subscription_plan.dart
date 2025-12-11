@@ -1,6 +1,6 @@
 /// Subscription Plan Entity
 class SubscriptionPlan {
-  final int id;
+  final String id;
   final String planName;
   final String displayName;
   final String description;

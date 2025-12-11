@@ -10,7 +10,7 @@ class SubscribeUseCase {
   Future<Subscription> execute({
     required String planName,
     required String billingCycle,
-    int? paymentMethodId,
+    String? paymentMethodId,
   }) async {
     return await _repository.subscribe(
       planName: planName,

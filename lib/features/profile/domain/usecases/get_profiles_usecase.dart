@@ -7,7 +7,7 @@ class GetProfilesUseCase {
 
   GetProfilesUseCase(this._repository);
 
-  Future<List<Profile>> execute(int accountId) async {
+  Future<List<Profile>> execute(String accountId) async {
     return await _repository.getProfilesByAccountId(accountId);
   }
 }

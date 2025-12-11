@@ -70,6 +70,12 @@ class ContentModel extends Content {
       return value.toString();
     }
 
+    // Safe UUID/ID string parsing (handles UUID from backend)
+    String parseId(dynamic value) {
+      if (value == null) return '';
+      return value.toString();
+    }
+
     // Safe boolean parsing
     bool? parseBool(dynamic value) {
       if (value == null) return null;
@@ -78,7 +84,7 @@ class ContentModel extends Content {
     }
 
     return ContentModel(
-      id: parseInt(json['id']) ?? 0,
+      id: parseId(json['id']),
       title: parseString(json['title']) ?? '',
       description: parseString(json['description']),
       contentType: parseString(json['contentType']) ?? 'MOVIE',

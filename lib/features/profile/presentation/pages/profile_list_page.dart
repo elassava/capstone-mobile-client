@@ -27,7 +27,7 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
   double? _horizontalPadding;
   double? _spacing;
   AppLocalizations? _localizations;
-  int? _accountId;
+  String? _accountId;
   int? _maxProfiles;
   bool _isEditMode = false;
 
@@ -129,7 +129,7 @@ class _ProfileListPageState extends ConsumerState<ProfileListPage> {
     }
   }
 
-  Future<void> _handleDeleteProfile(int profileId, String profileName) async {
+  Future<void> _handleDeleteProfile(String profileId, String profileName) async {
     if (_accountId == null) {
       context.showErrorSnackBar('User not found');
       return;

@@ -20,7 +20,7 @@ class SubscriptionPlanModel extends SubscriptionPlan {
   /// Convert JSON to SubscriptionPlanModel
   factory SubscriptionPlanModel.fromJson(Map<String, dynamic> json) {
     return SubscriptionPlanModel(
-      id: json['id'] as int,
+      id: json['id']?.toString() ?? '',
       planName: json['planName'] as String,
       displayName: json['displayName'] as String,
       description: json['description'] as String? ?? '',

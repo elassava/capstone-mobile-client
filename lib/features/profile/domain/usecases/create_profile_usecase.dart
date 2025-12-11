@@ -8,7 +8,7 @@ class CreateProfileUseCase {
   CreateProfileUseCase(this._repository);
 
   Future<Profile> execute({
-    required int accountId,
+    required String accountId,
     required String profileName,
     String? avatarUrl,
     bool isChildProfile = false,

@@ -7,9 +7,9 @@ import 'package:mobile/features/profile/data/models/create_profile_request_model
 
 /// Abstract interface for Profile Remote Data Source
 abstract class ProfileRemoteDataSource {
-  Future<List<ProfileModel>> getProfilesByAccountId(int accountId);
+  Future<List<ProfileModel>> getProfilesByAccountId(String accountId);
   Future<ProfileModel> createProfile(CreateProfileRequestModel request);
-  Future<void> deleteProfile(int profileId, int accountId);
+  Future<void> deleteProfile(String profileId, String accountId);
 }
 
 /// Implementation of Profile Remote Data Source
@@ -19,7 +19,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl() : _dio = serviceLocator.get<DioClient>().dio;
 
   @override
-  Future<List<ProfileModel>> getProfilesByAccountId(int accountId) async {
+  Future<List<ProfileModel>> getProfilesByAccountId(String accountId) async {
     try {
       final response = await _dio.get(
         '${ApiConstants.getProfilesByAccountEndpoint}/$accountId',
@@ -90,7 +90,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<void> deleteProfile(int profileId, int accountId) async {
+  Future<void> deleteProfile(String profileId, String accountId) async {
     try {
       final response = await _dio.delete(
         '${ApiConstants.profileBasePath}/api/profiles/$profileId/account/$accountId',

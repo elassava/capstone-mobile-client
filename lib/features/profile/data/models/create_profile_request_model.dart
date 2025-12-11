@@ -1,6 +1,6 @@
 /// Create Profile Request Model (DTO)
 class CreateProfileRequestModel {
-  final int accountId;
+  final String accountId;
   final String profileName;
   final String? avatarUrl;
   final bool isChildProfile;

@@ -14,8 +14,8 @@ class UserModel extends User {
   /// Convert JSON to UserModel with proper date parsing
   factory UserModel.fromJsonWithDates(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as int,
-      userId: json['userId'] as int,
+      id: json['id']?.toString() ?? '',
+      userId: json['userId']?.toString() ?? '',
       email: json['email'] as String,
       isGoogleUser: json['isGoogleUser'] as bool? ?? false,
       createdAt: DateTime.parse(json['createdAt'] as String),

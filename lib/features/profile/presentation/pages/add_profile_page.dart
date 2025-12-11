@@ -11,7 +11,7 @@ import 'package:mobile/features/profile/presentation/providers/profile_providers
 import 'package:mobile/features/profile/presentation/providers/profile_notifier.dart';
 
 class AddProfilePage extends ConsumerStatefulWidget {
-  final int accountId;
+  final String accountId;
 
   const AddProfilePage({
     super.key,

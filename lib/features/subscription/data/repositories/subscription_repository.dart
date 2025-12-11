@@ -26,7 +26,7 @@ class SubscriptionRepository implements SubscriptionRepositoryInterface {
   Future<Subscription> subscribe({
     required String planName,
     required String billingCycle,
-    int? paymentMethodId,
+    String? paymentMethodId,
   }) async {
     final request = SubscribeRequestModel(
       planName: planName,

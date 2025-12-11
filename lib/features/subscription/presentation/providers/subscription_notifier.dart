@@ -116,7 +116,7 @@ class SubscriptionNotifier extends StateNotifier<SubscriptionState> {
   Future<void> subscribe({
     required String planName,
     required String billingCycle,
-    int? paymentMethodId,
+    String? paymentMethodId,
   }) async {
     state = state.copyWith(isSubscribing: true, error: null, isSuccess: false);
 

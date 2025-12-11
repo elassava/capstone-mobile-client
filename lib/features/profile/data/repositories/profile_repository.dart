@@ -10,14 +10,14 @@ class ProfileRepository implements ProfileRepositoryInterface {
   ProfileRepository(this._remoteDataSource);
 
   @override
-  Future<List<Profile>> getProfilesByAccountId(int accountId) async {
+  Future<List<Profile>> getProfilesByAccountId(String accountId) async {
     final models = await _remoteDataSource.getProfilesByAccountId(accountId);
     return models;
   }
 
   @override
   Future<Profile> createProfile({
-    required int accountId,
+    required String accountId,
     required String profileName,
     String? avatarUrl,
     bool isChildProfile = false,
@@ -44,8 +44,8 @@ class ProfileRepository implements ProfileRepositoryInterface {
 
   @override
   Future<void> deleteProfile({
-    required int profileId,
-    required int accountId,
+    required String profileId,
+    required String accountId,
   }) async {
     await _remoteDataSource.deleteProfile(profileId, accountId);
   }

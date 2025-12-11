@@ -4,7 +4,7 @@ import 'package:mobile/features/content/data/models/content_model.dart';
 
 abstract class ContentRemoteDataSource {
   Future<List<ContentModel>> getAllContents();
-  Future<ContentModel?> getContentById(int contentId);
+  Future<ContentModel?> getContentById(String contentId);
   Future<List<ContentModel>> getContentsByType(String contentType);
   Future<List<ContentModel>> getFeaturedContents();
 }
@@ -19,7 +19,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
   }
 
   @override
-  Future<ContentModel?> getContentById(int contentId) async {
+  Future<ContentModel?> getContentById(String contentId) async {
     // Force dummy data
     return _getDummyContents().firstWhere(
       (c) => c.id == contentId,
@@ -44,7 +44,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
   List<ContentModel> _getDummyContents() {
     return [
       ContentModel(
-        id: 1,
+        id: '1',
         title: 'Stranger Things',
         description:
             'When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.',
@@ -69,7 +69,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Sci-Fi', 'Horror', 'Drama'],
       ),
       ContentModel(
-        id: 2,
+        id: '2',
         title: 'Inception',
         description:
             'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
@@ -92,7 +92,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Action', 'Sci-Fi', 'Thriller'],
       ),
       ContentModel(
-        id: 5,
+        id: '5',
         title: 'Breaking Bad',
         description:
             'A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family\'s future.',
@@ -116,7 +116,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
       ),
 
       ContentModel(
-        id: 3,
+        id: '3',
         title: 'Squid Game',
         description:
             'Hundreds of cash-strapped players accept a strange invitation to compete in children\'s games. Inside, a tempting prize awaits with deadly high stakes.',
@@ -139,7 +139,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Action', 'Drama', 'Mystery'],
       ),
       ContentModel(
-        id: 4,
+        id: '4',
         title: 'The Dark Knight',
         description:
             'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.',
@@ -162,7 +162,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Action', 'Crime', 'Drama'],
       ),
       ContentModel(
-        id: 5,
+        id: '9',
         title: 'Avengers: Endgame',
         description:
             'After the devastating events of Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.',
@@ -185,7 +185,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Action', 'Sci-Fi', 'Adventure'],
       ),
       ContentModel(
-        id: 6,
+        id: '6',
         title: 'Peaky Blinders',
         description:
             'A gangster family epic set in 1900s England, centering on a gang who sew razor blades in the peaks of their caps, and their fierce boss Tommy Shelby.',
@@ -208,7 +208,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Crime', 'Drama'],
       ),
       ContentModel(
-        id: 7,
+        id: '7',
         title: 'Spider-Man: Into the Spider-Verse',
         description:
             'Teen Miles Morales becomes the Spider-Man of his universe, and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.',
@@ -231,7 +231,7 @@ class ContentRemoteDataSourceImpl implements ContentRemoteDataSource {
         genres: ['Animation', 'Action', 'Adventure'],
       ),
       ContentModel(
-        id: 8,
+        id: '8',
         title: 'Black Mirror',
         description:
             'An anthology series exploring a twisted, high-tech multiverse where humanity\'s greatest innovations and darkest instincts collide.',

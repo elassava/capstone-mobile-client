@@ -14,7 +14,7 @@ class ContentRepository implements ContentRepositoryInterface {
   }
 
   @override
-  Future<Content?> getContentById(int contentId) async {
+  Future<Content?> getContentById(String contentId) async {
     final model = await _remoteDataSource.getContentById(contentId);
     return model;
   }

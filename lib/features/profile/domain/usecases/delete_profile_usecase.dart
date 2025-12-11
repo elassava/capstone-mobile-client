@@ -7,8 +7,8 @@ class DeleteProfileUseCase {
   DeleteProfileUseCase(this._repository);
 
   Future<void> execute({
-    required int profileId,
-    required int accountId,
+    required String profileId,
+    required String accountId,
   }) async {
     return await _repository.deleteProfile(
       profileId: profileId,

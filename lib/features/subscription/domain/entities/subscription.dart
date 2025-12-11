@@ -1,6 +1,6 @@
 /// Subscription Entity
 class Subscription {
-  final int id;
+  final String id;
   final String planName;
   final String status;
   final String billingCycle;

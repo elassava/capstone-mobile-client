@@ -2,7 +2,7 @@
 class SubscribeRequestModel {
   final String planName;
   final String billingCycle;
-  final int? paymentMethodId;
+  final String? paymentMethodId;
 
   SubscribeRequestModel({
     required this.planName,

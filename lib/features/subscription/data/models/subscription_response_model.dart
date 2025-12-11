@@ -39,7 +39,7 @@ class SubscriptionResponseModel extends Subscription {
       }
       
       return SubscriptionResponseModel(
-        id: json['id'] as int,
+        id: json['id']?.toString() ?? '',
         planName: planName,
         status: json['status'] as String? ?? 'ACTIVE',
         billingCycle: json['billingCycle'] as String? ?? 'MONTHLY',

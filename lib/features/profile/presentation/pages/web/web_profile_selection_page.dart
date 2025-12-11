@@ -25,7 +25,7 @@ class WebProfileSelectionPage extends ConsumerStatefulWidget {
 
 class _WebProfileSelectionPageState
     extends ConsumerState<WebProfileSelectionPage> {
-  int? _accountId;
+  String? _accountId;
   int? _maxProfiles;
   bool _isEditMode = false;
 
@@ -121,7 +121,7 @@ class _WebProfileSelectionPageState
     }
   }
 
-  Future<void> _handleDeleteProfile(int profileId, String profileName) async {
+  Future<void> _handleDeleteProfile(String profileId, String profileName) async {
     final localizations = AppLocalizations.of(context)!;
     if (_accountId == null) return;
 

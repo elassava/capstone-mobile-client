@@ -68,7 +68,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
   ) : super(const ProfileState());
 
   /// Fetch profiles for an account
-  Future<void> fetchProfiles(int accountId) async {
+  Future<void> fetchProfiles(String accountId) async {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
@@ -93,7 +93,7 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   /// Create a new profile
   Future<void> createProfile({
-    required int accountId,
+    required String accountId,
     required String profileName,
     String? avatarUrl,
     bool isChildProfile = false,
@@ -138,8 +138,8 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
 
   /// Delete a profile
   Future<void> deleteProfile({
-    required int profileId,
-    required int accountId,
+    required String profileId,
+    required String accountId,
   }) async {
     state = state.copyWith(isDeleting: true, error: null, isSuccess: false);
 

@@ -20,8 +20,8 @@ class ProfileModel extends Profile {
   /// Convert JSON to ProfileModel
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
-      id: json['id'] as int,
-      accountId: json['accountId'] as int,
+      id: json['id']?.toString() ?? '',
+      accountId: json['accountId']?.toString() ?? '',
       profileName: json['profileName'] as String,
       avatarUrl: json['avatarUrl'] as String?,
       isChildProfile: json['isChildProfile'] as bool? ?? false,

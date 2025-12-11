@@ -1,7 +1,7 @@
 /// Profile Entity
 class Profile {
-  final int id;
-  final int accountId;
+  final String id;
+  final String accountId;
   final String profileName;
   final String? avatarUrl;
   final bool isChildProfile;
