@@ -1,8 +1,13 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/core/constants/api_constants.dart';
 import 'package:mobile/core/theme/app_colors.dart';
+import 'package:mobile/features/auth/presentation/providers/auth_providers.dart';
 import 'package:mobile/features/content/domain/entities/content.dart';
+import 'package:mobile/features/content/presentation/pages/web/web_video_player.dart';
 
-class ContentDetailPage extends StatelessWidget {
+class ContentDetailPage extends ConsumerWidget {
   final Content content;
 
   const ContentDetailPage({
@@ -11,7 +16,11 @@ class ContentDetailPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Get JWT token from auth state
+    final authState = ref.watch(authNotifierProvider);
+    final jwtToken = authState.authResponse?.token;
+
     return Scaffold(
       backgroundColor: AppColors.netflixBlack,
       appBar: AppBar(
@@ -110,7 +119,7 @@ class ContentDetailPage extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // TODO: Play video
+                            _playVideo(context, jwtToken);
                           },
                           icon: const Icon(Icons.play_arrow),
                           label: const Text('Oynat'),
@@ -157,7 +166,37 @@ class ContentDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  /// Play video with JWT token authentication
+  void _playVideo(BuildContext context, String? jwtToken) {
+    if (content.id == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('İçerik ID bulunamadı')),
+      );
+      return;
+    }
+
+    // Construct video URL (DASH manifest)
+    // Format: http://baseUrl/api/stream/dash/{contentId}/manifest.mpd
+    final videoUrl = '${ApiConstants.baseUrl}/api/stream/dash/${content.id}/bbb_30fps.mpd';
+
+    if (kIsWeb) {
+      // Web platformunda WebVideoPlayer kullan (JWT token ile)
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => WebVideoPlayer(
+            videoUrl: videoUrl,
+            jwtToken: jwtToken,
+          ),
+        ),
+      );
+    } else {
+      // Mobil platformlar için native video player (gelecekte eklenecek)
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Mobil video player henüz eklenmedi. Web sürümünü kullanın.'),
+        ),
+      );
+    }
+  }
 }
-
-
-

@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/core/di/service_locator.dart';
+import 'package:mobile/core/network/interceptors/auth_interceptor.dart';
 import 'package:mobile/features/auth/domain/entities/auth_response.dart';
 import 'package:mobile/features/auth/domain/usecases/login_usecase.dart';
 import 'package:mobile/features/auth/domain/usecases/register_usecase.dart';
@@ -54,6 +56,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: password,
       );
 
+      // Set JWT token to AuthInterceptor for future requests
+      if (serviceLocator.isRegistered<AuthInterceptor>()) {
+        serviceLocator<AuthInterceptor>().setToken(authResponse.token);
+      }
+
       // Success state
       state = state.copyWith(
         isLoading: false,
@@ -86,6 +93,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: password,
       );
 
+      // Set JWT token to AuthInterceptor for future requests
+      if (serviceLocator.isRegistered<AuthInterceptor>()) {
+        serviceLocator<AuthInterceptor>().setToken(authResponse.token);
+      }
+
       // Success state
       state = state.copyWith(
         isLoading: false,
@@ -101,6 +113,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
         isSuccess: false,
       );
     }
+  }
+
+  /// Logout user
+  void logout() {
+    // Clear JWT token from AuthInterceptor
+    if (serviceLocator.isRegistered<AuthInterceptor>()) {
+      serviceLocator<AuthInterceptor>().clearToken();
+    }
+
+    // Reset state
+    state = const AuthState();
   }
 
   /// Reset state

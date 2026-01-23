@@ -8,11 +8,13 @@ import 'dart:js_interop_unsafe';
 class WebVideoPlayer extends StatefulWidget {
   final String videoUrl;
   final bool autoPlay;
+  final String? jwtToken; // JWT token for authentication
 
   const WebVideoPlayer({
     super.key,
     required this.videoUrl,
     this.autoPlay = true,
+    this.jwtToken,
   });
 
   @override
@@ -55,6 +57,16 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
       final mediaPlayer = dashjs.callMethod('MediaPlayer'.toJS) as JSObject;
       final player = mediaPlayer.callMethod('create'.toJS) as JSObject;
 
+      // Add JWT token to request headers if available
+      if (widget.jwtToken != null && widget.jwtToken!.isNotEmpty) {
+        // Create a request modifier to add Authorization header
+        player.callMethod(
+          'extend'.toJS,
+          'RequestModifier'.toJS,
+          _createRequestModifier(widget.jwtToken!).toJS,
+        );
+      }
+
       player.callMethod(
         'initialize'.toJS,
         video as JSAny,
@@ -64,6 +76,23 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
     } else {
       print('Dash.js not found!');
     }
+  }
+
+  /// Create request modifier function to add JWT token
+  JSFunction _createRequestModifier(String token) {
+    return (() {
+      return {
+        'modifyRequestHeader': (JSObject xhr) {
+          // Add Authorization header with JWT token
+          xhr.callMethod(
+            'setRequestHeader'.toJS,
+            'Authorization'.toJS,
+            'Bearer $token'.toJS,
+          );
+          return xhr;
+        }.toJS,
+      }.jsify();
+    }.toJS) as JSFunction;
   }
 
   @override
