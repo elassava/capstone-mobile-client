@@ -63,7 +63,7 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
         player.callMethod(
           'extend'.toJS,
           'RequestModifier'.toJS,
-          _createRequestModifier(widget.jwtToken!).toJS,
+          _createRequestModifier(widget.jwtToken!),
         );
       }
 
@@ -79,10 +79,11 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
   }
 
   /// Create request modifier function to add JWT token
-  JSFunction _createRequestModifier(String token) {
-    return (() {
+  JSObject _createRequestModifier(String token) {
+    // Create a function that returns an object with modifyRequestHeader method
+    final modifierFunction = (() {
       return {
-        'modifyRequestHeader': (JSObject xhr) {
+        'modifyRequestHeader': ((JSObject xhr) {
           // Add Authorization header with JWT token
           xhr.callMethod(
             'setRequestHeader'.toJS,
@@ -90,9 +91,11 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
             'Bearer $token'.toJS,
           );
           return xhr;
-        }.toJS,
+        }).toJS,
       }.jsify();
-    }.toJS) as JSFunction;
+    }).toJS;
+    
+    return modifierFunction as JSObject;
   }
 
   @override
