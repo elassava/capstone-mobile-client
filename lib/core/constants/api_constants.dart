@@ -10,7 +10,9 @@ class ApiConstants {
   // Base URL - Backend API Gateway
   static String get baseUrl {
     if (kIsWeb) {
-      return 'http://localhost:8765'; // 172.16.8.179 - http://localhost:8765
+      // Web için boş string - nginx reverse proxy üzerinden relative path kullanılır
+      // nginx /api/* isteklerini localhost:8765'e proxy yapmalı
+      return '';
     } else if (defaultTargetPlatform == TargetPlatform.android) {
       return 'http://10.0.2.2:8765';
     } else {
